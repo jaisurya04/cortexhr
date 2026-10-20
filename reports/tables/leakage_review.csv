@@ -1,0 +1,9 @@
+column,verdict,evidence
+exit_date,CONFIRMED LEAKAGE,filled for 100.0% of leavers and 0.0% of stayers (filled-in flag AUC=1.0); every non-null date is after observation_date in 349/349 rows
+resignation_date,CONFIRMED LEAKAGE,filled for 92.0% of leavers and 0.0% of stayers (filled-in flag AUC=0.9599); every non-null date is after observation_date in 279/321 rows
+exit_reason,CONFIRMED LEAKAGE,filled for 100.0% of leavers and 0.0% of stayers (filled-in flag AUC=1.0)
+exit_interview_done,CONFIRMED LEAKAGE,filled for 100.0% of leavers and 0.0% of stayers (filled-in flag AUC=1.0)
+fnf_settlement_amount,CONFIRMED LEAKAGE,filled for 100.0% of leavers and 0.0% of stayers (filled-in flag AUC=1.0)
+voluntary_left_within_12m,CONFIRMED LEAKAGE,"derived from the exit event; 1 in 321 rows, all of them target=1 (rows with voluntary=1 and target=0: 0); cannot exist before the outcome"
+source,SUSPECTED (excluded),"dataset-origin tag, not an employee attribute; label rates {'historical_extension': 0.15, 'master_employee_snapshot': 0.129}; single-column AUC=0.506"
+observation_date,SUSPECTED (excluded),time stamp of the snapshot (2021-2025 for historical rows); single-column AUC=0.504; excluded to avoid time proxies

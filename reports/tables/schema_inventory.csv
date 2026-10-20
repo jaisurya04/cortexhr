@@ -1,0 +1,43 @@
+column,dtype,non_null,missing,missing_pct,n_unique,example
+row_id,int64,2389,0,0.0,2389,1
+employee_id,str,2389,0,0.0,2383,EMP-0002
+observation_date,datetime64[us],2389,0,0.0,1135,2025-09-30 00:00:00
+department_id,str,2389,0,0.0,10,D08
+role_id,str,2389,0,0.0,48,R047
+job_level,int64,2389,0,0.0,6,4
+work_location,str,2389,0,0.0,16,Pune
+work_mode,str,2389,0,0.0,3,Remote
+employment_type,str,2389,0,0.0,2,Permanent
+highest_education,str,2374,15,0.63,27,B.E. Computer Science
+tenure_months,int64,2389,0,0.0,148,164
+total_experience_years,float64,2389,0,0.0,224,30.8
+previous_employers_count,int64,2389,0,0.0,7,1
+commute_distance_km,float64,2334,55,2.3,372,12.2
+annual_fixed_pay,int64,2389,0,0.0,2364,1733520
+comp_ratio,float64,2389,0,0.0,585,0.989
+raises_received,int64,2389,0,0.0,8,6
+last_raise_pct,float64,2187,202,8.46,184,6.3
+months_since_last_raise,int64,2389,0,0.0,48,5
+promotions_received,int64,2389,0,0.0,8,0
+months_since_last_promotion,float64,930,1459,61.07,94,65.0
+internal_transfers,int64,2389,0,0.0,3,1
+last_performance_rating,float64,2207,182,7.62,5,3.0
+last_engagement_score,float64,1861,528,22.1,38,2.5
+manager_changes_12m,int64,2389,0,0.0,5,0
+training_hours_12m,float64,2389,0,0.0,593,34.0
+attendance_rate_3m,float64,2389,0,0.0,1051,0.9219
+late_arrivals_3m,int64,2389,0,0.0,27,3
+avg_overtime_hours_per_month_3m,float64,2389,0,0.0,390,0.0
+avg_hours_worked_3m,float64,2389,0,0.0,181,8.01
+wfh_share_3m,float64,2389,0,0.0,619,0.891
+unpaid_leave_days_6m,float64,2389,0,0.0,20,2.0
+paid_leave_days_6m,int64,2389,0,0.0,23,5
+dept_attrition_rate_prior_12m,float64,2389,0,0.0,1082,0.2353
+left_within_12m,int64,2389,0,0.0,2,0
+voluntary_left_within_12m,int64,2389,0,0.0,2,0
+source,str,2389,0,0.0,2,master_employee_snapshot
+exit_date,datetime64[us],349,2040,85.39,307,2026-04-23 00:00:00
+resignation_date,datetime64[us],321,2068,86.56,296,2026-03-24 00:00:00
+exit_reason,str,349,2040,85.39,11,Work-Life Balance
+exit_interview_done,str,349,2040,85.39,2,Y
+fnf_settlement_amount,float64,349,2040,85.39,349,117098.85

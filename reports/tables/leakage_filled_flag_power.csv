@@ -1,0 +1,6 @@
+column,filled_in_flag_auc,filled_when_left_pct,filled_when_stayed_pct
+exit_date,1.0,100.0,0.0
+resignation_date,0.9599,92.0,0.0
+exit_reason,1.0,100.0,0.0
+exit_interview_done,1.0,100.0,0.0
+fnf_settlement_amount,1.0,100.0,0.0
