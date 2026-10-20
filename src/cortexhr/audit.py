@@ -142,6 +142,14 @@ def leakage_review(df):
     return pd.DataFrame(rows)
 
 
+def pay_consistency_outliers(df, factor=3.0):
+    """annual_fixed_pay / comp_ratio is the role mid-point; it should be ~constant inside a role.
+    (Added after the vault comparison: it finds salary typos a one-column check misses.)"""
+    if not {"annual_fixed_pay", "comp_ratio", "role_id"} <= set(df.columns): return df.iloc[0:0]
+    mid = df.annual_fixed_pay / df.comp_ratio; ratio = mid / mid.groupby(df.role_id).transform("median")
+    return df.loc[ratio > factor, [c for c in ["row_id", "employee_id", "role_id", "annual_fixed_pay", "comp_ratio"] if c in df]].assign(ratio_to_role_midpoint=ratio[ratio > factor].round(2))
+
+
 def _row(problem, where, n, evidence, severity, treatment, reason):
     return {"problem": problem, "affected_column_or_location": where, "rows_affected": n,
             "evidence": evidence, "severity": severity, "proposed_treatment": treatment, "reason": reason}

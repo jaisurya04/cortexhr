@@ -1,0 +1,12 @@
+services:
+  cortexhr:
+    build: .
+    ports: ["8888:8888"]
+    volumes:
+      - ./reports:/app/reports
+      - ./artifacts:/app/artifacts
+      - ./03_Data:/app/03_Data:ro
+    # JupyterLab at http://localhost:8888/?token=cortexhr
+    # one-off runs:
+    #   docker compose run --rm cortexhr python scripts/run_audit.py
+    #   docker compose run --rm cortexhr python tests/run_all.py     (or: pytest)

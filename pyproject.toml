@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cortexhr"
+version = "1.0.0"
+description = "CortexHR AI/ML Phase 1: data foundations and baseline models"
+requires-python = ">=3.11"
+dependencies = ["pandas", "numpy", "scikit-learn", "scipy", "matplotlib", "joblib", "openpyxl"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src", "tests"]

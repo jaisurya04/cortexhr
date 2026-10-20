@@ -61,3 +61,10 @@ def package_versions() -> dict:
 def save_json(obj, name: str) -> str:
     p = C.project_root() / "artifacts" / "metadata" / f"{name}.json"; p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text(json.dumps(obj, indent=2, default=str)); return str(p)
+
+
+def show_figure(name: str, width=9):
+    """Display a saved report figure inside a notebook (works with any backend)."""
+    import matplotlib.image as mpimg
+    img = mpimg.imread(C.reports_dir() / "figures" / f"{name}.png"); h, w = img.shape[:2]
+    fig = plt.figure(figsize=(width, width * h / w)); ax = fig.add_axes([0, 0, 1, 1]); ax.imshow(img); ax.axis("off"); return fig

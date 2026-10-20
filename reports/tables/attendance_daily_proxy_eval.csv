@@ -1,0 +1,4 @@
+detector,flagged,injected,caught,precision,recall
+Daily IsolationForest,60,120,47,0.7833333333333333,0.39166666666666666
+Daily rule (hours/clock),93,120,90,0.967741935483871,0.75
+Daily combined,107,120,93,0.8691588785046729,0.775

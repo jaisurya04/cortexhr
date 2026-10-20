@@ -1,0 +1,111 @@
+{
+  "seed": 42,
+  "test_size": 0.2,
+  "cv": "StratifiedKFold(n_splits=5, shuffle=True, random_state=42)",
+  "train_rows": 1906,
+  "test_rows": 477,
+  "fold_sizes": [
+    [
+      1524,
+      382
+    ],
+    [
+      1525,
+      381
+    ],
+    [
+      1525,
+      381
+    ],
+    [
+      1525,
+      381
+    ],
+    [
+      1525,
+      381
+    ]
+  ],
+  "positives_train": 279,
+  "positives_test": 70,
+  "join_report": {
+    "rows_before_join": 2383,
+    "rows_after_join": 2383,
+    "cardinality": "attrition(1) -> aggregates(1), validated one_to_one",
+    "attendance_matched_rows": 383,
+    "payroll_matched_rows": 383,
+    "unmatched_rows_attendance": 2000,
+    "unmatched_rows_payroll": 2000,
+    "rows_dropped": 0,
+    "window_months": 3,
+    "temporal_cutoff": "only complete months with month_end <= observation_date; last `window` such months",
+    "payroll_exact_duplicates_removed": 15,
+    "rows_before": 2389,
+    "exact_duplicates_dropped": 6,
+    "rows_after": 2383
+  },
+  "input_columns": [
+    "job_level",
+    "tenure_months",
+    "total_experience_years",
+    "previous_employers_count",
+    "commute_distance_km",
+    "annual_fixed_pay",
+    "comp_ratio",
+    "raises_received",
+    "last_raise_pct",
+    "months_since_last_raise",
+    "promotions_received",
+    "months_since_last_promotion",
+    "internal_transfers",
+    "last_performance_rating",
+    "last_engagement_score",
+    "manager_changes_12m",
+    "training_hours_12m",
+    "attendance_rate_3m",
+    "late_arrivals_3m",
+    "avg_overtime_hours_per_month_3m",
+    "avg_hours_worked_3m",
+    "wfh_share_3m",
+    "unpaid_leave_days_6m",
+    "paid_leave_days_6m",
+    "dept_attrition_rate_prior_12m",
+    "department_id",
+    "role_id",
+    "work_location",
+    "work_mode",
+    "employment_type",
+    "highest_education",
+    "att_attendance_rate_mean_3m",
+    "att_unpaid_absence_sum_3m",
+    "att_late_arrivals_sum_3m",
+    "att_overtime_mean_3m",
+    "att_avg_hours_mean_3m",
+    "att_wfh_share_3m",
+    "att_half_days_sum_3m",
+    "pay_variable_pay_mean_3m",
+    "pay_lop_days_sum_3m",
+    "pay_overtime_pay_mean_3m",
+    "pay_variable_share_3m",
+    "pay_net_to_gross_3m"
+  ],
+  "models": {
+    "Dummy (always stays)": "DummyClassifier(strategy='most_frequent')",
+    "Logistic Regression (balanced)": "LogisticRegression(class_weight='balanced', max_iter=2000, random_state=42)",
+    "Decision Tree (depth 4, balanced)": "DecisionTreeClassifier(class_weight='balanced', max_depth=4, random_state=42)",
+    "Random Forest (300, balanced)": "RandomForestClassifier(class_weight='balanced', min_samples_leaf=3,\n                       n_estimators=300, n_jobs=1, random_state=42)"
+  },
+  "primary_model": "Logistic Regression (balanced)",
+  "versions": {
+    "python": "3.12.3",
+    "platform": "Linux-6.18.44-fc-v139-x86_64-with-glibc2.39",
+    "pandas": "3.0.2",
+    "numpy": "2.4.4",
+    "scikit-learn": "1.8.0",
+    "scipy": "1.17.1",
+    "matplotlib": "3.10.8",
+    "joblib": "1.5.3",
+    "openpyxl": "3.1.5"
+  },
+  "python_warnings_during_run": []
+}
