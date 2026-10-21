@@ -77,3 +77,12 @@ Status: **Done** = implemented, run and checked · **Partial** = done with a sta
 ## Environment
 | Docker + docker-compose | files provided | not run (no Docker in sandbox) | Partial |
 | pytest | tests are pytest-style, run with fallback runner | pytest not installable offline | Partial |
+
+## Workflow coverage (all five notebooks)
+| Stage | Where |
+|---|---|
+| 1 Data Collection ... 12 Final Conclusions and Recommendations | every notebook in `05_Starter/notebooks/` has all 12 numbered stage headings with real code and output |
+| Confusion matrices | Stage 9 of notebooks 01, 01b, 02, 03 and 04 (plots via `workflow.plot_confusion`) |
+| Hyperparameter tuning | Stage 10 (LR C grid, tree depth, aggregation window, threshold/calibrator choice, contamination sensitivity); tuned on training folds only |
+| Model interpretation | Stage 11 (coefficients, permutation importance on validation rows, band profiles, anomaly explanations) |
+| Notebook for Task 2 | `01b_feature_pipeline.ipynb` (Day 2 had no separate notebook name in the brief) |

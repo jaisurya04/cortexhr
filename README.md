@@ -33,7 +33,20 @@ git push -u origin main
 `04_Validation_Vault/` is git-ignored and docker-ignored on purpose.
 
 ## Layout
-`src/cortexhr/` modules (`data_loading, audit, features, modeling, evaluation, attendance, reporting, runs, config`) · `scripts/` runnable entry points · `05_Starter/notebooks/` four executed notebooks · `reports/` markdown reports, `tables/`, `figures/` · `artifacts/` fitted pipeline + run metadata · `tests/` · `docs/requirements_traceability.md` · `docs/feature_definitions.md`.
+`src/cortexhr/` modules (`data_loading, audit, features, modeling, evaluation, attendance, reporting, runs, config`) · `scripts/` runnable entry points · `05_Starter/notebooks/` five executed notebooks, one per task · `reports/` markdown reports, `tables/`, `figures/` · `artifacts/` fitted pipeline + run metadata · `tests/` · `docs/requirements_traceability.md` · `docs/feature_definitions.md`.
+
+## Notebooks (one per task, each follows the same 12-stage workflow)
+Data Collection, Data Understanding, Data Quality Audit, EDA, Data Cleaning, Feature Engineering, Train-Test Split, Model Building, Model Evaluation (with confusion matrices), Hyperparameter Tuning, Model Interpretation, Final Conclusions and Recommendations.
+
+| Task | Notebook |
+|---|---|
+| 1 Audit | `01_data_audit.ipynb` |
+| 2 Pipeline | `01b_feature_pipeline.ipynb` |
+| 3 Baselines | `02_baselines.ipynb` |
+| 4 Evaluation | `03_model_evaluation.ipynb` |
+| 5 Anomalies | `04_attendance_anomalies.ipynb` |
+
+Each ends with a code-checked completion checklist (`[PASS]` / `[MANUAL]` for things only you can do, such as the GitHub link or the Day 5 labels).
 
 ## Reports to read
 `reports/data_audit_report.md` · `reports/vault_comparison_cx01.md` · `reports/baseline_model_comparison.md` · `reports/model_evaluation_report.md` · `reports/manager_summary.md` · `reports/attendance_anomaly_report.md`
