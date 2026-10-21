@@ -1,0 +1,16 @@
+{
+  "rows_before_join": 2383,
+  "rows_after_join": 2383,
+  "cardinality": "attrition(1) -> aggregates(1), validated one_to_one",
+  "attendance_matched_rows": 383,
+  "payroll_matched_rows": 383,
+  "unmatched_rows_attendance": 2000,
+  "unmatched_rows_payroll": 2000,
+  "rows_dropped": 0,
+  "window_months": 3,
+  "temporal_cutoff": "only complete months with month_end <= observation_date; last `window` such months",
+  "payroll_exact_duplicates_removed": 15,
+  "rows_before": 2389,
+  "exact_duplicates_dropped": 6,
+  "rows_after": 2383
+}

@@ -1,0 +1,10 @@
+check,rows
+missing values,0
+"duplicate (employee, month)",0
+present_days > scheduled_days,0
+longest streak > unpaid absence days,0
+wfh_days > present_days,19
+late_arrivals > present_days,0
+avg_hours_worked > 12,35
+avg_hours < 3 while present,9
+zero present days,50

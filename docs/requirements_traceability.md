@@ -86,3 +86,13 @@ Status: **Done** = implemented, run and checked · **Partial** = done with a sta
 | Hyperparameter tuning | Stage 10 (LR C grid, tree depth, aggregation window, threshold/calibrator choice, contamination sensitivity); tuned on training folds only |
 | Model interpretation | Stage 11 (coefficients, permutation importance on validation rows, band profiles, anomaly explanations) |
 | Notebook for Task 2 | `01b_feature_pipeline.ipynb` (Day 2 had no separate notebook name in the brief) |
+
+## Scripts (equivalent to the notebooks)
+| Task | Script | Writes (reports/) |
+|---|---|---|
+| 1 Audit | `scripts/run_audit.py` | audit tables, class balance, EDA, cleaning report, leak-vs-safe proof models, confusion matrices, C tuning, coefficients, permutation importance, audit report |
+| 2 Pipeline | `scripts/run_pipeline.py` | join report, 3-row smoke-test output and checks, fitted pipeline, feature definitions, with/without monthly comparison, window tuning, derived-feature coefficients, pay-quartile table |
+| 3 Baselines | `scripts/train_baselines.py` | comparison vs benchmark, confusion counts and matrices, LR/tree tuning, SMOTE comparison, interpretation, 5-sentence note |
+| 4 Evaluation | `scripts/evaluate_models.py` | metrics, calibration, bands, lift, confusion matrices, threshold sweep, calibrator comparison, band profile, interpretation, manager note |
+| 5 Anomalies | `scripts/detect_attendance_anomalies.py` | flags (saved before labels), review queue, audit checks, EDA, temporal stability, contamination sensitivity, flagged-vs-normal interpretation, confusion matrices, measured metrics when labels exist |
+`tests/test_script_outputs.py` fails if any of these files is missing.

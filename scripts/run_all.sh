@@ -2,6 +2,7 @@
 # Reproduces every report, table, figure, model and notebook output. Run from the repo root.
 set -euo pipefail
 python scripts/run_audit.py
+python scripts/run_pipeline.py
 python scripts/train_baselines.py
 python scripts/evaluate_models.py
 python scripts/detect_attendance_anomalies.py

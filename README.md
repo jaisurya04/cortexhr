@@ -10,7 +10,7 @@ Audited HR attrition dataset -> leakage-aware reusable feature pipeline -> hones
 | Held-out test (used once) | ROC-AUC 0.682, PR-AUC 0.321, top-10% precision 0.38 / recall 0.26, lift 2.56x |
 | High risk band (test) | 18 of 48 left (37.5%), holds 26% of all leavers |
 | Attendance anomalies (monthly) | 252 rows flagged (IsolationForest 3% + 2 rules). **Precision/recall vs hidden labels NOT measured: labels file was not in the supplied vault** (see below) |
-| Tests | 23 passed (`python tests/run_all.py`) |
+| Tests | 25 tests (`pytest`) |
 
 ## Quick start (local)
 ```bash
@@ -33,7 +33,7 @@ git push -u origin main
 `04_Validation_Vault/` is git-ignored and docker-ignored on purpose.
 
 ## Layout
-`src/cortexhr/` modules (`data_loading, audit, features, modeling, evaluation, attendance, reporting, runs, config`) · `scripts/` runnable entry points · `05_Starter/notebooks/` five executed notebooks, one per task · `reports/` markdown reports, `tables/`, `figures/` · `artifacts/` fitted pipeline + run metadata · `tests/` · `docs/requirements_traceability.md` · `docs/feature_definitions.md`.
+`src/cortexhr/` modules (`data_loading, audit, features, modeling, evaluation, attendance, reporting, runs, config`) · `scripts/` one script per task (`run_audit.py`, `run_pipeline.py`, `train_baselines.py`, `evaluate_models.py`, `detect_attendance_anomalies.py`; `run_all.sh` runs all) · `05_Starter/notebooks/` five executed notebooks, one per task · `reports/` markdown reports, `tables/`, `figures/` · `artifacts/` fitted pipeline + run metadata · `tests/` · `docs/requirements_traceability.md` · `docs/feature_definitions.md`.
 
 ## Notebooks (one per task, each follows the same 12-stage workflow)
 Data Collection, Data Understanding, Data Quality Audit, EDA, Data Cleaning, Feature Engineering, Train-Test Split, Model Building, Model Evaluation (with confusion matrices), Hyperparameter Tuning, Model Interpretation, Final Conclusions and Recommendations.

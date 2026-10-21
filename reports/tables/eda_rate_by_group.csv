@@ -1,0 +1,22 @@
+group,employees,leavers,leaver_rate_pct,variable
+D01,808,110,13.6,department_id
+D02,161,23,14.3,department_id
+D03,244,32,13.1,department_id
+D04,267,37,13.9,department_id
+D05,102,12,11.8,department_id
+D06,323,68,21.1,department_id
+D07,82,9,11.0,department_id
+D08,111,15,13.5,department_id
+D09,229,39,17.0,department_id
+D10,62,4,6.5,department_id
+1,516,76,14.7,job_level
+2,774,108,14.0,job_level
+3,636,94,14.8,job_level
+4,337,58,17.2,job_level
+5,124,13,10.5,job_level
+6,2,0,0.0,job_level
+Hybrid,1107,135,12.2,work_mode
+Onsite,829,159,19.2,work_mode
+Remote,453,55,12.1,work_mode
+Fixed-Term Contract,150,34,22.7,employment_type
+Permanent,2239,315,14.1,employment_type

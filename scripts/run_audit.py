@@ -27,6 +27,7 @@ def main():
     short["evidence"] = short["evidence"].str.slice(0, 200)
     R.table_as_image(short, "audit_table", col_widths=[.15, .14, .05, .25, .06, .17, .18], title=f"CortexHR attrition_dataset audit: {len(audit_t)} findings", width_in=22)
     write_report(raw, inv, ms, dup, imp, iq, zs, cb, audit_t, lk, lk_power, single, roles)
+    from cortexhr.workflow_outputs import audit_extras; audit_extras()   # EDA, cleaning report, proof models, confusion matrices, tuning, interpretation
     print(f"audit complete: {len(audit_t)} findings")
 
 

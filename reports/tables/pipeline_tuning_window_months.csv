@@ -1,0 +1,4 @@
+window_months,rows,leavers,cv_roc_auc
+1,383,50,0.63
+3,383,50,0.635
+6,383,50,0.667

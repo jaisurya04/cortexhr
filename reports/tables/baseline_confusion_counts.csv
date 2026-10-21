@@ -1,0 +1,5 @@
+model,tn,fp,fn,tp
+Dummy (always stays),1627,0,279,0
+Logistic Regression (balanced),1138,489,119,160
+"Decision Tree (depth 4, balanced)",1064,563,129,150
+"Random Forest (300, balanced)",1609,18,265,14

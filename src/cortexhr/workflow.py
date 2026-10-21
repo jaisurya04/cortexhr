@@ -84,3 +84,15 @@ def plot_confusion(y_true, scores, threshold=0.5, title="Confusion matrix"):
     from sklearn.metrics import confusion_matrix
     tn, fp, fn, tp = confusion_matrix(np.asarray(y_true).astype(int), (np.asarray(scores) >= threshold).astype(int), labels=[0, 1]).ravel()
     return plot_confusion_counts(tn, fp, fn, tp, f"{title} (threshold {threshold:g})")
+
+
+def plot_confusion_grid(y_true, scores: dict, threshold=0.5):
+    from sklearn.metrics import confusion_matrix
+    fig, axes = plt.subplots(1, len(scores), figsize=(3.9 * len(scores), 3.8)); axes = np.atleast_1d(axes)
+    for ax, (nm, s) in zip(axes, scores.items()):
+        tn, fp, fn, tp = confusion_matrix(np.asarray(y_true).astype(int), (np.asarray(s) >= threshold).astype(int), labels=[0, 1]).ravel()
+        cm = np.array([[tn, fp], [fn, tp]]); ax.imshow(cm, cmap="Blues")
+        for i in range(2):
+            for j in range(2): ax.text(j, i, f"{cm[i, j]:,}", ha="center", va="center", color="white" if cm[i, j] > cm.max() / 2 else "black")
+        ax.set_xticks([0, 1], ["pred stay", "pred leave"], fontsize=7); ax.set_yticks([0, 1], ["actual stay", "actual leave"], fontsize=7); ax.set_title(nm, fontsize=8)
+    fig.tight_layout(); return fig
