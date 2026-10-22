@@ -1,5 +1,6 @@
 feature,coefficient
-log_annual_pay,0.40449383874311534
-raise_stagnation_ratio,-0.1177664856831181
-pay_vs_dept_median,-0.024698712181089936
-never_promoted,0.014701154270495587
+overtime_flag,-0.33666564867928866
+log_annual_pay,0.19328784170178145
+pay_vs_dept_median,0.023733514022118905
+never_promoted,0.012465563580831283
+raise_stagnation_ratio,-0.010555000271744693

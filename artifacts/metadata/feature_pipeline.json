@@ -76,6 +76,7 @@
     "pay_vs_dept_median",
     "raise_stagnation_ratio",
     "never_promoted",
+    "overtime_flag",
     "missingindicator_tenure_months",
     "missingindicator_total_experience_years",
     "missingindicator_commute_distance_km",
@@ -184,7 +185,11 @@
     "highest_education_MBA",
     "highest_education_MBA Finance",
     "highest_education_MCA",
-    "highest_education_infrequent_sklearn"
+    "highest_education_infrequent_sklearn",
+    "raise_recency_bucket_0-6m",
+    "raise_recency_bucket_12-18m",
+    "raise_recency_bucket_18m+",
+    "raise_recency_bucket_6-12m"
   ],
   "versions": {
     "python": "3.12.3",
