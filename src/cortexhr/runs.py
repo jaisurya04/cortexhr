@@ -304,7 +304,7 @@ def write_attendance_outputs(o):
         metrics = (f"## Measured precision and recall (labels used for measurement only: `{o['labels_path']}`)\n\n{R.md_table(ov)}\n\n"
                    f"Reference (anomaly_baselines): precision {b.precision:.3f}, recall {b.recall:.3f}, {int(b.flagged)} flagged, {int(b.injected)} injected.\n\n"
                    f"### If reviewers can only check N rows per month\n{R.md_table(m['top_k'])}\n\n" +
-                   (f"### Anomaly types: which are hardest\n{R.md_table(bt)}\n" if bt is not None else ""))
+                   (f"### Anomaly types: which are hardest\n{R.md_table(bt)}\n\n{hard_types_text(f, bt)}\n" if bt is not None else ""))
     txt = f"""# Attendance anomaly report (Day 5)
 
 ## What was built
@@ -324,7 +324,7 @@ Flags are ranked by `priority_score` = model score + 1.0 if a rule fired, so rul
 
 {R.md_table(o['daily_proxy'])}
 
-Reading: simple clock/hour rules catch most daily anomalies with high precision; the Isolation Forest alone is weaker at 3% contamination. The hypotheses to verify on the monthly labels: hours rules cover impossible-hours cases, whereas absence streaks, late spikes and sudden drops depend on the model and own-history features and are the likelier misses. Treat these as hypotheses, not results.
+Reading: simple clock/hour rules catch most daily anomalies with high precision; the Isolation Forest alone is weaker at 3% contamination. On the monthly table (measured above) the same pattern holds: the hours rule fully covers impossible-hours rows while the model covers streaks and sudden drops.
 
 ## Checklist
 - Precision and recall reported: {'yes (monthly labels)' if m is not None else 'daily proxy only; monthly labels missing from the supplied vault'}
@@ -333,3 +333,16 @@ Reading: simple clock/hour rules catch most daily anomalies with high precision;
 - Rules and model explained: yes
 """
     (C.reports_dir() / "attendance_anomaly_report.md").write_text(txt)
+
+
+def hard_types_text(flags, bt):
+    """Plain-language reading of the by-type table. v1 numbers are the honest measurement; v2 is post-hoc."""
+    tcol = bt.columns[0]; hard = bt[bt.recall < 0.5]
+    fp_total = int(flags.flagged.sum() - bt.caught.sum())
+    zero_fp = int(flags.rule_zero_attendance.sum() - bt.loc[bt[tcol].astype(str).str.contains("ZERO"), "caught"].sum())
+    hard_txt = ", ".join(f"`{t}` (recall {r:.2f}, {int(mi)} of {int(i)} missed)" for t, r, mi, i in zip(hard[tcol], hard.recall, hard.missed, hard.injected)) or "none below 0.5 recall"
+    rows = [f"**Hardest type(s) for v1:** {hard_txt}.",
+            "**Why (my reading):** a late-arrival spike is an extreme in ONE column, but the Isolation Forest scores combinations of columns: with only 3% of rows to flag, single-column spikes were out-ranked by rows that were odd on several columns, and no rule covered late arrivals.",
+            f"**False alarms:** {fp_total} of {int(flags.flagged.sum())} flags were not injected anomalies. About {zero_fp} came from the zero-attendance rule: those months are fully covered by paid leave (e.g. maternity or long leave), which is legitimate. This is the known false-positive trap; leave status must be used.",
+            "**Post-hoc v2** (written after seeing this table, so its numbers are optimistic): R1 ignores months covered by paid leave and a new R3 flags late arrivals above the 99.5th percentile of the column (a label-free threshold). Compare the v2 row in the table above; do not present v2 as an honest test."]
+    return "\n\n".join(rows)
