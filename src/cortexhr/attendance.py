@@ -34,6 +34,17 @@ def rule_flags(att: pd.DataFrame) -> pd.DataFrame:
     return pd.DataFrame({"rule_zero_attendance": r1.to_numpy(), "rule_implausible_hours": r2.to_numpy()}, index=att.index)
 
 
+def rule_flags_v2(att: pd.DataFrame, late_quantile: float = 0.995) -> pd.DataFrame:
+    """POST-HOC v2 rules, written AFTER the v1 labels measurement (so v2 numbers are optimistic, not an honest test).
+    R1b zero attendance that is NOT explained by paid leave (months fully covered by paid leave are legitimate, e.g. maternity)
+    R2  implausible hours (unchanged)   R3 late-arrival spike: above the 99.5th percentile of the column (label-free threshold)"""
+    r = rule_flags(att)
+    covered = att["paid_leave_days"] >= 0.8 * att["scheduled_days"]
+    r["rule_zero_attendance"] = r["rule_zero_attendance"] & ~covered
+    r["rule_late_spike"] = att["late_arrivals"] > att["late_arrivals"].quantile(late_quantile)
+    return r
+
+
 def fit_isolation_forest(X: pd.DataFrame, contamination: float = 0.03, seed: int = C.SEED, n_estimators: int = 300):
     assert_no_labels(X.columns)
     iso = IsolationForest(n_estimators=n_estimators, contamination=contamination, random_state=seed).fit(X)
@@ -49,6 +60,8 @@ def detect(att: pd.DataFrame, contamination: float = 0.03, seed: int = C.SEED, u
     out["iforest_score"] = score; out["iforest_flag"] = flag; out["iforest_raw_only_flag"] = flag_raw
     out = pd.concat([out, rule_flags(d)], axis=1)
     out["rule_flag"] = out[["rule_zero_attendance", "rule_implausible_hours"]].any(axis=1)
+    v2 = rule_flags_v2(d)
+    out["rule_flag_v2"] = v2.any(axis=1).to_numpy(); out["flagged_v2_posthoc"] = out["iforest_flag"] | out["rule_flag_v2"]
     out["flagged"] = out["iforest_flag"] | out["rule_flag"]
     out["flag_reason"] = np.select([out.rule_zero_attendance, out.rule_implausible_hours, out.iforest_flag],
                                    ["rule: zero attendance in month", "rule: implausible hours", "model: unusual pattern"], "")
@@ -76,7 +89,8 @@ def measure(flags: pd.DataFrame, labels: pd.DataFrame, ks=(50, 100, 150, 221)) -
     if key is None: raise KeyError(f"Labels need attendance_feature_id; got {list(labels.columns)}")
     truth = set(labels[key]); rows = []
     variants = {"IsolationForest (raw features only)": flags.iforest_raw_only_flag, "IsolationForest (+own-history features)": flags.iforest_flag,
-                "Rules only": flags.rule_flag, "Combined (IF + rules)": flags.flagged}
+                "Rules only": flags.rule_flag, "Combined (IF + rules)": flags.flagged,
+                "POST-HOC v2 combined (optimistic)": flags.flagged_v2_posthoc}
     for name, m in variants.items():
         r = catch_rate(flags.loc[m, key], truth); r["detector"] = name; rows.append(r)
     table = pd.DataFrame(rows)[["detector", "flagged", "injected", "caught", "precision", "recall"]]

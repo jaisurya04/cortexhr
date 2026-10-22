@@ -1,0 +1,6 @@
+anomaly_type,injected,caught,recall,missed,model_only_recall,rule_only_recall
+ABSENCE_STREAK,40,40,1.0,0,1.0,0.0
+IMPOSSIBLE_HOURS,35,35,1.0,0,0.11428571428571428,1.0
+LATE_SPIKE,30,6,0.2,24,0.2,0.0
+SUDDEN_DROP,30,30,1.0,0,1.0,0.0
+ZERO_ATTENDANCE,15,15,1.0,0,1.0,1.0
