@@ -13,6 +13,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import (average_precision_score, brier_score_loss, confusion_matrix, f1_score,
                              precision_score, recall_score, roc_auc_score, roc_curve, precision_recall_curve)
 
+from .official import H
 BAND_ORDER = ["High", "Medium", "Low"]
 
 
@@ -92,10 +93,28 @@ class Recalibrator:
 
 
 def catch_rate(flagged, truth, universe=None) -> dict:
-    """Precision/recall of anomaly flags. `flagged`, `truth`: sets/lists of row identifiers."""
-    f, t = set(flagged), set(truth); tp = len(f & t)
-    return {"flagged": len(f), "injected": len(t), "caught": tp,
-            "precision": tp / len(f) if f else 0.0, "recall": tp / len(t) if t else 0.0}
+    """Official catch_rate (cortexhr_helpers) plus an `injected` alias of `real`."""
+    r = dict(H.catch_rate(flagged, truth)); r["injected"] = r["real"]; return r
+
+
+def official_report(y_true, y_score, top_fraction: float = 0.10) -> dict:
+    """The course's own binary_report (top group = int(n * fraction), argsort order)."""
+    return dict(H.binary_report(y_true, y_score, top_fraction))
+
+
+def official_risk_bands(scores) -> pd.Series:
+    """The company rule from cortexhr_helpers.risk_bands (quantile based: High >= P90, Medium >= P70)."""
+    lab = H.risk_bands(np.asarray(scores, float))
+    return pd.Series(pd.Categorical(lab, categories=BAND_ORDER, ordered=True), index=getattr(scores, "index", None), name="risk_band")
+
+
+def parity_table(y_true, y_score) -> pd.DataFrame:
+    """Official helper vs my extended report: AUCs must be identical; the top-10% group differs only by rounding/ties."""
+    o, m = official_report(y_true, y_score), binary_report(y_true, y_score)
+    rows = [("roc_auc", o["roc_auc"], m["roc_auc"]), ("pr_auc", o["pr_auc"], m["pr_auc"]), ("base_rate", o["base_rate"], m["base_rate"]),
+            ("top-10% group size", max(1, int(len(y_true) * 0.10)), m["top_k"]), ("precision in top group", o["precision_at_top"], m["top_precision"]),
+            ("recall in top group", o["recall_at_top"], m["top_recall"])]
+    return pd.DataFrame(rows, columns=["metric", "official_helper", "my_extended_report"]).assign(difference=lambda d: d.my_extended_report - d.official_helper)
 
 
 # ------------------------------ plots ------------------------------

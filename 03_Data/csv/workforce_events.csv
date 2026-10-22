@@ -1,0 +1,10 @@
+event_id,start_date,end_date,department_id,event_name,description
+EV-01,2020-04-01,2020-06-30,ALL,COVID-19 hiring freeze,Hiring almost stopped; exits slowed
+EV-02,2021-04-01,2021-04-30,ALL,Reduced increment cycle,Average increments cut by about 25%
+EV-03,2022-09-01,2022-11-30,D06,Support scale-up for festive season,Large batch of Support Associates hired
+EV-04,2023-07-01,2023-07-31,ALL,Hybrid work policy introduced,Three-day office policy for most roles
+EV-05,2023-07-01,2023-08-31,D01,Engineering hiring drive,Hiring doubled for two months
+EV-06,2024-01-01,2024-02-29,D04,Sales expansion hiring drive,New regional sales teams
+EV-07,2025-01-01,2025-06-30,D03,Data & AI team build-out,Data & AI hiring more than doubled
+EV-08,2025-04-01,2025-04-30,ALL,New 5-point appraisal framework,Ratings now drive increments and bonus
+EV-09,2026-04-01,2026-04-30,ALL,Performance bonus paid with April payroll,Bonus paid as % of annual fixed pay
