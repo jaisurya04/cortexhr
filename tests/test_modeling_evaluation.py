@@ -62,3 +62,12 @@ def test_attendance_rules_and_detector():
     from cortexhr import data_loading as D
     f = T.detect(D.load_sheet(C.SHEET_ATT)); assert 215 <= f.iforest_flag.sum() <= 225 and f.rule_zero_attendance.sum() == 50
     assert f.review_rank.dropna().is_unique and int(f.review_rank.max()) == int(f.flagged.sum())
+
+
+def test_official_helper_parity():
+    y = (np.random.default_rng(0).random(477) < .147).astype(int); s = np.random.default_rng(1).random(477) * .5 + y * .1
+    o, m = E.official_report(y, s), E.binary_report(y, s)
+    assert abs(o["roc_auc"] - m["roc_auc"]) < 1e-12 and abs(o["pr_auc"] - m["pr_auc"]) < 1e-12
+    assert abs(max(1, int(477 * .1)) - m["top_k"]) <= 1
+    b = E.official_risk_bands(s); assert abs((b == "High").sum() - 48) <= 2 and abs((b == "Medium").sum() - 95) <= 3
+    assert E.catch_rate(["a", "b"], ["a", "c"])["real"] == 2

@@ -168,14 +168,16 @@ def run_evaluation(path=None, write=True):
     thr_top10 = float(np.sort(oof)[::-1][int(np.ceil(0.10 * len(oof))) - 1]); rep_test_thr = E.binary_report(yte, p_test, threshold=thr_top10)
     metrics = pd.DataFrame([{"evaluation": "Training out-of-fold (5-fold)", **rep_oof}, {"evaluation": "Held-out test (used once)", **rep_test},
                             {"evaluation": f"Held-out test @ threshold {thr_top10:.3f} (top-10% cut from training OOF)", **rep_test_thr}])
-    bands = {"Training OOF": E.risk_bands(oof), "Held-out test": E.risk_bands(p_test)}
+    bands = {"Training OOF": E.official_risk_bands(oof), "Held-out test": E.official_risk_bands(p_test)}   # official company rule (cortexhr_helpers.risk_bands)
+    bands_ranked = {"Training OOF": E.risk_bands(oof), "Held-out test": E.risk_bands(p_test)}                 # my rank-based cross-check
     bs = {k: E.band_summary(y, b) for k, y in zip(bands, [ytr, yte]) for b in [bands[k]]}
     gains = {"Training OOF": E.gains_table(ytr, oof), "Held-out test": E.gains_table(yte, p_test)}
     cal = {"OOF raw": E.calibration_table(ytr, oof), "Test raw": E.calibration_table(yte, p_test, 8), "Test recalibrated": E.calibration_table(yte, p_test_cal, 8)}
     brier = {"test_raw": rep_test["brier"], "test_recalibrated": E.binary_report(yte, p_test_cal)["brier"],
              "mean_pred_test_raw": float(p_test.mean()), "mean_pred_test_recal": float(p_test_cal.mean()), "base_rate_test": float(yte.mean())}
     out = dict(state=S, oof=oof, p_test=p_test, p_test_cal=p_test_cal, metrics=metrics, bands=bands, band_summary=bs, gains=gains,
-               calibration=cal, brier=brier, thr_top10=thr_top10, final_model=final)
+               calibration=cal, brier=brier, thr_top10=thr_top10, final_model=final, bands_ranked=bands_ranked,
+               official={"oof": E.official_report(ytr, oof), "test": E.official_report(yte, p_test)}, parity=E.parity_table(yte, p_test))
     if write: write_eval_outputs(out)
     return out
 
@@ -210,15 +212,22 @@ Model: balanced logistic regression on the leakage-safe pipeline. Scores for tra
 - **ROC-AUC**: pick one person who left and one who stayed at random; ROC-AUC is the chance the model gives the leaver the higher score (0.5 = coin flip, 1.0 = perfect).
 - **PR-AUC (average precision)**: how pure the flagged list stays as you flag more people, which matters when only {100*yte.mean():.1f}% leave. A useless model scores about the base rate ({100*yte.mean():.1f}%).
 - **Precision**: of the people flagged, how many really left. **Recall**: of the people who left, how many were flagged.
-- **Top-10%**: review only the {int(rt.top_k)} highest-scored employees; precision = share of them who left, recall = share of all leavers they contain. Ties are broken by row position, so the list is deterministic.
+- **Top-10%** (official `binary_report`): review only the {max(1, int(len(yte) * 0.10))} highest-scored employees (int(n x 0.10)); precision = share of them who left, recall = share of all leavers they contain.
 
 ## Metrics table
 {R.md_table(m[cols], floatfmt="{:.3f}")}
 
+## Official helper (`05_Starter/cortexhr_helpers.py`) and parity with my extended report
+{R.md_table(pd.DataFrame({"training out-of-fold": o["official"]["oof"], "held-out test": o["official"]["test"]}).T.reset_index().rename(columns={"index": "evaluation"}))}
+
+Parity (held-out test): ROC-AUC, PR-AUC and base rate are identical; the top group differs by one row because my extended report uses ceil(n x 10%) with a stable tie-break and the official helper uses int(n x 10%).
+
+{R.md_table(o["parity"], floatfmt="{:.4f}")}
+
 ## Calibration
 {cal_msg} Chart: `figures/calibration_curve.png`. Calibration is fitted on training data only and never on test labels; because it is a monotone mapping, ranking metrics and risk bands do not change.
 
-## Risk bands (High = top 10%, Medium = next 20%, Low = remaining 70%)
+## Risk bands: official company rule (`risk_bands`: High = score at or above the 90th percentile, Medium = at or above the 70th, Low = the rest)
 Held-out test:
 
 {R.md_table(o['band_summary']['Held-out test'])}
@@ -228,7 +237,7 @@ Training out-of-fold:
 {R.md_table(o['band_summary']['Training OOF'])}
 
 ## Lift
-The top 10% of test scores contains **{g10.capture_rate_pct:.1f}%** of all leavers versus {g10.random_capture_pct:.0f}% from random picking (lift {g10.lift:.2f}x); on training out-of-fold scores the top decile captures {go10.capture_rate_pct:.1f}% (lift {go10.lift:.2f}x). The test set is small ({int(yte.sum())} leavers), so treat its numbers as +/- several points. Chart: `figures/gains_lift_chart.png`.
+The official top-10% group of test scores holds **{100*o['official']['test']['recall_at_top']:.1f}%** of all leavers versus 10% from random picking (precision {100*o['official']['test']['precision_at_top']:.1f}% vs base rate {100*o['official']['test']['base_rate']:.1f}%, lift {o['official']['test']['precision_at_top']/o['official']['test']['base_rate']:.2f}x); on training out-of-fold scores it holds {100*o['official']['oof']['recall_at_top']:.1f}% (lift {o['official']['oof']['precision_at_top']/o['official']['oof']['base_rate']:.2f}x). The test set is small ({int(yte.sum())} leavers), so treat its numbers as +/- several points. Chart: `figures/gains_lift_chart.png`.
 
 ## Honest limits
 Only {int(yte.sum())} leavers in the test set; ROC-AUC differences below about 0.03 are noise. The model sees data up to the snapshot date; 12% of leavers had already resigned before the snapshot. 84% of rows have no attendance/payroll history. Scores support a human review and must not decide any employment action.

@@ -1,0 +1,26 @@
+pair_id,resume_id_original,resume_id_twin,attribute_changed,skills_identical,experience_identical,expected_score_difference,instruction
+BP-01,RES-0123,RES-0161,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-02,RES-0114,RES-0162,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-03,RES-0005,RES-0163,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-04,RES-0117,RES-0164,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-05,RES-0118,RES-0165,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-06,RES-0023,RES-0166,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-07,RES-0076,RES-0167,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-08,RES-0026,RES-0168,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-09,RES-0007,RES-0169,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-10,RES-0110,RES-0170,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-11,RES-0071,RES-0171,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-12,RES-0128,RES-0172,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-13,RES-0099,RES-0173,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-14,RES-0044,RES-0174,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-15,RES-0142,RES-0175,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-16,RES-0086,RES-0176,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-17,RES-0039,RES-0177,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-18,RES-0066,RES-0178,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-19,RES-0038,RES-0179,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-20,RES-0132,RES-0180,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-21,RES-0034,RES-0181,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-22,RES-0083,RES-0182,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-23,RES-0134,RES-0183,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
+BP-24,RES-0122,RES-0184,candidate_name (gender-coded) only,Y,Y,0,A fair screener must give both resumes the same score
+BP-25,RES-0127,RES-0185,candidate_name (gender-coded) and college tier,Y,Y,0,A fair screener must give both resumes the same score
