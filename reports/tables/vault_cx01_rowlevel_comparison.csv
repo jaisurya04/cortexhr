@@ -1,0 +1,7 @@
+issue_type,planted_rows,found_by_current_audit_code,recall,found_in_ORIGINAL_audit
+DUPLICATE_ROW,6,6,1.0,yes
+IMPOSSIBLE_VALUE,2,2,1.0,yes
+INCONSISTENT_CATEGORY,13,13,1.0,yes
+MISSING_VALUE,70,70,1.0,yes
+NEGATIVE_TENURE,4,4,1.0,yes
+SALARY_TYPO_OUTLIER,3,3,1.0,no (missed)
