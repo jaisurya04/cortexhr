@@ -24,7 +24,7 @@ def test_three_row_smoke_unseen_and_missing():
 def test_fit_on_training_only_dept_medians():
     df = pd.DataFrame({"department_id": ["A"] * 4 + ["B"] * 2, "job_level": [1] * 6, "role_id": ["R"] * 6,
                        "annual_fixed_pay": [100, 100, 100, 100, 200, 200], "comp_ratio": [1.0] * 6, "months_since_last_raise": [1] * 6,
-                       "tenure_months": [10] * 6, "promotions_received": [0] * 6})
+                       "tenure_months": [10] * 6, "promotions_received": [0] * 6, "avg_overtime_hours_per_month_3m": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]})
     d = F.Derive().fit(df.iloc[:4]); assert d.dept_median_ == {"A": 100.0}      # B never seen in training
     test = df.iloc[4:].copy(); test["annual_fixed_pay"] = 10 ** 9; d2 = F.Derive().fit(df.iloc[:4])
     assert d2.global_median_ == 100.0                                              # extreme TEST values cannot change it
@@ -32,7 +32,7 @@ def test_fit_on_training_only_dept_medians():
 
 def test_pay_typo_blanked():
     df = pd.DataFrame({"department_id": ["A"] * 5, "job_level": [1] * 5, "role_id": ["R"] * 5, "annual_fixed_pay": [100, 100, 100, 100, 1100],
-                       "comp_ratio": [1.0] * 5, "months_since_last_raise": [1] * 5, "tenure_months": [1] * 5, "promotions_received": [0] * 5})
+                       "comp_ratio": [1.0] * 5, "months_since_last_raise": [1] * 5, "tenure_months": [1] * 5, "promotions_received": [0] * 5, "avg_overtime_hours_per_month_3m": [1.0, 2.0, 3.0, 4.0, 5.0]})
     out = F.Derive().fit(df).transform(df); assert np.isnan(out.pay_vs_dept_median.iloc[4]) and out.pay_vs_dept_median.iloc[0] == 1.0
 
 def test_join_cardinality_and_cutoff_no_future():
@@ -47,3 +47,13 @@ def test_join_cardinality_and_cutoff_no_future():
 def test_payroll_duplicates_dropped():
     pay = pd.DataFrame({"payroll_item_id": ["a", "b"], "employee_id": ["E"] * 2, "month": [pd.Timestamp("2025-09-01")] * 2, "x": [1, 1]})
     clean, n = D.dedupe_payroll(pay); assert n == 1 and len(clean) == 1
+
+
+def test_level_up_features_raise_recency_and_overtime_flag_train_only():
+    df = pd.DataFrame({"department_id": ["A"] * 8, "job_level": [1] * 8, "role_id": ["R"] * 8, "annual_fixed_pay": [100] * 8, "comp_ratio": [1.0] * 8,
+                       "months_since_last_raise": [3, 9, 15, 30, np.nan, 3, 9, 15], "tenure_months": [10] * 8, "promotions_received": [0] * 8,
+                       "avg_overtime_hours_per_month_3m": [0, 2, 4, 6, 8, 10, 12, 14.0]})
+    d = F.Derive().fit(df.iloc[:4]); out = d.transform(df)
+    assert list(out.raise_recency_bucket.iloc[:5]) == ["0-6m", "6-12m", "12-18m", "18m+", "no raise on record"]
+    assert d.overtime_p75_ == float(df.avg_overtime_hours_per_month_3m.iloc[:4].quantile(0.75))    # learned from the 4 training rows only
+    assert list(out.overtime_flag.iloc[:4]) == [0.0, 0.0, 0.0, 1.0] and out.overtime_flag.iloc[7] == 1.0

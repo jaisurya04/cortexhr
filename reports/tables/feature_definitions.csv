@@ -2,6 +2,8 @@ feature,source,definition,temporal_cutoff
 pay_vs_dept_median,derived,annual pay / median pay of same department+job level; medians fitted on training rows only,snapshot at observation_date
 raise_stagnation_ratio,derived,months_since_last_raise / (tenure_months + 1),snapshot at observation_date
 never_promoted,derived,1 if promotions_received == 0 (explains the blank months_since_last_promotion),snapshot at observation_date
+raise_recency_bucket,derived (level-up),"months_since_last_raise in buckets 0-6, 6-12, 12-18, 18+ months, or 'no raise on record'; one-hot encoded",snapshot at observation_date
+overtime_flag,derived (level-up),1 if avg_overtime_hours_per_month_3m is above the 75th percentile of the TRAINING rows,snapshot at observation_date; threshold fitted on training only
 log_annual_pay,derived,log1p(annual_fixed_pay) after blanking pay-typos (>3x role mid-point),snapshot at observation_date
 att_attendance_rate_mean_3m,attendance_monthly_features,mean attendance_rate over last 3 complete months,months with month_end <= observation_date
 att_unpaid_absence_sum_3m,attendance_monthly_features,sum unpaid_absence_days over last 3 months,same
