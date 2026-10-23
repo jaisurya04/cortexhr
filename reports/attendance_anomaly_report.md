@@ -10,7 +10,7 @@
 ## Ranking flags (think for yourself: who checks 1,000 rows?)
 Flags are ranked by `priority_score` = model score + 1.0 if a rule fired, so rule-confirmed rows come first and the rest follow by how unusual they are. Reviewers work top-down within their capacity (`reports/tables/attendance_review_queue_top100.csv`, `review_rank` column in `attendance_flags.csv`). Two production ideas: suppress repeat flags for the same employee-month pattern, and add leave status so legitimate long absences (e.g. maternity leave, which the monthly table cannot show) are not escalated as anomalies; that is the main false-positive trap for the zero-attendance rule.
 
-## Measured precision and recall (labels used for measurement only: `/home/claude/cortexhr_phase1/04_Validation_Vault/unlock_CX-05_attendance_anomaly_labels.csv`)
+## Measured precision and recall (labels used for measurement only: `C:\Users\USER\Downloads\cortexhr_phase1\04_Validation_Vault\unlock_CX-05_attendance_anomaly_labels.csv`)
 
 | detector | flagged | injected | caught | precision | recall |
 |---|---|---|---|---|---|

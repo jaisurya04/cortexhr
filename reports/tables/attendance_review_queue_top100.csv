@@ -11,7 +11,7 @@ AF-05661,EMP-0570,2025-11-01,0.7642326268564041,True,True,True,False,True,True,T
 AF-03112,EMP-0347,2026-09-01,0.7631766099782697,True,True,True,False,True,True,True,True,rule: zero attendance in month,1.7631766099782697,10.0
 AF-04333,EMP-0460,2025-10-01,0.7613512946804208,True,True,True,False,True,True,True,True,rule: zero attendance in month,1.7613512946804208,11.0
 AF-00494,EMP-0056,2025-11-01,0.7604932454467467,True,True,True,False,True,True,True,True,rule: zero attendance in month,1.7604932454467468,12.0
-AF-00736,EMP-0087,2026-05-01,0.7603217516783384,True,True,True,False,True,True,True,True,rule: zero attendance in month,1.7603217516783385,13.0
+AF-00736,EMP-0087,2026-05-01,0.7603217516783385,True,True,True,False,True,True,True,True,rule: zero attendance in month,1.7603217516783385,13.0
 AF-05447,EMP-0553,2026-09-01,0.7596136910729483,True,True,True,False,True,True,True,True,rule: zero attendance in month,1.7596136910729483,14.0
 AF-01599,EMP-0184,2026-07-01,0.7203905527989218,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7203905527989218,15.0
 AF-07063,EMP-0673,2026-01-01,0.7171712935251655,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7171712935251655,16.0
@@ -26,15 +26,15 @@ AF-02738,EMP-0313,2025-09-01,0.7119609732774338,True,True,True,False,True,False,
 AF-02741,EMP-0313,2025-12-01,0.7119609732774338,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7119609732774337,25.0
 AF-05029,EMP-0521,2026-06-01,0.7112504072939817,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7112504072939818,26.0
 AF-00793,EMP-0092,2026-08-01,0.7110142455484294,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7110142455484294,27.0
-AF-02904,EMP-0329,2025-12-01,0.7109296647746431,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.710929664774643,28.0
+AF-02904,EMP-0329,2025-12-01,0.7109296647746433,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7109296647746433,28.0
 AF-03207,EMP-0361,2026-06-01,0.7105914059168362,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7105914059168361,29.0
 AF-07269,EMP-0709,2026-06-01,0.710547628093168,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.710547628093168,30.0
 AF-02905,EMP-0329,2026-01-01,0.7101561629915757,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7101561629915758,31.0
-AF-05030,EMP-0521,2026-07-01,0.7096812632850032,True,True,False,True,True,True,True,True,rule: implausible hours,1.7096812632850034,32.0
+AF-05030,EMP-0521,2026-07-01,0.7096812632850034,True,True,False,True,True,True,True,True,rule: implausible hours,1.7096812632850034,32.0
 AF-02739,EMP-0313,2025-10-01,0.7096754430270896,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7096754430270895,33.0
 AF-02740,EMP-0313,2025-11-01,0.7096754430270896,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7096754430270895,34.0
-AF-03209,EMP-0361,2026-08-01,0.7090749737201945,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7090749737201945,35.0
-AF-03210,EMP-0361,2026-09-01,0.7090749737201945,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7090749737201945,36.0
+AF-03209,EMP-0361,2026-08-01,0.7090749737201946,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7090749737201945,35.0
+AF-03210,EMP-0361,2026-09-01,0.7090749737201946,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7090749737201945,36.0
 AF-00789,EMP-0092,2026-04-01,0.7089633743212872,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.708963374321287,37.0
 AF-00790,EMP-0092,2026-05-01,0.7089633743212872,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.708963374321287,38.0
 AF-05025,EMP-0521,2026-02-01,0.7076853944410215,True,True,True,False,True,False,True,True,rule: zero attendance in month,1.7076853944410215,39.0
@@ -78,7 +78,7 @@ AF-04879,EMP-0512,2025-08-01,0.49259729452653106,False,False,False,True,True,Tru
 AF-02483,EMP-0286,2025-12-01,0.49218566743920567,False,False,False,True,True,True,True,True,rule: implausible hours,1.4921856674392058,77.0
 AF-04235,EMP-0453,2025-09-01,0.49017969888865276,False,False,False,True,True,True,True,True,rule: implausible hours,1.4901796988886526,78.0
 AF-00415,EMP-0048,2026-01-01,0.4885147339336486,False,False,False,True,True,True,True,True,rule: implausible hours,1.4885147339336486,79.0
-AF-00389,EMP-0047,2025-05-01,0.4867092718484457,False,False,False,True,True,True,True,True,rule: implausible hours,1.4867092718484458,80.0
+AF-00389,EMP-0047,2025-05-01,0.48670927184844576,False,False,False,True,True,True,True,True,rule: implausible hours,1.4867092718484458,80.0
 AF-02162,EMP-0250,2026-08-01,0.4867001683828122,False,False,False,True,True,True,True,True,rule: implausible hours,1.4867001683828123,81.0
 AF-02672,EMP-0306,2026-03-01,0.48448300957140594,False,False,False,True,True,True,True,True,rule: implausible hours,1.4844830095714059,82.0
 AF-03659,EMP-0405,2026-09-01,0.48385742778988017,False,False,False,True,True,True,True,True,rule: implausible hours,1.4838574277898802,83.0

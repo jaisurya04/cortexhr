@@ -32,8 +32,8 @@
     "no score above 0.90 (no leakage)": true
   },
   "versions": {
-    "python": "3.12.3",
-    "platform": "Linux-6.18.44-fc-v140-x86_64-with-glibc2.39",
+    "python": "3.14.8",
+    "platform": "Windows-11-10.0.26200-SP0",
     "pandas": "3.0.2",
     "numpy": "2.4.4",
     "scikit-learn": "1.8.0",
