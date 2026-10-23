@@ -24,3 +24,11 @@ def test_every_task_script_wrote_its_outputs():
 def test_pipeline_smoke_checks_file_is_clean():
     c = json.loads((C.project_root() / "artifacts" / "metadata" / "pipeline_smoke_test_checks.json").read_text())
     assert c["all_values_finite"] and not c["target_in_output"] and not c["leakage_column_in_output"] and c["n_test_rows_used_to_fit"] == 0
+
+
+VAULT_DEPENDENT = ["tables/attendance_detector_metrics.csv", "tables/attendance_by_anomaly_type.csv", "tables/vault_cx01_rowlevel_comparison.csv"]
+
+def test_vault_measurements_present_when_the_vault_is_present():
+    v = C.project_root() / "04_Validation_Vault"
+    if not (v / "unlock_CX-05_attendance_anomaly_labels.csv").exists(): return          # restricted files are not shipped
+    missing = [f for f in VAULT_DEPENDENT if not (C.reports_dir() / f).exists()]; assert not missing, missing

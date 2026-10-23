@@ -22,9 +22,16 @@ def assert_safe_input_columns(cols):
 
 
 class RawCleaner(BaseEstimator, TransformerMixin):
-    """Stateless fixes: canonical city, impossible values -> NaN, rates clipped to [0, 1]. No learned statistics."""
+    """Stateless fixes: canonical city, impossible values -> NaN, rates clipped to [0, 1]. No learned statistics.
+    Missing INPUT columns are added as NaN (and imputed later) so scoring never crashes on an incomplete record."""
+    def __init__(self, expected=None):
+        self.expected = expected
     def fit(self, X, y=None): return self
-    def transform(self, X): return clean_raw(pd.DataFrame(X))
+    def transform(self, X):
+        d = pd.DataFrame(X).copy()
+        for c in (self.expected or []):
+            if c not in d.columns: d[c] = np.nan
+        return clean_raw(d)
     def get_feature_names_out(self, input_features=None): return np.asarray(input_features)
 
 
@@ -104,7 +111,7 @@ def build_pipeline(include_monthly: bool = True) -> Pipeline:
                                                              sparse_output=False))]), cat))
     prep = ColumnTransformer(blocks, remainder="drop", verbose_feature_names_out=False)
     prep.set_output(transform="pandas")          # clean/derive already return DataFrames
-    return Pipeline([("clean", RawCleaner()), ("derive", Derive()), ("prep", prep)])
+    return Pipeline([("clean", RawCleaner(expected=input_columns(include_monthly))), ("derive", Derive()), ("prep", prep)])
 
 
 def make_xy(df: pd.DataFrame, include_monthly: bool = True):
