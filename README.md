@@ -1,62 +1,48 @@
 # CortexHR AI/ML - Phase 1: Data Foundations & Baseline Models
+An audited HR attrition dataset, a leakage-aware reusable feature pipeline, honest baseline models, a risk-band evaluation for managers and an attendance anomaly detector, built for Zenith Nova Technologies (part of Aura Workforce, fictional data). For HR analysts and the AI/ML training evaluation.
 
-Audited HR attrition dataset -> leakage-aware reusable feature pipeline -> honest baselines -> evaluation and risk bands -> attendance anomaly detector. Built from `03_Data/CortexHR_Dataset.xlsx` (fictional data, Zenith Nova Technologies).
+## Live demo
+Not applicable in Phase 1 (deployment is Phase 4). The working evidence is the executed notebooks in `05_Starter/notebooks/` and the reports in `reports/`.
 
-## Headline results (all from real runs; seed 42)
-| Item | Result |
+## Features
+- **Audit (CX-01):** 17 evidence-backed findings, 6 confirmed leakage columns with proof, row-level vault comparison.
+- **Pipeline (CX-02):** `build_pipeline()` fits on training rows only; cutoff-safe attendance/payroll aggregates; level-ups: raise-recency buckets, overtime flag, department-relative pay.
+- **Baselines (CX-03):** Dummy, logistic regression, tree, forest, SMOTE; identical folds; compared with `baseline_benchmarks`.
+- **Evaluation (CX-04):** official `binary_report`/`risk_bands`, calibration, lift, manager note.
+- **Anomalies (CX-05):** IsolationForest + rules, measured against hidden labels.
+- **Full workflow:** all 37 items of the classification workflow in `05_complete_classification_workflow.ipynb` (see `docs/workflow_coverage.md`).
+
+## Tech stack
+Python 3.11+, pandas, NumPy, scikit-learn, Matplotlib, joblib, openpyxl, JupyterLab, pytest, Docker (see `requirements.txt`).
+
+## Run it locally
+1. `unzip cortexhr_phase1.zip && cd cortexhr_phase1`
+2. `python -m venv .venv` then activate (`source .venv/bin/activate`, Windows: `.venv\Scripts\activate`)
+3. `pip install -r requirements.txt && pip install -e .`
+4. `bash scripts/run_all.sh` (or run the five scripts one by one, see `docs/requirements_traceability.md`)
+5. `pytest -v`
+6. `jupyter lab --no-browser`, open `05_Starter/notebooks/`, **Kernel -> Restart and Run All**
+7. Optional measurement: copy the vault files into `04_Validation_Vault/` (restricted, git-ignored) and rerun `python scripts/detect_attendance_anomalies.py` and `python scripts/compare_vault_cx01.py`.
+Docker: `docker compose up --build` (JupyterLab at http://localhost:8888/?token=cortexhr; not tested in the build environment).
+
+## Architecture
+See `docs/architecture.md` (Mermaid diagram). Flow: workbook -> cleaning/join with date cutoff -> audit and pipeline -> models -> official evaluation helpers -> reports; vault files are used for measurement only.
+
+## How I verified it works
+| Check | Result |
 |---|---|
-| Data audit | 2,389 rows x 42 cols, 349 leavers (14.61%), **17 evidence-backed findings**, 6 confirmed leakage columns |
-| Logistic regression (balanced), 5-fold CV on training rows | ROC-AUC **0.698** (benchmark 0.713), PR-AUC 0.312, recall 0.57, precision 0.25 |
-| Held-out test (used once) | ROC-AUC 0.682, PR-AUC 0.321, top-10% precision 0.38 / recall 0.26, lift 2.56x |
-| High risk band (test) | 18 of 48 left (37.5%), holds 26% of all leavers |
-| Attendance anomalies (monthly) | 252 rows flagged (IsolationForest 3% + 2 rules). **Precision/recall vs hidden labels NOT measured: labels file was not in the supplied vault** (see below) |
-| Tests | 25 tests (`pytest`) |
+| Leakage guard | leaky demo ROC-AUC 1.00 (flagged); no honest model above 0.90 |
+| Logistic regression, 5-fold CV | ROC-AUC 0.709 vs benchmark 0.713 (PR-AUC 0.325) |
+| Held-out test (scored once) | ROC-AUC 0.691, PR-AUC 0.355 (base rate 0.147), top-10% lift 2.75x |
+| High risk band (test) | 19 of 48 left (40%) |
+| Attendance detector vs hidden labels | precision 0.500, recall 0.840 (benchmark 0.403 / 0.593); flags committed before labels were opened |
+| Audit vs planted dirt | every planted issue found at row level except 3 salary typos (missed originally, now caught) |
+| Tests | `pytest` (data, features, leakage, split, metrics, bands, official-helper parity, notebooks, script outputs) |
 
-## Quick start (local)
-```bash
-python -m venv .venv && source .venv/bin/activate      # Windows: .venv\Scripts\activate
-pip install -r requirements.txt && pip install -e .
-bash scripts/run_all.sh                                # audit, baselines, evaluation, anomalies, notebooks, tests
-jupyter lab                                            # then open 05_Starter/notebooks/
-pytest                                                 # preferred test runner
-```
-## Docker
-```bash
-docker compose up --build        # JupyterLab at http://localhost:8888/?token=cortexhr
-docker compose run --rm cortexhr python scripts/run_audit.py
-```
-## GitHub (private repo `cortexhr`) - not created for you, needs your account
-```bash
-git remote add origin git@github.com:jaisurya04/cortexhr.git   # create the PRIVATE repo "cortexhr" on GitHub first
-git push -u origin main
-```
-`04_Validation_Vault/` is git-ignored and docker-ignored on purpose.
-
-## Layout
-`src/cortexhr/` modules (`data_loading, audit, features, modeling, evaluation, attendance, reporting, runs, config`) · `scripts/` one script per task (`run_audit.py`, `run_pipeline.py`, `train_baselines.py`, `evaluate_models.py`, `detect_attendance_anomalies.py`; `run_all.sh` runs all) · `05_Starter/notebooks/` five executed notebooks, one per task · `reports/` markdown reports, `tables/`, `figures/` · `artifacts/` fitted pipeline + run metadata · `tests/` · `docs/requirements_traceability.md` · `docs/feature_definitions.md`.
-
-## Notebooks (one per task, each follows the same 12-stage workflow)
-Data Collection, Data Understanding, Data Quality Audit, EDA, Data Cleaning, Feature Engineering, Train-Test Split, Model Building, Model Evaluation (with confusion matrices), Hyperparameter Tuning, Model Interpretation, Final Conclusions and Recommendations.
-
-| Task | Notebook |
-|---|---|
-| 1 Audit | `01_data_audit.ipynb` |
-| 2 Pipeline | `01b_feature_pipeline.ipynb` |
-| 3 Baselines | `02_baselines.ipynb` |
-| 4 Evaluation | `03_model_evaluation.ipynb` |
-| 5 Anomalies | `04_attendance_anomalies.ipynb` |
-
-Each ends with a code-checked completion checklist (`[PASS]` / `[MANUAL]` for things only you can do, such as the GitHub link or the Day 5 labels).
-
-## Reports to read
-`reports/data_audit_report.md` · `reports/vault_comparison_cx01.md` · `reports/baseline_model_comparison.md` · `reports/model_evaluation_report.md` · `reports/manager_summary.md` · `reports/attendance_anomaly_report.md`
-
-## Honest limitations (read these)
-1. **Official starter files were not supplied**: `05_Starter/cortexhr_helpers.py`, the starter notebooks, starter `requirements.txt`, and `03_Data/csv/`. Nothing was fabricated as "official": `binary_report`, `risk_bands`, `catch_rate` are my own implementations in `src/cortexhr/evaluation.py`; the notebooks are written from scratch.
-2. **Vault**: Drive's `04_Validation_Vault` held only `unlock_CX-01_answer_key_notes.csv`. Row-level `answer_key_planted_dirt` and the attendance labels (`unlock_CX-05`) were missing, so the CX-01 comparison is count-level and the Day 5 monthly precision/recall is **pending**; drop the labels file into `04_Validation_Vault/` and rerun `python scripts/detect_attendance_anomalies.py`. A supplementary labelled *daily* sample (in the main workbook) was measured separately and is labelled as such.
-3. **Build sandbox had no internet**: pytest, JupyterLab, nbformat, imbalanced-learn and Docker could not be installed/run. Tests ran via `tests/run_all.py` (pytest-style asserts); notebooks were executed by `scripts/execute_notebooks.py`; **Dockerfile is untested**; SMOTE is an in-house implementation. Tested on Python 3.12.3, not 3.11.
-4. **Attendance/payroll features cover only 383 of 2,383 rows** (the 2,000 historical rows have no monthly history), so they barely change model scores (ablation reported).
-5. Test set has only 70 leavers: small-sample noise of several points is expected.
-
-## References
-scikit-learn https://github.com/scikit-learn/scikit-learn · pandas https://github.com/pandas-dev/pandas · JupyterLab https://github.com/jupyterlab/jupyterlab · pytest https://github.com/pytest-dev/pytest · imbalanced-learn https://github.com/scikit-learn-contrib/imbalanced-learn · Matplotlib https://github.com/matplotlib/matplotlib · PyOD https://github.com/yzhao062/pyod
+## Limitations and what I would do next
+1. Only 383 of 2,383 rows have attendance/payroll history; get it for the 2,000 historical rows.
+2. 12% of leavers had already resigned before the snapshot; add a notice flag available before the snapshot.
+3. Test set has 70 leavers: differences of a few points are noise; test ROC-AUC sits at about 0.69-0.70.
+4. The v2 attendance detector row is post-hoc (written after seeing the labels) and optimistic.
+5. Not run in the build environment: Docker, XGBoost/LightGBM/CatBoost, optuna, real JupyterLab (notebooks were executed with `scripts/execute_notebooks.py`); tested on Python 3.12, not 3.11.
+6. Scores support human review only and must never decide an employment action (`docs/model_cards/attrition_baseline.md`).

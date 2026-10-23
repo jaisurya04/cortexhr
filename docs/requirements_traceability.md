@@ -1,4 +1,4 @@
-# Requirements traceability (Phase 1, Days 1-5)
+| 5.5 | Note on hard anomaly types | `reports/attendance_anomaly_report.md` + notebook 04 note: LATE_SPIKE recall 0.20; paid-leave false positives | `attendance_by_anomaly_type.csv` | Done (rewrite in your own words) |
 
 Status: **Done** = implemented, run and checked · **Partial** = done with a stated gap · **Not done** = could not be done here (reason given). Nothing is marked Done unless it was run.
 
@@ -96,3 +96,14 @@ Status: **Done** = implemented, run and checked · **Partial** = done with a sta
 | 4 Evaluation | `scripts/evaluate_models.py` | metrics, calibration, bands, lift, confusion matrices, threshold sweep, calibrator comparison, band profile, interpretation, manager note |
 | 5 Anomalies | `scripts/detect_attendance_anomalies.py` | flags (saved before labels), review queue, audit checks, EDA, temporal stability, contamination sensitivity, flagged-vs-normal interpretation, confusion matrices, measured metrics when labels exist |
 `tests/test_script_outputs.py` fails if any of these files is missing.
+
+## Added after the official starter files, templates and vault were supplied
+| Item | Where |
+|---|---|
+| Official `cortexhr_helpers.py` (binary_report, risk_bands, catch_rate, group_gap, psi) used unmodified | `05_Starter/cortexhr_helpers.py`, `src/cortexhr/official.py`, all notebooks, `evaluation.py` |
+| `03_Data/csv/` exports of every sheet (derived from the workbook) so the official `load()` works | `03_Data/csv/` |
+| CX-02 level-ups (raise recency buckets, overtime flag) | `features.Derive`, `tests/test_features.py` |
+| Playbook Git habits (one branch per task, PR text, daily log, weekly demo) | `git log --graph`, `.github/PULL_REQUEST_TEMPLATE.md`, `docs/daily_log.md`, `docs/weekly_demo_week1.md` |
+| README per template, architecture diagram, model card draft | `README.md`, `docs/architecture.md`, `docs/model_cards/attrition_baseline.md` |
+| 37-point classification workflow | `05_complete_classification_workflow.ipynb`, `docs/workflow_coverage.md`, `tests/test_notebooks.py` |
+| Still not done by me | GitHub push, your own explanations in the demo, Docker run, XGBoost/LightGBM/CatBoost/optuna cells (guarded, need installs) |

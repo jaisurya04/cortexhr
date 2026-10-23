@@ -5,7 +5,7 @@ OUT = pathlib.Path(__file__).resolve().parents[1] / "05_Starter" / "notebooks"; 
 SETUP = r"""import sys, pathlib, inspect, subprocess
 ROOT = pathlib.Path.cwd().resolve()
 while not (ROOT / 'src').exists(): ROOT = ROOT.parent
-sys.path.insert(0, str(ROOT / 'src'))
+sys.path.insert(0, str(ROOT / 'src')); sys.path.insert(0, str(ROOT / '05_Starter'))
 import numpy as np, pandas as pd, matplotlib.pyplot as plt
 pd.set_option('display.width', 200); pd.set_option('display.max_columns', 60); pd.set_option('display.max_colwidth', 110)
 from sklearn.model_selection import cross_val_predict
@@ -14,6 +14,7 @@ from sklearn.dummy import DummyClassifier
 from sklearn.pipeline import Pipeline
 from sklearn.metrics import roc_auc_score, average_precision_score, precision_score, recall_score, f1_score, accuracy_score, confusion_matrix
 from cortexhr import config as C, data_loading as D, audit as A, features as F, modeling as M, evaluation as E, reporting as R, runs, workflow as W
+import cortexhr_helpers as H; H.DATA = ROOT / '03_Data' / 'csv'      # the OFFICIAL starter helper (unmodified): load, binary_report, risk_bands, catch_rate, group_gap, psi
 print('Python', sys.version.split()[0], '| project root:', ROOT)"""
 
 STAGES = ["Data Collection", "Data Understanding", "Data Quality Audit", "Exploratory Data Analysis (EDA)", "Data Cleaning", "Feature Engineering",
@@ -54,6 +55,7 @@ print(log or 'no commits yet - run: git init && git add -A && git commit -m firs
 xl = pd.ExcelFile(C.data_path()); print(len(xl.sheet_names), 'sheets in', C.data_path().name)
 pd.DataFrame({'sheet': xl.sheet_names}).T"""),
 code("D.load_sheet('README').dropna(how='all').head(12)"),
+code("raw_csv = H.load('attrition_dataset')     # the official loader: reads 03_Data/csv/attrition_dataset.csv\nprint('official H.load ->', raw_csv.shape, '(expected 2,389 rows)'); assert raw_csv.shape[0] == 2389"),
 code("raw = D.load_attrition()\nprint('attrition_dataset rows x columns:', raw.shape, '(brief says 2,389 rows)')\nassert raw.shape[0] == 2389"),
 st(2, "What is in the table and what does one row mean?"),
 code("raw.dtypes.to_frame('dtype').T"),
@@ -113,6 +115,7 @@ code("audit_t[['problem', 'evidence', 'reason']]"),
 code("R.show_figure('audit_table', 16);   # screenshot-ready table = evidence for the report"),
 md("### Think for yourself: compare with the validation vault (opened only AFTER the audit commit)"),
 code("print(open(C.project_root() / 'reports' / 'vault_comparison_cx01.md').read())"),
+code("p = C.project_root() / 'reports' / 'tables' / 'vault_cx01_rowlevel_comparison.csv'\nprint('ROW-LEVEL comparison (planted dirt vs my audit code):'); print(pd.read_csv(p).to_string(index=False) if p.exists() else 'run: python scripts/compare_vault_cx01.py  (needs 04_Validation_Vault/unlock_CX-01_answer_key_planted_dirt.csv)')"),
 md("**My answer.** I missed the 3 salary typos (rows 15, 217, 345): I looked at `annual_fixed_pay` alone, saw a long tail and wrongly called it real senior pay. The check that finds them compares two related columns: `annual_fixed_pay / comp_ratio` should be constant inside a role, and these rows are ~11x their role. I also lumped planted blanks (`highest_education`, `commute_distance_km`) with structural blanks. Lesson: test consistency between related columns, and ask whether a blank is an error or information."),
 st(4, "Who leaves? Patterns by group and by feature (cleaned data is used from Stage 5 on; EDA here uses the raw table)."),
 code("W.plot_eda(raw);"),
@@ -249,6 +252,9 @@ code(r"""print('Drop / keep / transform decisions:'); A.column_roles(raw).groupb
 code("pd.DataFrame(F.FEATURE_DOCS, columns=['feature', 'source', 'definition', 'temporal cutoff'])"),
 code("print(inspect.getsource(F.build_pipeline))"),
 code("print(inspect.getsource(F.Derive))"),
+code(r"""d6 = F.Derive().fit(S['Xtr']).transform(D.clean_raw(S['Xtr']))
+print('LEVEL-UP features from the playbook: raise recency buckets and an overtime flag (threshold learned on TRAINING rows: p75 =', round(F.Derive().fit(S['Xtr']).overtime_p75_, 2), 'h/month)')
+print('leaver % by raise-recency bucket:'); (100 * pd.crosstab(d6.raise_recency_bucket, S['ytr'].to_numpy(), normalize='index')[1]).round(1).to_frame('leaver %')"""),
 st(7, "Stratified split first; then every learned number comes from TRAINING rows only."),
 code(r"""Xtr, ytr, Xte, yte, folds = S['Xtr'], S['ytr'], S['Xte'], S['yte'], S['folds']
 print('X:', S['X'].shape, '| target in X?', C.TARGET in S['X'].columns, '| train', Xtr.shape, 'test', Xte.shape)
@@ -325,7 +331,7 @@ code(SETUP),
 code(MK),
 st(1, "Load the data and the benchmark sheet."),
 code(r"""S = runs.load_model_frame(True); Xtr, ytr, Xte, yte, folds, df = S['Xtr'], S['ytr'], S['Xte'], S['yte'], S['folds'], S['df']
-bench = D.load_sheet('baseline_benchmarks'); bench"""),
+bench = H.load('baseline_benchmarks'); bench"""),
 st(2, "What is being predicted and what does the benchmark table mean?"),
 md("Target `left_within_12m` (1 = left within 12 months). Each benchmark row is a model with cross-validated ROC-AUC, PR-AUC, precision, recall, F1 and accuracy: the number to beat or understand. The leaky row (ROC-AUC ~1.0) is the cautionary tale."),
 code("print('rows', len(df), '| leavers', int(S['y'].sum()), f'({100 * S[\"y\"].mean():.2f}%) | inputs', S['X'].shape[1], '| join report:', S['join_report']['attendance_matched_rows'], 'rows with monthly history')"),
@@ -365,6 +371,8 @@ for name, s in oof.items():
     f = pd.DataFrame(fm); rows.append({'model': name, **f.mean().round(3).to_dict(), 'roc_auc_sd': round(f.roc_auc.std(), 3)})
 results = pd.DataFrame(rows).set_index('model'); results"""),
 md("**Undefined precision.** When a model predicts nobody will leave (the Dummy), precision = 0/0 is undefined; `zero_division=0` reports it as 0 and `undefined_precision` counts those folds. Accuracy is shown only as a supplement."),
+code(r"""print('OFFICIAL cortexhr_helpers.binary_report for every model (top 10% = int(n x 0.10) highest scores):')
+pd.DataFrame({n: H.binary_report(ytr, sc) for n, sc in oof.items()}).T.round(3)"""),
 code(r"""fig, axes = plt.subplots(1, 4, figsize=(15, 3.6))
 for ax, (nm, s) in zip(axes, oof.items()):
     tn, fp, fn, tp = confusion_matrix(ytr, (s >= 0.5).astype(int), labels=[0, 1]).ravel(); cm = np.array([[tn, fp], [fn, tp]]); ax.imshow(cm, cmap='Blues')
@@ -467,8 +475,11 @@ code("print('train/test leaver rate:', round(ytr.mean(), 4), round(yte.mean(), 4
 st(8, "Final model fitted on training rows (above): balanced logistic regression."),
 code("print(final.named_steps['model'])"),
 st(9, "Metrics, calibration, confusion matrix, risk bands, lift."),
-code("print(inspect.getsource(E.binary_report))"),
-code(r"""rep_oof = E.binary_report(ytr, oof); rep_test = E.binary_report(yte, p_test)
+code("print(inspect.getsource(H.binary_report))   # the OFFICIAL helper"),
+code(r"""off_oof, off_test = H.binary_report(ytr, oof), H.binary_report(yte, p_test)                  # OFFICIAL helper
+print('OFFICIAL cortexhr_helpers.binary_report'); print(pd.DataFrame({'train out-of-fold': off_oof, 'held-out test': off_test}).T.round(3).to_string())
+print('\\nparity with my extended report (identical AUCs; top group differs by one row because of int vs ceil):'); print(E.parity_table(yte, p_test).round(4).to_string(index=False))
+rep_oof = E.binary_report(ytr, oof); rep_test = E.binary_report(yte, p_test)       # my extended report: threshold metrics, confusion counts, Brier
 pd.DataFrame({'train out-of-fold': rep_oof, 'held-out test': rep_test}).T.round(3)"""),
 md("""**Plain-words guide.**
 - **ROC-AUC**: pick one leaver and one stayer at random; ROC-AUC is the chance the model scores the leaver higher (0.5 = coin flip).
@@ -487,9 +498,9 @@ ax.set_xlabel('mean predicted probability'); ax.set_ylabel('observed leaver rate
 print(f'average raw score on test {p_test.mean():.3f} | actual leaver rate {yte.mean():.3f} | after recalibration {p_test_cal.mean():.3f}')"""),
 md("**What it shows.** Raw scores sit far *above* the observed rate (curve under the diagonal) because `class_weight='balanced'` inflates probabilities: a raw 0.40 does **not** mean 4 in 10. Platt recalibration (learned on training OOF) pulls the average back to ~14-15%. It is monotone, so ranking, ROC-AUC, PR-AUC and bands do not change."),
 md("**Risk bands:** High = top 10%, Medium = next 20%, Low = remaining 70%."),
-code("print(inspect.getsource(E.risk_bands))"),
-code(r"""bands_test, bands_oof = E.risk_bands(p_test), E.risk_bands(oof)
-print('Test counts:', bands_test.value_counts().reindex(['High', 'Medium', 'Low']).to_dict(), 'of', len(p_test))
+code("print(inspect.getsource(H.risk_bands))   # the OFFICIAL company rule: High >= 90th percentile, Medium >= 70th, Low = rest"),
+code(r"""bands_test, bands_oof = pd.Series(H.risk_bands(p_test)), pd.Series(H.risk_bands(oof))
+print('Test counts (official rule):', bands_test.value_counts().reindex(['High', 'Medium', 'Low']).to_dict(), 'of', len(p_test), '-> about 10% / 20% / 70%')
 print('Train OOF counts:', bands_oof.value_counts().reindex(['High', 'Medium', 'Low']).to_dict(), 'of', len(oof))
 bs_test, bs_oof = E.band_summary(yte, bands_test), E.band_summary(ytr, bands_oof)
 print('\nHELD-OUT TEST (share_of_all_leavers_pct = leavers captured in each band)'); print(bs_test.round(2).to_string(index=False))
@@ -519,14 +530,15 @@ st(11, "What kind of person lands in each band, and which inputs drive the score
 code(r"""prof = Xte[['tenure_months', 'comp_ratio', 'months_since_last_raise', 'last_engagement_score', 'last_performance_rating', 'attendance_rate_3m']].groupby(bands_test.to_numpy()).mean().reindex(['High', 'Medium', 'Low'])
 prof.round(2)"""),
 code("W.logreg_coefficients(final, 12)"),
+code("print('score stability, train out-of-fold vs held-out test, official psi:', round(H.psi(oof, p_test), 4), '(<0.10 stable, 0.10-0.25 watch, >0.25 drift)')"),
 code(r"""tr, va = folds[0]; m = mk(LRB(), True).fit(Xtr.iloc[tr], ytr.iloc[tr])
 W.permutation_table(m, Xtr.iloc[va], ytr.iloc[va], n_repeats=3, top=10)"""),
 st(12, "One-page note for managers (also regenerates all report files)."),
 code("res = runs.run_evaluation(write=True)    # rewrites metrics tables, charts and reports from this notebook\nprint(open(C.project_root() / 'reports' / 'manager_summary.md').read())"),
 md("### Completion checklist (checked by code)"),
 CHECK([("'ROC-AUC and PR-AUC computed and explained'", "0.5 < rep_test['roc_auc'] < 0.9 and rep_test['pr_auc'] > rep_test['base_rate']"),
-       ("'Top-10% precision and recall reported'", "rep_test['top_k'] == int(np.ceil(0.1 * len(yte))) and rep_test['top_precision'] > rep_test['base_rate']"),
-       ("'Bands follow 10% / 20% / 70%'", "(bands_test == 'High').sum() == int(np.ceil(0.1 * len(yte))) and (bands_test == 'Medium').sum() == int(np.ceil(0.3 * len(yte))) - int(np.ceil(0.1 * len(yte)))"),
+       ("'Top-10% precision and recall reported (official binary_report)'", "off_test['precision_at_top'] > off_test['base_rate']"),
+       ("'Bands follow the official 10% / 20% / 70% rule (within rounding of quantile ties)'", "abs((bands_test == 'High').sum() - 0.10 * len(yte)) <= 2 and abs((bands_test == 'Medium').sum() - 0.20 * len(yte)) <= 3"),
        ("'Bands counted and checked against real leavers'", "bs_test.employees.sum() == len(yte) and bs_test.leavers.sum() == yte.sum()"),
        ("'Lift versus random is included'", "top.lift > 1"),
        ("'Calibration evaluated and interpreted'", "abs(p_test_cal.mean() - yte.mean()) < abs(p_test.mean() - yte.mean())"),
@@ -549,7 +561,7 @@ md("""# Task 5 (Day 5): Spot unusual attendance without labels
 code(SETUP),
 code("from sklearn.ensemble import IsolationForest\nfrom cortexhr import attendance as T"),
 st(1, "Attendance sheets, the reference benchmark, and the vault status."),
-code(r"""att = D.load_sheet(C.SHEET_ATT); daily = D.load_sheet('attendance_daily_examples'); bench = D.load_sheet(C.SHEET_ANOM_BENCH)
+code(r"""att = D.load_sheet(C.SHEET_ATT); daily = D.load_sheet('attendance_daily_examples'); bench = H.load('anomaly_baselines')
 print('monthly:', att.shape, '| employees', att.employee_id.nunique(), '| daily labelled sample:', daily.shape)
 labels_file = runs.find_attendance_labels()
 print('hidden labels file in 04_Validation_Vault:', labels_file or 'NOT SUPPLIED yet - monthly precision/recall will be reported as NOT MEASURED')
@@ -613,8 +625,8 @@ print(f'benchmark to compare: precision {bench.iloc[0].precision}, recall {bench
 code(r"""if labels_file is not None:
     labels = T.load_labels(labels_file); key = 'attendance_feature_id'; truth = set(labels[key]); rows = []
     for name, mask in {'IsolationForest (raw features)': d.iforest_raw_flag, 'IsolationForest (+history)': d.iforest_flag, 'Rules only': d.rule_flag, 'Combined': d.flagged}.items():
-        r = E.catch_rate(d.loc[mask, key], truth); r['detector'] = name; rows.append(r)
-    measured = pd.DataFrame(rows)[['detector', 'flagged', 'injected', 'caught', 'precision', 'recall']].round(3); show = measured
+        r = H.catch_rate(d.loc[mask, key], truth); r['detector'] = name; rows.append(r)       # OFFICIAL catch_rate
+    measured = pd.DataFrame(rows)[['detector', 'flagged', 'real', 'caught', 'precision', 'recall']].round(3); show = measured
     y_true = d[key].isin(truth); tp = int((d.flagged & y_true).sum()); fp = int((d.flagged & ~y_true).sum()); fn = int((~d.flagged & y_true).sum()); tn = int((~d.flagged & ~y_true).sum())
     W.plot_confusion_counts(tn, fp, fn, tp, 'Monthly combined detector vs hidden labels')
 else:
@@ -628,7 +640,18 @@ code(r"""if labels_file is not None:
 else:
     out = 'Needs the labels file (anomaly_type column).'
 out"""),
-md("*Write your own note after measuring:* which types were hardest and your idea why (e.g. slow absence streaks look normal one month at a time; sudden drops need the person's own history)."),
+md("""**My note on the hard types (measured on the hidden labels; rewrite it in your own words for your demo).**
+- **Hardest: `LATE_SPIKE`** (recall 0.20, 24 of 30 missed). A spike of 11-20 late arrivals is an extreme in *one* column, but the Isolation Forest scores *combinations* of columns; with only 3% of rows to flag, single-column spikes were out-ranked by rows that were odd in several columns, and none of my rules covered late arrivals.
+- **Easy: `IMPOSSIBLE_HOURS`** is caught entirely by the hours rule (model alone only 11%), `ABSENCE_STREAK`, `SUDDEN_DROP` and `ZERO_ATTENDANCE` entirely by the model/own-history features.
+- **False alarms:** about half of all flags are not injected anomalies. 35 came from the zero-attendance rule on months fully covered by paid leave (legitimate, e.g. maternity): the known false-positive trap, fixed only by using leave status.
+- The v1 detector above was fixed BEFORE the labels were opened (flags committed first). The 'post-hoc v2' row below is written AFTER seeing this table, so it is optimistic and must not be presented as an honest test."""),
+code(r"""if labels_file is not None:
+    ok_leave = d.paid_leave_days >= 0.8 * d.scheduled_days                       # post-hoc: months fully covered by paid leave are legitimate
+    r1b = d.rule_zero_attendance & ~ok_leave; r3 = d.late_arrivals > d.late_arrivals.quantile(0.995)
+    v2 = d.iforest_flag | r1b | d.rule_implausible_hours | r3
+    print('v1 (honest) combined :', {k: (round(v, 3) if isinstance(v, float) else v) for k, v in H.catch_rate(d.loc[d.flagged, key], truth).items()})
+    print('POST-HOC v2 (optimistic, written after seeing the labels):', {k: (round(v, 3) if isinstance(v, float) else v) for k, v in H.catch_rate(d.loc[v2, key], truth).items()})
+else: print('needs the labels file')"""),
 md("**Supplementary measured check on the labelled DAILY sample** (a different table shipped in the main workbook; not a substitute for the monthly measurement)."),
 code(r"""dp = T.daily_proxy_eval(daily); print(dp.round(3).to_string(index=False))
 row = dp[dp.detector == 'Daily combined'].iloc[0]; tp, fp, fn = int(row.caught), int(row.flagged - row.caught), int(row.injected - row.caught)
@@ -650,7 +673,7 @@ print('Top-priority row', row.attendance_feature_id, row.employee_id, row.month.
 print((row[features_plus] - d[features_plus].median()).round(2).sort_values(key=abs, ascending=False).head(6).to_string())"""),
 st(12, "Conclusions and recommendations."),
 code(r"""print(f'''DETECTOR: IsolationForest (3% contamination) + 2 rules flags {int(d.flagged.sum())} of {len(d)} employee-months ({100 * d.flagged.mean():.1f}%); rules cover obvious cases, the model covers unusual patterns.
-MEASUREMENT: {'see the table above (monthly labels used for measurement only)' if labels_file is not None else 'monthly precision/recall NOT measured (labels file not supplied); daily-sample check: combined precision ' + format(row0.precision, '.2f') + ', recall ' + format(row0.recall, '.2f')}.
+MEASUREMENT: {'monthly labels (measurement only): combined precision ' + format(measured.set_index('detector').loc['Combined'].precision, '.3f') + ', recall ' + format(measured.set_index('detector').loc['Combined'].recall, '.3f') + ' vs benchmark ' + format(bench.iloc[0].precision, '.3f') + ' / ' + format(bench.iloc[0].recall, '.3f') if labels_file is not None else 'monthly precision/recall NOT measured (labels file not supplied); daily-sample check: combined precision ' + format(row0.precision, '.2f') + ', recall ' + format(row0.recall, '.2f')}.
 RECOMMENDATIONS: 1) rank flags by priority and review the top N; 2) add leave status to avoid flagging legitimate long absences; 3) measure monthly precision/recall as soon as the hidden labels are available; 4) reuse this method for payroll in Phase 2.''')""".replace("row0", "dp.set_index('detector').loc['Daily combined']")),
 md("### Completion checklist (checked by code)"),
 CHECK([("'You never trained on the labels (label-like columns blocked; flags saved before labels)'", "True"),
