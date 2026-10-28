@@ -1,0 +1,7 @@
+check,count
+duplicate payroll item IDs,0
+duplicate employee/run pairs,15
+negative net pay,8
+zero net pay,5
+gross-net identity diff > 0.05,42
+gross differs from expected gross formula,35

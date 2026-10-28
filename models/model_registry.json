@@ -1,0 +1,33 @@
+{
+  "attendance": {
+    "contamination": 0.03,
+    "file": "attendance_detector_v2.joblib",
+    "labels_used": false,
+    "saved_at": "2026-10-27T09:46:07+00:00",
+    "sha256": "c11508f93eca501d60eea791e114e83dc201cef52a8d2cb6af921d7be0c7a598",
+    "sklearn_version": "1.8.0",
+    "trained_rows": 7339,
+    "training_data": "attendance_monthly_features.csv",
+    "version": "attendance-iforest-rules-v2"
+  },
+  "chatbot": {
+    "file": "chatbot_intent_model_v1.joblib",
+    "saved_at": "2026-10-27T09:46:08+00:00",
+    "sha256": "a8b85bac51f50e1fad1867b0853b59df93d371a00ec9cfcb306af7a95200a673",
+    "sklearn_version": "1.8.0",
+    "trained_rows": 858,
+    "training_data": "chatbot_nlu_training.csv (original, no test-set-driven additions)",
+    "version": "chatbot-tfidf-lr-v1"
+  },
+  "payroll": {
+    "contamination": 0.03,
+    "file": "payroll_detector_v2.joblib",
+    "labels_used": false,
+    "saved_at": "2026-10-27T09:46:06+00:00",
+    "sha256": "984564d24c9dd7cd6045fd768f9e8a42154958227c2fbff506b00a5837154a1f",
+    "sklearn_version": "1.8.0",
+    "trained_rows": 7355,
+    "training_data": "payroll_monthly_features.csv",
+    "version": "payroll-iforest-rules-v2"
+  }
+}
