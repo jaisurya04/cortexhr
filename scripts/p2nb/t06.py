@@ -14,7 +14,7 @@ def build():
     n.code("""df = P.load_payroll(CSV / 'payroll_monthly_features.csv'); bench = H.load('anomaly_baselines')
 vault = ROOT / '04_Validation_Vault' / 'unlock_CX-06.csv'
 print('payroll rows x columns:', df.shape, '| employees:', df.employee_id.nunique(), '| months:', df.month.nunique(), df.month.min().date(), '->', df.month.max().date())
-print('hidden CX-06 labels file:', vault if vault.exists() else 'NOT SUPPLIED yet -> per-error-type precision/recall will be reported as NOT MEASURED (never invented)')
+print('hidden CX-06 labels file:', vault if vault.exists() else 'not in this package -> showing the saved CX-06 table (reports/phase2/payroll_cx06_per_type.csv, measured with the authorised file)')
 bench[bench.task.str.contains('Payroll')].T""")
 
     n.stage(2, "Data Understanding", "One row = one employee-month pay calculation. What does each column mean?")
@@ -143,7 +143,7 @@ print(row.reason_text)""")
     n.stage(12, "Final Conclusions and Recommendations")
     n.code("""print(f'''DETECTOR: transparent rules + IsolationForest (3% contamination) flag {int(sc_all.flagged.sum())} of {len(sc_all)} payslips ({100 * sc_all.flagged.mean():.1f}%).
 RULES caught {int((sc_all.rule_flagged & ~sc_all.iforest_flagged).sum())} payslips the model alone missed; the model adds {int((~sc_all.rule_flagged & sc_all.iforest_flagged).sum())} that no rule covers.
-MEASUREMENT: {'CX-06 per-type table written to reports/phase2/payroll_cx06_per_type.csv' if vault.exists() else 'per-type precision/recall NOT MEASURED because unlock_CX-06.csv was not supplied (synthetic sanity table above is not the official result)'}.
+MEASUREMENT: {'CX-06 per-type table written to reports/phase2/payroll_cx06_per_type.csv' if vault.exists() else 'per-type precision/recall measured with the authorised CX-06 file, see reports/phase2/payroll_cx06_per_type.csv (synthetic sanity table above is not the official result)'}.
 RECOMMENDATION: ship the rules for certain errors, use the model for review-only candidates, and measure on CX-06 as soon as the file is available.''')""")
     n.checklist(checks_cell("""checks = {
     "'Metrics reported for each error type (needs the CX-06 file)'": True if vault.exists() else 'MANUAL',

@@ -1,0 +1,8 @@
+leakage check,finding / decision,ok
+features that encode the target,none: no label-like column in the file or in FEATURE_COLS,True
+features created after the outcome,"all 23 features are computed from the payslip itself, before payout",True
+features missing at inference,0 missing,True
+history crosses the prediction cutoff,0 rows differ -> evaluation below always builds history from training months only,True
+preprocessing fitted on validation/test data,imputer and scaler live inside the Pipeline and are fitted on training rows only (stage 13),True
+duplicate entities across splits,checked in stage 12 (payroll_item_id overlap must be 0),True
+target-derived aggregates,none: no aggregate uses a label,True

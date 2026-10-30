@@ -1,0 +1,133 @@
+text,expected_intent,predicted_intent,correct
+yo,greet,chitchat,False
+heya,greet,greet,True
+hello bot,greet,greet,True
+hi there assistant,greet,greet,True
+catch you later,goodbye,goodbye,True
+bye bye,goodbye,goodbye,True
+that is everything for now,goodbye,goodbye,True
+ok thanks bye,goodbye,goodbye,True
+appreciate it,thanks,thanks,True
+thank you so much,thanks,thanks,True
+cheers,thanks,salary_of_other,False
+"thanks, very helpful",thanks,thanks,True
+what are the rules on taking leave,hr_policy_leave,hr_policy_leave,True
+how much leave can I take each year,hr_policy_leave,hr_policy_leave,True
+can unused leave be carried over,hr_policy_leave,leave_balance,False
+leave rules for employees,hr_policy_leave,hr_policy_leave,True
+when do we start work,working_hours,working_hours,True
+what time is office over,working_hours,working_hours,True
+what are shift timings,working_hours,working_hours,True
+do we have fixed hours,working_hours,working_hours,True
+which days is the office closed,holiday_list,holiday_list,True
+do we get Holi off,holiday_list,insurance_benefits,False
+public holidays this year,holiday_list,holiday_list,True
+calendar of holidays,holiday_list,holiday_list,True
+what date does salary come,payslip_date,payslip_date,True
+when is payday,payslip_date,payslip_date,True
+will salary come on time in June,payslip_date,payslip_date,True
+when do we get paid,payslip_date,insurance_benefits,False
+how do I take a day off,apply_leave_howto,apply_leave_howto,True
+process for applying CL,apply_leave_howto,apply_leave_howto,True
+where can I put in for leave,apply_leave_howto,apply_leave_howto,True
+how to raise a leave request,apply_leave_howto,apply_leave_howto,True
+how to get my travel money back,reimbursement_policy,reimbursement_policy,True
+claim procedure for expenses,reimbursement_policy,reimbursement_policy,True
+how do I file expense bills,reimbursement_policy,reimbursement_policy,True
+what can be reimbursed,reimbursement_policy,reimbursement_policy,True
+who should I speak to about payroll,who_to_contact,who_to_contact,True
+how can I reach HR,who_to_contact,who_to_contact,True
+who do I ask for benefits help,who_to_contact,help,False
+contact for payroll queries,who_to_contact,who_to_contact,True
+am I allowed to work from home,wfh_policy,wfh_policy,True
+how often can I wfh,wfh_policy,wfh_policy,True
+what is the hybrid rule,wfh_policy,wfh_policy,True
+is remote work allowed,wfh_policy,wfh_policy,True
+how many days notice do I need to serve,notice_period_policy,notice_period_policy,True
+how do I quit the company,notice_period_policy,wfh_policy,False
+can I leave earlier than the notice period,notice_period_policy,notice_period_policy,True
+resignation rules,notice_period_policy,notice_period_policy,True
+how many months is probation,probation_policy,probation_policy,True
+when do I become permanent,probation_policy,tax_declaration,False
+after probation what changes,probation_policy,probation_policy,True
+probation rules,probation_policy,probation_policy,True
+what medical cover do we have,insurance_benefits,insurance_benefits,True
+is my spouse covered,insurance_benefits,insurance_benefits,True
+how do I add my child to insurance,insurance_benefits,insurance_benefits,True
+insurance claim steps,insurance_benefits,insurance_benefits,True
+how much pf gets deducted,pf_info,pf_info,True
+explain employer pf contribution,pf_info,pf_info,True
+how do I see my pf passbook,pf_info,pf_info,True
+pf rules,pf_info,pf_info,True
+where do I declare my investments,tax_declaration,tax_declaration,True
+how is tds decided on my pay,tax_declaration,tax_declaration,True
+when is form 16 issued,tax_declaration,tax_declaration,True
+tax saving declaration steps,tax_declaration,tax_declaration,True
+how much EL is left for me,leave_balance,leave_balance,True
+remaining leave days,leave_balance,leave_balance,True
+what is my balance of EL,leave_balance,leave_balance,True
+do I have leaves left,leave_balance,leave_balance,True
+did my manager accept my leave,leave_request_status,leave_request_status,True
+is my leave request still pending,leave_request_status,leave_request_status,True
+approval status of my leave,leave_request_status,leave_request_status,True
+has my leave gone through,leave_request_status,leave_request_status,True
+has my Aug payslip been generated,payslip_status,payslip_status,True
+I need my payslip for last month,payslip_status,payslip_status,True
+is salary slip of this month out,payslip_status,payslip_status,True
+get payslip,payslip_status,payslip_status,True
+name my line manager,my_manager,my_manager,True
+who is my supervisor,my_manager,my_manager,True
+who do I report into,my_manager,my_manager,True
+manager name please,my_manager,my_manager,True
+which team do I belong to,my_department,my_department,True
+what department is mine,my_department,my_department,True
+tell me my department,my_department,my_department,True
+my team name,my_department,team_members,False
+who works under me,team_members,my_manager,False
+show people reporting to me,team_members,team_members,True
+list of my reportees,team_members,team_members,True
+who are my teammates,team_members,team_members,True
+give my previous month attendance,attendance_summary,attendance_summary,True
+days present in Sept,attendance_summary,attendance_summary,True
+how many days did I come late,attendance_summary,attendance_summary,True
+attendance details,attendance_summary,attendance_summary,True
+has my attendance been marked unusual,unusual_attendance,unusual_attendance,True
+any strange attendance entries for me,unusual_attendance,unusual_attendance,True
+show anomalies in my attendance,unusual_attendance,unusual_attendance,True
+which days were flagged for me,unusual_attendance,unusual_attendance,True
+recommend pay for a HR Executive,salary_band_query,salary_band_query,True
+how much to offer a Account Executive,salary_band_query,salary_band_query,True
+compensation range for HR Executive,salary_band_query,salary_band_query,True
+what pay band fits HR Executive,salary_band_query,salary_band_query,True
+which employees might quit in Operations,attrition_risk_query,attrition_risk_query,True
+how risky is attrition in Customer Support,attrition_risk_query,attrition_risk_query,True
+list people likely to leave in Operations,attrition_risk_query,attrition_risk_query,True
+where is attrition risk highest,attrition_risk_query,attrition_risk_query,True
+how many employees next quarter,headcount_forecast,headcount_forecast,True
+headcount projection for Engineering,headcount_forecast,headcount_forecast,True
+what will headcount be in March,headcount_forecast,headcount_forecast,True
+expected hiring need,headcount_forecast,headcount_forecast,True
+are there suspicious payslips this month,payroll_flags,payroll_flags,True
+payroll exceptions for March,payroll_flags,payroll_flags,True
+show flagged payroll entries,payroll_flags,payroll_flags,True
+any mistakes in payroll,payroll_flags,payroll_flags,True
+evaluate this cv for Accountant,resume_score_request,resume_score_request,True
+rate candidate against Account Executive,resume_score_request,resume_score_request,True
+rank applicants for Support Executive,resume_score_request,resume_score_request,True
+which resumes fit Software Engineer,resume_score_request,resume_score_request,True
+how much does Priya Nair earn,salary_of_other,salary_of_other,True
+share Priya Nair salary details,salary_of_other,salary_of_other,True
+what does my colleague get paid,salary_of_other,salary_of_other,True
+show Priya Nair payslip,salary_of_other,salary_of_other,True
+will it rain tomorrow,out_of_scope,who_to_contact,False
+tell me something funny,out_of_scope,out_of_scope,True
+who is leading the ipl,out_of_scope,my_manager,False
+order me a pizza,out_of_scope,out_of_scope,True
+how is your day,chitchat,chitchat,True
+what should I call you,chitchat,chitchat,True
+are you a human,chitchat,chitchat,True
+what are you,chitchat,chitchat,True
+what can this bot do,help,help,True
+list your features,help,chitchat,False
+I need help,help,help,True
+show commands,help,help,True

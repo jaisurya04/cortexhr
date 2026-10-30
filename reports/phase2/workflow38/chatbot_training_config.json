@@ -1,0 +1,13 @@
+{
+  "vectorizers": "word TF-IDF (1-2) + char_wb TF-IDF (2-5), sublinear, lowercase, strip accents",
+  "seed": 42,
+  "candidates": {
+    "Logistic Regression": "LogisticRegression(C=2.0, class_weight='balanced', max_iter=3000,\n                   random_state=42)",
+    "Linear SVM (calibrated)": "CalibratedClassifierCV(cv=3, estimator=LinearSVC(class_weight='balanced'))",
+    "Complement NB": "ComplementNB(alpha=0.3)",
+    "Random Forest": "RandomForestClassifier(class_weight='balanced', n_estimators=200, n_jobs=-1,\n                       random_sta",
+    "Decision Tree": "DecisionTreeClassifier(class_weight='balanced', random_state=42)"
+  },
+  "split": "family-grouped stratified 80/20 on the official training file",
+  "sklearn": "1.8.0"
+}

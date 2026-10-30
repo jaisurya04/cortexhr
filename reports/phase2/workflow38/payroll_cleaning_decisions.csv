@@ -1,0 +1,10 @@
+topic,decision
+duplicates,NOT removed: a repeated employee+run is the DOUBLE_PAYMENT signal
+data types,month -> datetime and money columns -> float (done in load_payroll); 0 values became NaN
+categorical values,overtime_eligible trimmed/upper-cased; variable_pay_type NaN -> NONE (structural)
+units / formats,"single currency (INR), single date format: nothing to convert"
+impossible values,"negative/zero pay are kept and flagged, never overwritten"
+outliers,investigated above; legitimate rare rows preserved
+missing values,no missing numeric inputs; the pipeline imputes with the training median at inference time
+conflicting records,kept and routed to human review
+original data,unchanged (0 numeric cells differ in the working copy)

@@ -1,0 +1,44 @@
+{
+  "model_version": "payroll-iforest-rules-v2",
+  "saved_file": "reports/phase2/workflow38/models_demo/payroll_detector_trainonly.joblib",
+  "python": "3.12.3",
+  "sklearn": "1.8.0",
+  "pandas": "3.0.2",
+  "numpy": "2.4.4",
+  "joblib": "1.5.3",
+  "seed": 42,
+  "contamination": 0.03,
+  "train_rows": 4804,
+  "train_months": "2025-04..2026-03",
+  "data_sha256_16": "c7031da77ccaa5ab",
+  "frozen": {
+    "detector_version": "payroll-iforest-rules-v2",
+    "contamination": 0.03,
+    "score_lo": -0.23214230003277542,
+    "score_hi": 0.144998782909044,
+    "trained_rows": 4804,
+    "threshold": 0.8,
+    "calibrator": "none (scores are rankings)"
+  },
+  "validation_metrics": {
+    "accuracy": 0.943,
+    "precision": 0.397,
+    "recall (sensitivity)": 0.958,
+    "specificity": 0.942,
+    "F1": 0.561,
+    "ROC-AUC": 0.982,
+    "PR-AUC": 0.577,
+    "flag_share_%": 9.24
+  },
+  "test_metrics": {
+    "accuracy": 0.969,
+    "precision": 0.541,
+    "recall (sensitivity)": 0.958,
+    "specificity": 0.969,
+    "F1": 0.692,
+    "ROC-AUC": 0.982,
+    "PR-AUC": 0.702,
+    "flag_share_%": 6.5
+  },
+  "labels_used_for_training": false
+}

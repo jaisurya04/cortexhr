@@ -1,0 +1,24 @@
+column,role,description,observed_min,observed_max,available_at_prediction,created_after_target_event,join_key
+payroll_item_id,identifier,Unique id of one employee-month pay calculation.,,,yes,no,yes
+run_id,identifier,Payroll run id (PR-YYYY-MM).,,,yes,no,yes
+employee_id,identifier,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,,,yes,no,yes
+month,datetime,Month (first day).,,,yes,no,
+department_id,categorical,Department code (D00 Executive ... D10 Legal & Compliance).,,,yes,no,
+role_id,categorical,Job role code from the roles table.,,,yes,no,
+job_level,categorical (ordinal 1-7),"Level 1 to 7 (1 Associate ... 6 Head, 7 CEO).",,,yes,no,
+overtime_eligible,categorical,"Y if the role earns overtime pay (levels 1-2 in Support, HR, Finance, Operations).",,,yes,no,
+monthly_fixed_gross,numerical,Full-month fixed gross entitlement (INR).,15899.0,683081.9,yes,no,
+payable_days,numerical,Days paid = days employed minus loss-of-pay days.,1.0,31.0,yes,no,
+lop_days,numerical,"Loss-of-pay days (unpaid absence, unpaid leave, half day = 0.5).",0.0,10.0,yes,no,
+overtime_hours_paid,numerical,Overtime hours paid (capped at 50).,0.0,102.0,yes,no,
+overtime_pay,numerical,Overtime pay (2x hourly rate).,0.0,49281.68,yes,no,
+variable_pay,numerical,"Bonus, incentive or award paid in the month.",0.0,451936.64,yes,no,
+variable_pay_type,categorical,"Performance Bonus, Sales Incentive, Festival Bonus or Spot Award.",,,yes,no,
+gross_pay,numerical,Earned fixed pay + overtime + variable pay.,0.0,2823640.5,yes,no,
+pf_employee,numerical,Employee provident fund deduction.,0.0,1800.0,yes,no,
+esi_employee,numerical,Employee ESI deduction.,0.0,236.45,yes,no,
+professional_tax,numerical,Professional tax deduction.,0.0,200.0,yes,no,
+tds,numerical,Income tax deducted at source.,0.0,686444.91,yes,no,
+other_deductions,numerical,Other deductions (loan recovery).,0.0,15000.0,yes,no,
+total_deductions,numerical,Sum of all employee deductions.,0.0,688444.91,yes,no,
+net_pay,numerical,Take-home pay = gross pay minus total deductions.,-174244.25,2345744.0,yes,no,

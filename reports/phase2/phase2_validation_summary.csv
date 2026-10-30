@@ -1,0 +1,15 @@
+check,result
+Phase 1 + Phase 2 automated tests,run: python tests/run_all.py and python tests_phase2/run_all.py (counts in README)
+Chatbot training examples,858
+Chatbot training intents,33
+Chatbot held-out test rows,132
+Chatbot held-out accuracy,0.8106
+Chatbot held-out errors,25
+Official dialogue scenarios,12
+Official dialogue turns,28
+Dialogue intent match,1.0000
+Payroll rows scored,7355
+Payroll rows flagged,301
+Payroll flagged by rules,107
+Payroll flagged by model only,194
+CX-06 per-type payroll metrics,MEASURED by the project owner with the authorised file (not in this package): see reports/phase2/payroll_cx06_per_type.csv

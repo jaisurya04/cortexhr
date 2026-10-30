@@ -1,0 +1,6 @@
+metric,value
+training_examples,858.0
+training_intents,33.0
+heldout_test_rows,132.0
+heldout_accuracy,0.8106060606060606
+heldout_errors,25.0

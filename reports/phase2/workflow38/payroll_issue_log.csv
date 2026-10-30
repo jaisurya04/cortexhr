@@ -1,0 +1,11 @@
+issue,rows,proposed resolution
+duplicate employee+run pairs,15,Keep both rows; rule DUPLICATE_PAYMENT sends them to review
+negative net pay,8,Keep; rule NEGATIVE_NET_PAY
+zero net pay,5,Keep; rule ZERO_PAY
+gross - deductions != net,42,Keep; rule NET_PAY_MISMATCH
+gross != expected gross,35,Keep; rules GROSS_ABOVE_NORM / GROSS_BELOW_EXPECTED
+overtime hours above 50,8,Keep; rule OVERTIME_ABOVE_CAP
+components do not add to total deductions,5,Keep; rule DEDUCTION_TOTAL_MISMATCH
+extreme net pay (|z| > 5 on log scale),15,Investigate before touching; many are the zero/negative rows above
+variable_pay_type missing,6202,Structural: fill with the explicit label NONE for reporting; not a model input
+target label quality,0,No labels in the file; label quality is checked when the vault file is released (class distribution: not available)

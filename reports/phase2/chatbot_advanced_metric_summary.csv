@@ -1,0 +1,2 @@
+selected_model_by_cv,training_examples,training_intents,heldout_rows,heldout_accuracy,heldout_macro_f1,heldout_weighted_f1,note
+word_char_lr_balanced,1122,33,132,0.9015151515151515,0.900889850889851,0.900889850889851,Held-out set is small; no guarantee of 90% and no test-set tuning.

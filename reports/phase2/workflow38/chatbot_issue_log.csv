@@ -1,0 +1,12 @@
+check,result,resolution
+missing / empty text,0,none found
+missing label,0,none found
+duplicate normalised text,7,"keep one per (text,intent) in cleaning; none conflict"
+"same text, different intent (label conflict)",0,would be resolved with the data owner; none found
+intents without a response template,0,every intent has a response row
+test intents unseen in training,0,none
+messages with deliberate typos/slang,137,KEEP: real users make typos; they are useful training signal
+non-ASCII messages,0,keep; vectorizer strips accents
+length outliers (|z| > 3),0,"keep; short messages (hi, bye) are legitimate"
+class balance,min 26 / max 26 per intent,perfectly balanced - imbalance is not a data problem here (stage 18)
+label quality,templated,"labels are consistent, but templated paraphrases are near-duplicates -> inflates ordinary cross-validation (stage 9)"

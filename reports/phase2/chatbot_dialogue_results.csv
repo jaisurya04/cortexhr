@@ -1,0 +1,29 @@
+dialogue_id,turn_no,text,expected_intent,predicted_intent,intent_match,service_called
+DLG-01,1,how many casual leaves do I have left,leave_balance,leave_balance,True,True
+DLG-01,2,and sick leave?,leave_balance,leave_balance,True,True
+DLG-01,3,thanks,thanks,thanks,True,False
+DLG-02,1,is my March payslip ready,payslip_status,payslip_status,True,True
+DLG-02,2,who is my manager,my_manager,my_manager,True,True
+DLG-03,1,how do I apply for leave,apply_leave_howto,apply_leave_howto,True,False
+DLG-03,2,what is the leave policy,hr_policy_leave,hr_policy_leave,True,False
+DLG-03,3,ok bye,goodbye,goodbye,True,False
+DLG-04,1,show my attendance for last month,attendance_summary,attendance_summary,True,True
+DLG-04,2,any unusual days?,unusual_attendance,unusual_attendance,True,True
+DLG-05,1,what is Priya Nair salary,salary_of_other,salary_of_other,True,False
+DLG-05,2,show my payslip for last month,payslip_status,payslip_status,True,True
+DLG-06,1,hi,greet,greet,True,False
+DLG-06,2,what can you do,chitchat,chitchat,True,False
+DLG-06,3,work from home policy,wfh_policy,wfh_policy,True,False
+DLG-07,1,who is at risk of leaving in Sales,attrition_risk_query,attrition_risk_query,True,False
+DLG-07,2,and in Engineering?,attrition_risk_query,attrition_risk_query,True,False
+DLG-07,3,why is it high,attrition_risk_query,attrition_risk_query,True,False
+DLG-08,1,any unusual payroll this month,payroll_flags,payroll_flags,True,True
+DLG-08,2,show details,payroll_flags,payroll_flags,True,True
+DLG-09,1,suggest a salary band for Data Analyst,salary_band_query,salary_band_query,True,False
+DLG-09,2,what about Software Engineer,salary_band_query,salary_band_query,True,False
+DLG-10,1,forecast headcount for next quarter,headcount_forecast,headcount_forecast,True,False
+DLG-10,2,for Support only,headcount_forecast,headcount_forecast,True,False
+DLG-11,1,score this resume for Data Analyst,resume_score_request,resume_score_request,True,False
+DLG-11,2,thanks,thanks,thanks,True,False
+DLG-12,1,tell me a joke,out_of_scope,out_of_scope,True,False
+DLG-12,2,help,help,help,True,False

@@ -1,0 +1,6 @@
+model,macro_F1 mean,macro_F1 std,accuracy mean,worst fold macro_F1,train accuracy,overfit gap
+Logistic Regression,0.639,0.049,0.686,0.598,1.0,0.314
+Linear SVM (calibrated),0.634,0.056,0.676,0.556,1.0,0.324
+Complement NB,0.605,0.023,0.655,0.567,0.999,0.344
+Random Forest,0.572,0.044,0.614,0.511,1.0,0.386
+Decision Tree,0.414,0.068,0.459,0.323,1.0,0.541

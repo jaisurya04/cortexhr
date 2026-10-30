@@ -1,0 +1,1 @@
+timestamp,session_id (hashed),role,message_text (only if policy allows storing it),predicted_intent,confidence,bot_action,user_thumbs (up/down),corrected_intent (HR labels),reviewer_comment

@@ -1,0 +1,7 @@
+file,rows,sha256_16,role
+chatbot_nlu_training.csv,858,06946774c9ef0bf7,training (official)
+chatbot_test_set.csv,132,73c12f1603a6a469,held-out test (sealed)
+chatbot_responses.csv,33,6cad91ec3aa54314,answers + allowed roles
+hr_faq.csv,30,52d16f2cb7dad591,FAQ answers
+chatbot_dialogues.csv,28,4c35e12b99925204,multi-turn scenarios
+chatbot_nlu_training_expanded.csv,1122,c981430ce9a3fbf1,development-only augmentation (not used here)

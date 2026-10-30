@@ -1,0 +1,1 @@
+result_id,record_id,reviewed_by_role,reviewed_at,decision (CONFIRMED_ERROR / FALSE_ALARM / NEEDS_INFO),true_error_type,amount_recovered_inr,reviewer_comment

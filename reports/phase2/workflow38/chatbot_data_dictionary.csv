@@ -1,0 +1,6 @@
+column,type,meaning,available at prediction time
+example_id,identifier,unique id of a training message,yes
+text,text (model input),the user message,yes
+intent,"target (categorical, 33 values)",what the user wants,no (label)
+entities,text/json (optional),"slot values such as month or leave type (used by dialogue rules, not by the classifier)",partly
+test_id / expected_intent / expected_entities,identifier / target / text,held-out test file,evaluation only

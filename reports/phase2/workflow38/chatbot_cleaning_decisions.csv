@@ -1,0 +1,11 @@
+topic,decision
+duplicates,"0 exact (text, intent) duplicates removed from the working copy"
+data types,"text -> str, intent -> str"
+categorical values,intent labels trimmed; 33 distinct values unchanged
+units / formats,whitespace collapsed; case is NOT changed here (the vectorizer lower-cases)
+impossible values,none (no empty texts)
+outliers,"very short messages are legitimate (hi, bye) and kept"
+rare observations,typos/slang kept on purpose (real users type them)
+missing values,none
+conflicting records,none (a text never has two intents)
+original data,unchanged on disk and in TRAIN_RAW

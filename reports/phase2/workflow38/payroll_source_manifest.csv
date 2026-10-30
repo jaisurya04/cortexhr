@@ -1,0 +1,6 @@
+file,rows,columns,bytes,sha256_16
+payroll_monthly_features.csv,7355,23,1001779,c7031da77ccaa5ab
+anomaly_baselines.csv,2,6,475,f02d0976e23e385f
+sample_anomaly_results.csv,405,12,76531,da3ec36063b3ebae
+hr_faq.csv,30,5,5375,52d16f2cb7dad591
+data_dictionary.csv,315,8,31442,9c55a7b50d1eaaf3

@@ -1,0 +1,10 @@
+continuous-improvement item,concrete action
+2 Predictions vs real outcomes,weekly: accuracy on a sample of HR-corrected messages; fallback rate; share of down-votes
+3 Recurring errors,"from stage 24: [['headcount_forecast', 'attendance_summary', 8], ['unusual_attendance', 'attendance_summary', 7], ['my_manager', 'team_members', 7]]; Tanglish/typo weakness (stage 26)"
+4 Data collection,log (with consent) real messages; label them; build a NEW independent test set that is never used for tuning
+5 Features / model,add features or a new model only if they pass the stage-35 gate on fresh data
+6 Business metrics / acceptance,"review stage-3 criteria each quarter with HR (deflected tickets, wrong-answer rate)"
+7 Fairness / privacy,repeat stages 25-26 each quarter; re-run the privacy probe whenever rules change; audit logs for stored pay questions
+8 Controlled evaluation,champion/challenger (stage 35); never tune on the sealed test file
+9 Documentation,regenerate stage 36 after every change; keep the version table
+10 Retire when,"HR-corrected accuracy stays below 75% after retraining, the intent catalogue changes fundamentally, or an LLM/retrieval assistant clearly outperforms it under the same safety rules"

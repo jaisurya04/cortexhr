@@ -1,0 +1,34 @@
+intent,family,allowed_roles
+apply_leave_howto,policy FAQ,ALL
+attendance_summary,personal data (needs login),"EMPLOYEE,HR,ADMIN"
+attrition_risk_query,later-phase model (not connected),"HR,ADMIN"
+chitchat,social / help,ALL
+goodbye,social / help,ALL
+greet,social / help,ALL
+headcount_forecast,later-phase model (not connected),"HR,ADMIN"
+help,social / help,ALL
+holiday_list,other,ALL
+hr_policy_leave,policy FAQ,ALL
+insurance_benefits,policy FAQ,ALL
+leave_balance,personal data (needs login),"EMPLOYEE,HR,ADMIN"
+leave_request_status,personal data (needs login),"EMPLOYEE,HR,ADMIN"
+my_department,personal data (needs login),"EMPLOYEE,HR,ADMIN"
+my_manager,personal data (needs login),"EMPLOYEE,HR,ADMIN"
+notice_period_policy,policy FAQ,ALL
+out_of_scope,out of scope,ALL
+payroll_flags,personal data (needs login),"HR,ADMIN"
+payslip_date,policy FAQ,ALL
+payslip_status,personal data (needs login),"EMPLOYEE,HR,ADMIN"
+pf_info,policy FAQ,ALL
+probation_policy,policy FAQ,ALL
+reimbursement_policy,policy FAQ,ALL
+resume_score_request,later-phase model (not connected),"HR,ADMIN"
+salary_band_query,later-phase model (not connected),"HR,ADMIN"
+salary_of_other,safety (must refuse),ALL
+tax_declaration,policy FAQ,ALL
+team_members,personal data (needs login),"EMPLOYEE,HR,ADMIN"
+thanks,social / help,ALL
+unusual_attendance,personal data (needs login),"EMPLOYEE,HR,ADMIN"
+wfh_policy,policy FAQ,ALL
+who_to_contact,policy FAQ,ALL
+working_hours,policy FAQ,ALL

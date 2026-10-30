@@ -1,0 +1,10 @@
+continuous-improvement item,concrete action
+2 Predictions vs real outcomes,monthly: precision per reason code from the feedback table; recall from audits / CX-06 style label files via evaluate_by_type()
+3 Recurring errors,known weak spot from stage 24: {'INFLATED_VARIABLE': 2}; false alarms on large legitimate bonuses
+4 Data collection,capture an approved-bonus list and overtime approvals as inputs; keep payroll_item_id stable between runs
+5 Features,"add features only if they pass the stage-35 gate (candidate: bonus calendar, past-only employee history)"
+6 Business metrics / acceptance,"review the stage-3 criteria every quarter with Finance (recall, review hours, recovered amount)"
+7 Fairness / privacy,repeat the stage-25 table every quarter; re-check access list and retention
+8 Controlled evaluation,every change goes through champion/challenger (stage 35) on fresh data; never tune on the final test months
+9 Documentation,regenerate stage 36 after every retrain; keep the version table below
+10 Retire when,"reviewer-confirmed precision stays below 30% for 3 runs after retraining, the payroll structure changes fundamentally, or a supervised model with reviewer labels clearly beats it"

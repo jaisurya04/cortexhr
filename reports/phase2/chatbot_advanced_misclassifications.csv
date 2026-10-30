@@ -1,0 +1,14 @@
+text,expected_intent,predicted_intent
+yo,greet,chitchat
+cheers,thanks,salary_of_other
+can unused leave be carried over,hr_policy_leave,leave_balance
+do we get Holi off,holiday_list,insurance_benefits
+when do we get paid,payslip_date,insurance_benefits
+who do I ask for benefits help,who_to_contact,help
+how do I quit the company,notice_period_policy,wfh_policy
+when do I become permanent,probation_policy,tax_declaration
+my team name,my_department,team_members
+who works under me,team_members,my_manager
+will it rain tomorrow,out_of_scope,who_to_contact
+who is leading the ipl,out_of_scope,my_manager
+list your features,help,chitchat
