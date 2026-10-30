@@ -1,141 +1,95 @@
-# CortexHR AI/ML - Phase 1: Data Foundations & Baseline Models
-An audited HR attrition dataset, a leakage-aware reusable feature pipeline, honest baseline models, a risk-band evaluation for managers and an attendance anomaly detector, built for Zenith Nova Technologies (part of Aura Workforce, fictional data). For HR analysts and the AI/ML training evaluation.
+# CortexHR · Phase 2: Core Development
 
-## Live demo
-Not applicable in Phase 1 (deployment is Phase 4). The working evidence is the executed notebooks in `05_Starter/notebooks/` and the reports in `reports/`.
+Payroll anomaly detection, reason codes with money at risk, a validated anomaly API and an HR chatbot with memory and role-based permissions.
+Built for the Aura Workforce by Growmar AI/ML track (Tasks 6 to 10). All companies, people and data are fictional.
 
-## Features
-- **Audit (CX-01):** 17 evidence-backed findings, 6 confirmed leakage columns with proof, row-level vault comparison.
-- **Pipeline (CX-02):** `build_pipeline()` fits on training rows only; cutoff-safe attendance/payroll aggregates; level-ups: raise-recency buckets, overtime flag, department-relative pay.
-- **Baselines (CX-03):** Dummy, logistic regression, tree, forest, SMOTE; identical folds; compared with `baseline_benchmarks`.
-- **Evaluation (CX-04):** official `binary_report`/`risk_bands`, calibration, lift, manager note.
-- **Anomalies (CX-05):** IsolationForest + rules, measured against hidden labels.
-- **Full workflow:** all 37 items of the classification workflow in `05_complete_classification_workflow.ipynb` (see `docs/workflow_coverage.md`).
+Phase 2 builds on [`../phase1`](../phase1) (audit, feature pipeline, baselines, attendance anomalies). The Phase 1 code it reuses is included here, so this folder runs on its own.
 
-## Tech stack
-Python 3.11+, pandas, NumPy, scikit-learn, Matplotlib, joblib, openpyxl, JupyterLab, pytest, Docker (see `requirements.txt`).
+## What was built
 
-## Run it locally
-1. `unzip cortexhr_phase1.zip && cd cortexhr_phase1`
-2. `python -m venv .venv` then activate (`source .venv/bin/activate`, Windows: `.venv\Scripts\activate`)
-3. `pip install -r requirements.txt && pip install -e .`
-4. `bash scripts/run_all.sh` (or run the five scripts one by one, see `docs/requirements_traceability.md`)
-5. `pytest -v`
-6. `jupyter lab --no-browser`, open `05_Starter/notebooks/`, **Kernel -> Restart and Run All**
-7. Optional measurement: copy the vault files into `04_Validation_Vault/` (restricted, git-ignored) and rerun `python scripts/detect_attendance_anomalies.py` and `python scripts/compare_vault_cx01.py`.
-Docker: `docker compose up --build` (JupyterLab at http://localhost:8888/?token=cortexhr; not tested in the build environment).
+| Task | Deliverable | Where |
+|---|---|---|
+| 6 Payroll outlier detector | Ratio features, readable rules (duplicate, negative/zero net, gross vs expected, net arithmetic, PF missing) plus IsolationForest; precision/recall for each of the 8 error types | `src/cortexhr/phase2/payroll.py`, `reports/phase2/payroll_cx06_per_type.csv` |
+| 7 Reason codes and money at risk | One reason code and plain sentence per flag, `money_at_risk`, official 12-column output, ranked by money at risk | `reports/phase2/payroll_anomaly_explanations.csv`, `payroll_review_sample_20.csv` |
+| 8 Anomaly API | FastAPI + Pydantic, models loaded once at start-up, validated input (422), versioned models, 10 API tests | `05_Starter/api_skeleton/app/main.py`, `models/`, `tests_phase2/test_api.py` |
+| 9 Intent chatbot | TF-IDF + Logistic Regression on 858 messages / 33 intents, FAQ answers, confidence fallback | `src/cortexhr/phase2/chatbot.py`, `reports/phase2/chatbot_*.csv` |
+| 10 Slots, memory, permissions | Month and employee slots, follow-ups, mock HR service via `X-Demo-User`, `salary_of_other` always refused | `reports/phase2/chat_transcripts.md`, `chatbot_dialogue_results.csv` |
 
-## Architecture
-See `docs/architecture.md` (Mermaid diagram). Flow: workbook -> cleaning/join with date cutoff -> audit and pipeline -> models -> official evaluation helpers -> reports; vault files are used for measurement only.
+## Results
 
-## How I verified it works
-| Check | Result |
-|---|---|
-| Leakage guard | leaky demo ROC-AUC 1.00 (flagged); no honest model above 0.90 |
-| Logistic regression, 5-fold CV | ROC-AUC 0.709 vs benchmark 0.713 (PR-AUC 0.325) |
-| Held-out test (scored once) | ROC-AUC 0.691, PR-AUC 0.355 (base rate 0.147), top-10% lift 2.75x |
-| High risk band (test) | 19 of 48 left (40%) |
-| Attendance detector vs hidden labels | precision 0.500, recall 0.840 (benchmark 0.403 / 0.593); flags committed before labels were opened |
-| Audit vs planted dirt | every planted issue found at row level except 3 salary typos (missed originally, now caught) |
-| Tests | `pytest` (data, features, leakage, split, metrics, bands, official-helper parity, notebooks, script outputs) |
-
-## Limitations and what I would do next
-1. Only 383 of 2,383 rows have attendance/payroll history; get it for the 2,000 historical rows.
-2. 12% of leavers had already resigned before the snapshot; add a notice flag available before the snapshot.
-3. Test set has 70 leavers: differences of a few points are noise; test ROC-AUC sits at about 0.69-0.70.
-4. The v2 attendance detector row is post-hoc (written after seeing the labels) and optimistic.
-5. Not run in the build environment: Docker, XGBoost/LightGBM/CatBoost, optuna, real JupyterLab (notebooks were executed with `scripts/execute_notebooks.py`); tested on Python 3.12, not 3.11.
-6. Scores support human review only and must never decide an employment action (`docs/model_cards/attrition_baseline.md`).
-
-### Phase 2 chatbot model improvement
-See `05_Starter/notebooks/phase2/16_chatbot_advanced_model_improvement.ipynb` for the reproducible NLU experiment workflow (data checks, cross-validation, candidate comparison, held-out evaluation and error analysis). Current held-out accuracy is 81.06% on the supplied 132-row test set; 90% is a target, not a guaranteed or fabricated result. See `PHASE2_IMPLEMENTATION_README.md` for limitations and next steps.
-
-
----
-
-# Phase 2 quick start (v2, quality-reviewed)
-
-## Honest numbers (all regenerated by `python scripts/regenerate_phase2_reports.py`)
 | Item | Value |
 |---|---|
-| Chatbot held-out accuracy (original 858 messages, 132 test rows) | **0.8106** (25 errors) |
-| Official dialogues (12 scenarios, 28 turns), intent match | 1.0000 |
-| Payroll rows flagged (7,355 scored) | 301: 107 by rules, 194 by model only |
-| CX-06 per-error-type precision/recall | **Produced** with the authorised file by the project owner: `reports/phase2/payroll_cx06_per_type.csv` (overall precision 0.316, recall 0.95; rules alone 0.860 / 0.92). The label file is not in this package. |
+| Payroll rows scored / flagged | 7,355 / 301 (107 by rules, 194 by model only) |
+| Payroll detection vs injected errors (CX-06) | precision 0.316, recall 0.95 (rules alone: 0.860 / 0.92) |
+| Hardest error type | OVERTIME_SPIKE (recall 0.73) |
+| Chatbot held-out accuracy | 0.8106 (107 of 132) |
+| Official dialogues | 12 scenarios, 28 turns, all intents correct |
+| Tests | 69 in `tests_phase2` (59 service-layer + 10 API); 32 Phase 1 tests in `tests` |
 
-The `chatbot_nlu_training_expanded.csv` model (about 0.90) was developed while looking at the test set, so it is a
-**development diagnostic only**. The API uses the original-data model by default; set
-`CORTEXHR_CHATBOT_TRAINING=expanded` to try the expanded one.
+Labels were used only to measure the detectors after the predictions were frozen, never to train them.
+The CX-06 label file is restricted and is not part of this repository.
 
 ## Run it
-```bash
-pip install -r 05_Starter/requirements.txt
-python scripts/train_phase2_models.py          # saves models/ + model_registry.json (the API retrains by itself if missing)
-cd 05_Starter/mock_services && uvicorn mock_server:app --port 9000      # terminal 1 (chatbot HR data)
-uvicorn app.main:app --app-dir 05_Starter/api_skeleton --port 8000      # terminal 2, from the repo root
-pytest -q tests_phase2                          # or: python tests_phase2/run_all.py
+
+Python 3.11 or newer is required. Run everything from this folder (`phase2/`).
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\activate
+pip install -r requirements.txt
+pip install -r 05_Starter/requirements.txt     # FastAPI, httpx, uvicorn (API tests and service)
+pytest -q tests_phase2                         # 69 tests
+pytest -q tests                                # Phase 1 tests, 32
 ```
 
-## curl examples
-```bash
-curl -s localhost:8000/v1/health
-curl -s -X POST localhost:8000/v1/anomaly/payroll -H 'content-type: application/json' -d '{"payroll_item_id": "API-T1", "run_id": "PR-2026-10", "employee_id": "EMP-0002", "month": "2026-10-01", "monthly_fixed_gross": 50000, "payable_days": 31, "lop_days": 0, "overtime_hours_paid": 0, "overtime_pay": 0, "variable_pay": 0, "gross_pay": 50000, "pf_employee": 1800, "esi_employee": 0, "professional_tax": 200, "tds": 1000, "other_deductions": 0, "total_deductions": 50500, "net_pay": -500}'
-curl -s -X POST localhost:8000/v1/anomaly/attendance -H 'content-type: application/json' -d '{"employee_id":"E1","month":"2026-09","scheduled_days":20,"present_days":0,"avg_hours_worked":0,"late_arrivals":0,"overtime_hours":0}'
-curl -s -X POST localhost:8000/v1/chat -H 'content-type: application/json' -d '{"message":"what is Priya Nair salary","session_id":"s1","demo_user":"EMP-0002"}'
-# bad input -> 422
-curl -s -o /dev/null -w "%{http_code}\n" -X POST localhost:8000/v1/anomaly/attendance -H 'content-type: application/json' -d '{"employee_id":"E1","scheduled_days":20,"present_days":25,"avg_hours_worked":8}'
+Start the services (two terminals):
+
+```powershell
+# terminal 1: mock HR service
+uvicorn mock_server:app --app-dir 05_Starter/mock_services --port 9000
+# terminal 2: anomaly + chat API
+uvicorn app.main:app --app-dir 05_Starter/api_skeleton --port 8000
 ```
-Payroll response (generated by the same service function the endpoint calls; run curl to confirm on your machine):
-```json
-{
-  "result_id": "API-PAY-00001",
-  "source_dataset": "api_payroll_request",
-  "record_id": "API-T1",
-  "employee_id": "EMP-0002",
-  "period": "2026-10-01",
-  "anomaly_score": 0.9,
-  "flagged": "Y",
-  "reason_code": "NEGATIVE_NET_PAY|DEDUCTION_TOTAL_MISMATCH|DEDUCTIONS_EXCEED_GROSS",
-  "reason_text": "Net pay is Rs -500 (below zero): deductions of Rs 50,500 are larger than gross pay of Rs 50,000. Check TDS and other deductions before paying. The listed deductions add up to Rs 3,000 but total deductions show Rs 50,500. Total deductions Rs 50,500 exceed gross pay Rs 50,000.",
-  "money_at_risk": 47500.0,
-  "model_version": "payroll-iforest-rules-v2",
-  "scored_at": "2026-10-27T10:00:00+00:00"
-}
+
+Interactive docs: `http://127.0.0.1:8000/docs`
+
+Models are stored in `models/` with `model_registry.json` (version, rows, library version, SHA-256). If a model file is missing, the API retrains it; `python scripts/train_phase2_models.py` rebuilds them.
+
+## API examples (PowerShell)
+
+```powershell
+curl.exe -s http://127.0.0.1:8000/v1/health
+
+# bad input returns 422
+'{"employee_id":"E1","scheduled_days":20,"present_days":25,"avg_hours_worked":8}' | Set-Content bad.json -Encoding ascii
+curl.exe -s -o NUL -w "HTTP %{http_code}`n" -X POST http://127.0.0.1:8000/v1/anomaly/attendance -H "content-type: application/json" -d "@bad.json"
+
+# another employee's salary is refused (no service call)
+'{"message":"what is Priya Nair salary","session_id":"s1","demo_user":"EMP-0002"}' | Set-Content chat.json -Encoding ascii
+curl.exe -s -X POST http://127.0.0.1:8000/v1/chat -H "content-type: application/json" -d "@chat.json"
 ```
-Endpoints: `GET /v1/health`, `GET /v1/models`, `POST /v1/anomaly/payroll`, `POST /v1/anomaly/payroll/batch`
-(1 to 500 rows; duplicates inside the batch are detected), `POST /v1/anomaly/attendance`, `.../attendance/batch`, `POST /v1/chat`.
 
-## What changed in v2 and why
-* **Single-row score bug fixed:** scores are scaled with min/max learned on training data and saved with the detector, so one row gets the same score as in a batch (was always 0.0).
-* **Reasons:** one clear sentence per reason code with the row's own numbers; unflagged rows say `No issue found.`
-* **money_at_risk:** gap against `expected_gross` (fixed x payable days / days in month + overtime + variable), duplicate net pay, PF owed, overtime over cap, etc. It is a ranking estimate, not an audited loss.
-* **Models saved and loaded once:** `models/payroll_detector_v2.joblib`, `attendance_detector_v2.joblib`, `chatbot_intent_model_v1.joblib`, plus `model_registry.json` (version, rows, library version, SHA-256).
-* **Duplicates in the API:** checked against the reference payroll history kept inside the detector and against the batch. Limit: it only knows payslips that were in the training file or the same batch.
-* **Reason codes** now use the sample sheet vocabulary (`NEGATIVE_NET_PAY`, `ZERO_PAY`, `GROSS_ABOVE_NORM`, `PF_NOT_DEDUCTED`, ...).
-* **Role security:** the chat role comes from the demo identity directory; a `user_role` sent by the client is ignored.
-* **Not verified in the authoring environment:** the HTTP layer (`tests_phase2/test_api.py`) and a live `curl`, because FastAPI was not installed there. Run them on your machine.
+Endpoints: `GET /v1/health`, `GET /v1/models`, `POST /v1/anomaly/payroll`, `POST /v1/anomaly/payroll/batch` (1 to 500 rows, duplicates inside the batch detected), `POST /v1/anomaly/attendance`, `POST /v1/anomaly/attendance/batch`, `POST /v1/chat`.
 
-## Added in the final Phase 2 pass
-* `reports/phase2/PHASE2_REPORT.docx`: the 2-page report (fill the yellow fields: repo link, your local API test result, friend's feedback; the CX-06 table is already filled in).
-* `reports/phase2/chat_transcripts.md`: 3 multi-turn chats + refusal tests over real HTTP. Regenerate with `python scripts/run_chat_transcripts.py` (or `--url http://127.0.0.1:9000` against the official uvicorn mock). `scripts/mock_server_stdlib.py` is a standard-library replica of the mock service for machines without FastAPI.
-* `reports/phase2/chatbot_confusion_pairs.csv`, `payroll_rules_vs_model_by_code.csv`, `payroll_baseline_comparison.csv`: the analysis tables.
-* Chatbot: same-name handling (clarifying question for HR, neutral answer for employees), a bare month answers "Which month?", `payroll_flags` now answers from our own anomaly results (HR/ADMIN only, aggregates only), standard-library HTTP fallback when httpx is missing.
-* What only you can do: show `payroll_review_sample_20.csv` to a friend; run `pytest -q tests_phase2` where FastAPI is installed; push and tag `phase-2`.
+Example payroll response: `flagged: "Y"`, `reason_code: "NEGATIVE_NET_PAY|DEDUCTION_TOTAL_MISMATCH|DEDUCTIONS_EXCEED_GROSS"`, a plain sentence in `reason_text`, `money_at_risk: 47500.0`, `model_version: "payroll-iforest-rules-v2"`.
 
-## Chatbot audit fixes (final pass)
-Found by stress-testing with realistic and messy messages (all now covered by tests in `tests_phase2/test_chatbot.py`):
-* "show my payslip for **March**" was refused as someone else's salary (month read as a name). Months and words like Last/This/My are now never names.
-* FAQ answers were picked by keyword and could be wrong ("how is LOP calculated" returned the PF answer). Now: TF-IDF retrieval over `hr_faq` with a small synonym table (wfh, lop, tds, hike...), a similarity and margin threshold, and a rule that the match must share a distinguishing word. Every one of the 30 FAQ questions returns its own answer; off-topic questions fall back safely. The generic "what is the leave policy" still gets the general leave answer.
-* Raw JSON/dict replies replaced by plain sentences (leave balance by type, payslip, attendance, manager name, next holiday, leave request).
-* `unusual_attendance` now screens the user's own month with the attendance detector.
-* Unfinished features (salary band, attrition, headcount, resume scoring) say "not connected in this version yet" instead of garbled templates.
-* "and sick leave?" follow-ups keep the leave type; "what is my salary" asks which month.
-* Session store is capped (1000 conversations).
-* Fallback threshold 0.30 justified on training data only: `reports/phase2/chatbot_threshold_sweep_cv.csv` (5-fold CV: 92% answered, 100% accurate when answered).
-Known limits: a typo inside a key FAQ word ("dres code") falls back safely instead of answering; the mock service only returns the signed-in user's own data; "last month" is anchored to 2026-09 because the mock data ends there.
+## Design notes
 
+- **Rules first, model second:** readable rules cover hard facts (duplicates, negative pay); IsolationForest adds review candidates the rules do not cover.
+- **Single-row scoring:** scores are scaled with min/max learned on training data and saved with the detector, so one row scores the same as in a batch.
+- **money_at_risk:** gap against expected gross (fixed pay x payable days + overtime + variable), duplicate net pay, PF owed, overtime over the cap. It is a ranking estimate, not an audited loss.
+- **Role security:** the role comes from the demo identity directory; a `user_role` sent by the client is ignored. Chit-chat never triggers a data call.
+- **Chatbot:** FAQ answers use TF-IDF retrieval over `hr_faq` with similarity and margin thresholds; fallback threshold 0.30 was chosen on training data only (`reports/phase2/chatbot_threshold_sweep_cv.csv`).
 
-## Phase 2 notebooks (final): Phase-1 style
-`05_Starter/notebooks/phase2/P2_T06 ... P2_T10` are the five task notebooks (12 "Stage N of 12" sections, "Think for yourself" + Answer, checklist, evidence footer) and `P2_MASTER_37_chatbot_classification_workflow.ipynb` covers all 37 workflow items on the chatbot data. Rebuild/execute: `python scripts/build_phase2_task_notebooks.py && python scripts/execute_phase2_notebooks.py`. The older 07-16 notebooks remain as deep-dive material.
-Last pass also fixed: refusal of other people's pay for ids, relations, bulk and prompt-injection phrasing; typo-tolerant months; model-only payroll flags now name the unusual figures instead of one generic sentence.
-CX-06 per-type table is DONE (`reports/phase2/payroll_cx06_per_type.csv`: overall precision 0.316, recall 0.95). Still only you can do: run `pytest -q tests_phase2` where FastAPI is installed; show the 20-row sample to a friend; push and tag `phase-2`.
+## Limits
+
+- Precision is 0.316: 206 flagged payslips are not injected errors (many are high earners the model finds unusual). Every flag needs human review before any action.
+- The duplicate check only knows payslips from the training file or the same batch.
+- Salary band, attrition, headcount forecast and resume scoring answer "not connected in this version yet" (Phase 3).
+- The mock HR service returns only the signed-in user's own data; "last month" is anchored to 2026-09 because the mock data ends there.
+
+## Notebooks and reports
+
+- Task notebooks: `05_Starter/notebooks/phase2/P2_T06` to `P2_T10`; supporting notebooks 07 to 16 and `P2_MASTER_37_chatbot_classification_workflow.ipynb`.
+- Phase 2 report: `reports/phase2/AIML_Phase2_Report_Jaisurya_Marisamy.pdf`
+- Scripts to regenerate reports and models are in `scripts/`; documentation in `docs/`.
