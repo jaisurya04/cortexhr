@@ -1,0 +1,11 @@
+issue,rows,decision
+exact duplicates,6,dropped (keep first)
+negative tenure,4,"set to missing, impute on train"
+negative experience,10,set to missing
+experience shorter than tenure,140,set to missing
+attendance_rate_3m > 1,2,clipped to 1
+wfh_share_3m outside 0-1,213,clipped to 0-1
+city spellings,13,canonical names
+salary typos,3,"blanked in pipeline using training role mid-point, then imputed"
+payroll exact duplicates,15,dropped before aggregation
+post-outcome columns,6,excluded from every model input

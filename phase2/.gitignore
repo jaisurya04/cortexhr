@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.venv/
+.ipynb_checkpoints/
+.pytest_cache/
+*.egg-info/
+# restricted validation material: never publish, never train on
+04_Validation_Vault/
+.env

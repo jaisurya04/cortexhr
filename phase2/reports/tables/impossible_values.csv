@@ -1,0 +1,14 @@
+rule,columns,rows,row_ids
+negative tenure,tenure_months,4,"[109, 126, 313, 340]"
+negative total experience,total_experience_years,10,"[517, 872, 1106, 1651, 1815, 1819, 1946, 2155]"
+experience shorter than tenure,"total_experience_years, tenure_months",140,"[384, 473, 502, 528, 538, 553, 563, 565]"
+attendance_rate_3m above 100%,attendance_rate_3m,2,"[431, 1234]"
+attendance_rate_3m below 0%,attendance_rate_3m,0,[]
+wfh_share_3m above 100%,wfh_share_3m,23,"[660, 672, 695, 713, 831, 883, 991, 1238]"
+wfh_share_3m below 0%,wfh_share_3m,190,"[387, 391, 399, 400, 430, 444, 448, 470]"
+dept_attrition_rate_prior_12m above 100%,dept_attrition_rate_prior_12m,0,[]
+dept_attrition_rate_prior_12m below 0%,dept_attrition_rate_prior_12m,0,[]
+ratings outside 1-5,last_performance_rating,0,[]
+engagement outside 1-5,last_engagement_score,0,[]
+non-positive pay,annual_fixed_pay,0,[]
+exit before observation,"exit_date, observation_date",0,[]

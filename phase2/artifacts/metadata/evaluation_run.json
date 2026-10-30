@@ -1,0 +1,22 @@
+{
+  "seed": 42,
+  "threshold_top10_from_training_oof": 0.790102009656656,
+  "brier": {
+    "test_raw": 0.20481106876395888,
+    "test_recalibrated": 0.11418466331026077,
+    "mean_pred_test_raw": 0.3858331603713227,
+    "mean_pred_test_recal": 0.14881502013139128,
+    "base_rate_test": 0.14675052410901468
+  },
+  "versions": {
+    "python": "3.14.8",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "pandas": "3.0.2",
+    "numpy": "2.4.4",
+    "scikit-learn": "1.8.0",
+    "scipy": "1.17.1",
+    "matplotlib": "3.10.8",
+    "joblib": "1.5.3",
+    "openpyxl": "3.1.5"
+  }
+}

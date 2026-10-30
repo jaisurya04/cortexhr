@@ -1,0 +1,4 @@
+calibrator,cv_brier_on_train_oof
+raw scores,0.2
+Platt (chosen),0.1151
+Isotonic,0.1156

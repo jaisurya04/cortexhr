@@ -1,0 +1,13 @@
+feature,mean_stayed,mean_left,relative_diff_pct
+att_half_days_sum_3m,0.261,0.36,37.8
+pay_lop_days_sum_3m,0.655,0.88,34.4
+att_unpaid_absence_sum_3m,0.937,1.12,19.5
+pay_overtime_pay_mean_3m,483.538,407.922,-15.6
+pay_variable_share_3m,0.027,0.023,-15.0
+att_overtime_mean_3m,1.38,1.452,5.2
+att_late_arrivals_sum_3m,4.147,4.36,5.1
+att_wfh_share_3m,0.426,0.416,-2.3
+att_attendance_rate_mean_3m,0.946,0.955,0.9
+pay_variable_pay_mean_3m,4085.936,4047.198,-0.9
+pay_net_to_gross_3m,0.934,0.939,0.6
+att_avg_hours_mean_3m,8.475,8.487,0.1

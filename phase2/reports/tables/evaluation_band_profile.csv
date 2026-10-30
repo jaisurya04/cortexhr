@@ -1,0 +1,4 @@
+band,tenure_months,comp_ratio,months_since_last_raise,last_engagement_score,last_performance_rating,attendance_rate_3m
+High,27.5,0.97,16.56,2.94,3.33,0.91
+Medium,30.59,1.0,13.31,3.06,3.13,0.91
+Low,42.78,1.04,9.83,3.6,3.37,0.91

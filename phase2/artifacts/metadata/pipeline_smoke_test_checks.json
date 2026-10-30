@@ -1,0 +1,11 @@
+{
+  "3_row_output_shape": "(3, 142)",
+  "all_values_finite": true,
+  "target_in_output": false,
+  "unseen_category_and_missing_handled": true,
+  "leakage_column_in_output": false,
+  "dept_pay_groups_learned_from_training_rows": 51,
+  "n_training_rows_used_to_fit": 1906,
+  "n_test_rows_used_to_fit": 0,
+  "global_median_pay_from_training_only": 767850.0
+}

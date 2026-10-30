@@ -1,0 +1,2 @@
+chosen_threshold_from_train_oof,roc_auc,pr_auc,precision,recall,f1,accuracy,top_precision,top_recall
+0.65,0.6913,0.3552,0.3021,0.4143,0.3494,0.7736,0.3958,0.2714

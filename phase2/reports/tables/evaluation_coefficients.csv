@@ -1,0 +1,21 @@
+feature,coefficient
+role_id_R012,-1.6964539561259961
+highest_education_M.A. Social Work,-1.545943651101235
+role_id_R015,-1.506641037571996
+role_id_R044,-1.3863531910167899
+raise_recency_bucket_18m+,1.36887910110441
+role_id_R018,1.2051532534240779
+role_id_R042,-1.1534531288465169
+department_id_D10,-1.1398328220629956
+role_id_R046,1.072177986892811
+highest_education_infrequent_sklearn,1.0350787721757655
+highest_education_LLM,-0.9577881101052229
+role_id_infrequent_sklearn,-0.9388370818439863
+role_id_R033,0.895565396580792
+raise_recency_bucket_6-12m,-0.8669986778761278
+role_id_R041,0.7959982233357448
+work_location_Erode,-0.7570607774547086
+highest_education_CA,0.7515240959733145
+work_location_Delhi NCR,-0.7457756983734771
+highest_education_CMA,-0.7197100228460173
+work_mode_Onsite,0.7162752616331086

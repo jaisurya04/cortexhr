@@ -1,0 +1,14 @@
+feature,normal,flagged,ratio
+unpaid_absence_days,0.17,3.817,22.49
+longest_unpaid_streak_days,0.155,3.306,21.28
+rate_vs_own_median,-0.024,-0.449,18.44
+hours_vs_own_median,-0.155,-1.77,11.42
+paid_leave_days,0.8,5.802,7.25
+half_days_unpaid,0.078,0.429,5.52
+present_days,19.45,9.341,0.48
+attendance_rate,0.951,0.502,0.53
+avg_hours_worked,8.389,6.614,0.79
+late_vs_own_median,0.209,0.228,1.09
+scheduled_days,20.498,19.381,0.95
+late_arrivals,1.372,1.313,0.96
+overtime_hours,1.332,1.345,1.01

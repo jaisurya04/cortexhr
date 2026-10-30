@@ -1,0 +1,6 @@
+detector,flagged,injected,caught,precision,recall
+IsolationForest (raw features only),221,150,88,0.39819004524886875,0.5866666666666667
+IsolationForest (+own-history features),221,150,95,0.4298642533936652,0.6333333333333333
+Rules only,94,150,50,0.5319148936170213,0.3333333333333333
+Combined (IF + rules),252,150,126,0.5,0.84
+POST-HOC v2 combined (optimistic),278,150,150,0.539568345323741,1.0

@@ -1,0 +1,43 @@
+column,decision,reason
+row_id,DROP,"identifier, no predictive meaning"
+employee_id,DROP,"identifier, no predictive meaning"
+observation_date,DROP,time stamp of snapshot; time proxy / not a driver
+department_id,TRANSFORM,impute + one-hot (unknown-safe)
+role_id,TRANSFORM,impute + one-hot (unknown-safe)
+job_level,RETAIN,legitimate predictor: impute + scale
+work_location,TRANSFORM,impute + one-hot (unknown-safe)
+work_mode,TRANSFORM,impute + one-hot (unknown-safe)
+employment_type,TRANSFORM,impute + one-hot (unknown-safe)
+highest_education,TRANSFORM,impute + one-hot (unknown-safe)
+tenure_months,TRANSFORM,"clean impossible values, then impute + scale"
+total_experience_years,TRANSFORM,"clean impossible values, then impute + scale"
+previous_employers_count,RETAIN,legitimate predictor: impute + scale
+commute_distance_km,RETAIN,legitimate predictor: impute + scale
+annual_fixed_pay,TRANSFORM,"clean impossible values, then impute + scale (+ dept-relative pay)"
+comp_ratio,RETAIN,legitimate predictor: impute + scale
+raises_received,RETAIN,legitimate predictor: impute + scale
+last_raise_pct,RETAIN,legitimate predictor: impute + scale
+months_since_last_raise,RETAIN,legitimate predictor: impute + scale
+promotions_received,RETAIN,legitimate predictor: impute + scale
+months_since_last_promotion,RETAIN,legitimate predictor: impute + scale
+internal_transfers,RETAIN,legitimate predictor: impute + scale
+last_performance_rating,RETAIN,legitimate predictor: impute + scale
+last_engagement_score,RETAIN,legitimate predictor: impute + scale
+manager_changes_12m,RETAIN,legitimate predictor: impute + scale
+training_hours_12m,RETAIN,legitimate predictor: impute + scale
+attendance_rate_3m,TRANSFORM,"clean impossible values, then impute + scale"
+late_arrivals_3m,RETAIN,legitimate predictor: impute + scale
+avg_overtime_hours_per_month_3m,RETAIN,legitimate predictor: impute + scale
+avg_hours_worked_3m,RETAIN,legitimate predictor: impute + scale
+wfh_share_3m,TRANSFORM,"clean impossible values, then impute + scale"
+unpaid_leave_days_6m,RETAIN,legitimate predictor: impute + scale
+paid_leave_days_6m,RETAIN,legitimate predictor: impute + scale
+dept_attrition_rate_prior_12m,RETAIN,legitimate predictor: impute + scale
+left_within_12m,TARGET,label; never an input
+voluntary_left_within_12m,DROP,confirmed post-outcome leakage
+source,DROP,"dataset-origin tag, suspected proxy"
+exit_date,DROP,confirmed post-outcome leakage
+resignation_date,DROP,confirmed post-outcome leakage
+exit_reason,DROP,confirmed post-outcome leakage
+exit_interview_done,DROP,confirmed post-outcome leakage
+fnf_settlement_amount,DROP,confirmed post-outcome leakage

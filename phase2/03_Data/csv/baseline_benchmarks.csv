@@ -1,0 +1,6 @@
+model,roc_auc_mean,roc_auc_sd,pr_auc_mean,precision_mean,recall_mean,f1_mean,accuracy_mean,comment
+Dummy (always stays),0.5,0.0,0.146,0.0,0.0,0.0,0.854,Looks 85% accurate yet catches nobody: why accuracy alone misleads
+Logistic Regression (class_weight=balanced),0.713,0.01,0.332,0.26,0.63,0.368,0.683,Clean features only (reference target)
+"Decision Tree (depth 4, balanced)",0.65,0.019,0.256,0.234,0.524,0.322,0.676,Clean features only (reference target)
+"Random Forest (300 trees, balanced)",0.715,0.018,0.336,0.523,0.089,0.151,0.854,Clean features only (reference target)
+LEAKY Logistic Regression (adds exit information),1.0,0.0,1.0,1.0,1.0,1.0,1.0,Too good to be true: this is data leakage

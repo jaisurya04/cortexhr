@@ -1,0 +1,5 @@
+contamination,monthly_rows_flagged_by_model,daily_sample_precision,daily_sample_recall
+0.01,74,1.0,0.108
+0.02,147,0.9,0.3
+0.03,221,0.783,0.392
+0.05,367,0.76,0.633

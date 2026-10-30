@@ -1,0 +1,9 @@
+check,before,after
+exact duplicate rows,6,0
+negative tenure,4,0
+negative total experience,10,0
+experience shorter than tenure,150,0
+attendance_rate_3m > 1,2,0
+wfh_share_3m outside 0-1,213,0
+distinct city spellings,16,9
+rows,2389,2383

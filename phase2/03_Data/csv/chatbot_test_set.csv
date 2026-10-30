@@ -1,0 +1,133 @@
+test_id,text,expected_intent,expected_entities
+TST-001,yo,greet,
+TST-002,heya,greet,
+TST-003,hello bot,greet,
+TST-004,hi there assistant,greet,
+TST-005,catch you later,goodbye,
+TST-006,bye bye,goodbye,
+TST-007,that is everything for now,goodbye,
+TST-008,ok thanks bye,goodbye,
+TST-009,appreciate it,thanks,
+TST-010,thank you so much,thanks,
+TST-011,cheers,thanks,
+TST-012,"thanks, very helpful",thanks,
+TST-013,what are the rules on taking leave,hr_policy_leave,
+TST-014,how much leave can I take each year,hr_policy_leave,
+TST-015,can unused leave be carried over,hr_policy_leave,
+TST-016,leave rules for employees,hr_policy_leave,
+TST-017,when do we start work,working_hours,
+TST-018,what time is office over,working_hours,
+TST-019,what are shift timings,working_hours,
+TST-020,do we have fixed hours,working_hours,
+TST-021,which days is the office closed,holiday_list,
+TST-022,do we get Holi off,holiday_list,"[{""entity"": ""holiday"", ""value"": ""Holi"", ""normalized"": ""Holi""}]"
+TST-023,public holidays this year,holiday_list,
+TST-024,calendar of holidays,holiday_list,
+TST-025,what date does salary come,payslip_date,
+TST-026,when is payday,payslip_date,
+TST-027,will salary come on time in June,payslip_date,"[{""entity"": ""month"", ""value"": ""June"", ""normalized"": ""MONTH_06""}]"
+TST-028,when do we get paid,payslip_date,
+TST-029,how do I take a day off,apply_leave_howto,
+TST-030,process for applying CL,apply_leave_howto,"[{""entity"": ""leave_type"", ""value"": ""CL"", ""normalized"": ""CL""}]"
+TST-031,where can I put in for leave,apply_leave_howto,
+TST-032,how to raise a leave request,apply_leave_howto,
+TST-033,how to get my travel money back,reimbursement_policy,
+TST-034,claim procedure for expenses,reimbursement_policy,
+TST-035,how do I file expense bills,reimbursement_policy,
+TST-036,what can be reimbursed,reimbursement_policy,
+TST-037,who should I speak to about payroll,who_to_contact,
+TST-038,how can I reach HR,who_to_contact,
+TST-039,who do I ask for benefits help,who_to_contact,
+TST-040,contact for payroll queries,who_to_contact,
+TST-041,am I allowed to work from home,wfh_policy,
+TST-042,how often can I wfh,wfh_policy,
+TST-043,what is the hybrid rule,wfh_policy,
+TST-044,is remote work allowed,wfh_policy,
+TST-045,how many days notice do I need to serve,notice_period_policy,
+TST-046,how do I quit the company,notice_period_policy,
+TST-047,can I leave earlier than the notice period,notice_period_policy,
+TST-048,resignation rules,notice_period_policy,
+TST-049,how many months is probation,probation_policy,
+TST-050,when do I become permanent,probation_policy,
+TST-051,after probation what changes,probation_policy,
+TST-052,probation rules,probation_policy,
+TST-053,what medical cover do we have,insurance_benefits,
+TST-054,is my spouse covered,insurance_benefits,
+TST-055,how do I add my child to insurance,insurance_benefits,
+TST-056,insurance claim steps,insurance_benefits,
+TST-057,how much pf gets deducted,pf_info,
+TST-058,explain employer pf contribution,pf_info,
+TST-059,how do I see my pf passbook,pf_info,
+TST-060,pf rules,pf_info,
+TST-061,where do I declare my investments,tax_declaration,
+TST-062,how is tds decided on my pay,tax_declaration,
+TST-063,when is form 16 issued,tax_declaration,
+TST-064,tax saving declaration steps,tax_declaration,
+TST-065,how much EL is left for me,leave_balance,"[{""entity"": ""leave_type"", ""value"": ""EL"", ""normalized"": ""EL""}]"
+TST-066,remaining leave days,leave_balance,
+TST-067,what is my balance of EL,leave_balance,"[{""entity"": ""leave_type"", ""value"": ""EL"", ""normalized"": ""EL""}]"
+TST-068,do I have leaves left,leave_balance,
+TST-069,did my manager accept my leave,leave_request_status,
+TST-070,is my leave request still pending,leave_request_status,
+TST-071,approval status of my leave,leave_request_status,
+TST-072,has my leave gone through,leave_request_status,
+TST-073,has my Aug payslip been generated,payslip_status,"[{""entity"": ""month"", ""value"": ""Aug"", ""normalized"": ""MONTH_08""}]"
+TST-074,I need my payslip for last month,payslip_status,"[{""entity"": ""month"", ""value"": ""last month"", ""normalized"": ""PREVIOUS_MONTH""}]"
+TST-075,is salary slip of this month out,payslip_status,"[{""entity"": ""month"", ""value"": ""this month"", ""normalized"": ""CURRENT_MONTH""}]"
+TST-076,get payslip,payslip_status,
+TST-077,name my line manager,my_manager,
+TST-078,who is my supervisor,my_manager,
+TST-079,who do I report into,my_manager,
+TST-080,manager name please,my_manager,
+TST-081,which team do I belong to,my_department,
+TST-082,what department is mine,my_department,
+TST-083,tell me my department,my_department,
+TST-084,my team name,my_department,
+TST-085,who works under me,team_members,
+TST-086,show people reporting to me,team_members,
+TST-087,list of my reportees,team_members,
+TST-088,who are my teammates,team_members,
+TST-089,give my previous month attendance,attendance_summary,"[{""entity"": ""month"", ""value"": ""previous month"", ""normalized"": ""PREVIOUS_MONTH""}]"
+TST-090,days present in Sept,attendance_summary,"[{""entity"": ""month"", ""value"": ""Sept"", ""normalized"": ""MONTH_09""}]"
+TST-091,how many days did I come late,attendance_summary,
+TST-092,attendance details,attendance_summary,
+TST-093,has my attendance been marked unusual,unusual_attendance,
+TST-094,any strange attendance entries for me,unusual_attendance,
+TST-095,show anomalies in my attendance,unusual_attendance,
+TST-096,which days were flagged for me,unusual_attendance,
+TST-097,recommend pay for a HR Executive,salary_band_query,"[{""entity"": ""role"", ""value"": ""HR Executive"", ""normalized"": ""HR Executive""}]"
+TST-098,how much to offer a Account Executive,salary_band_query,"[{""entity"": ""role"", ""value"": ""Account Executive"", ""normalized"": ""Account Executive""}]"
+TST-099,compensation range for HR Executive,salary_band_query,"[{""entity"": ""role"", ""value"": ""HR Executive"", ""normalized"": ""HR Executive""}]"
+TST-100,what pay band fits HR Executive,salary_band_query,"[{""entity"": ""role"", ""value"": ""HR Executive"", ""normalized"": ""HR Executive""}]"
+TST-101,which employees might quit in Operations,attrition_risk_query,"[{""entity"": ""department"", ""value"": ""Operations"", ""normalized"": ""Operations""}]"
+TST-102,how risky is attrition in Customer Support,attrition_risk_query,"[{""entity"": ""department"", ""value"": ""Customer Support"", ""normalized"": ""Customer Support""}]"
+TST-103,list people likely to leave in Operations,attrition_risk_query,"[{""entity"": ""department"", ""value"": ""Operations"", ""normalized"": ""Operations""}]"
+TST-104,where is attrition risk highest,attrition_risk_query,
+TST-105,how many employees next quarter,headcount_forecast,
+TST-106,headcount projection for Engineering,headcount_forecast,"[{""entity"": ""department"", ""value"": ""Engineering"", ""normalized"": ""Engineering""}]"
+TST-107,what will headcount be in March,headcount_forecast,
+TST-108,expected hiring need,headcount_forecast,
+TST-109,are there suspicious payslips this month,payroll_flags,
+TST-110,payroll exceptions for March,payroll_flags,"[{""entity"": ""month"", ""value"": ""March"", ""normalized"": ""MONTH_03""}]"
+TST-111,show flagged payroll entries,payroll_flags,
+TST-112,any mistakes in payroll,payroll_flags,
+TST-113,evaluate this cv for Accountant,resume_score_request,"[{""entity"": ""role"", ""value"": ""Accountant"", ""normalized"": ""Accountant""}]"
+TST-114,rate candidate against Account Executive,resume_score_request,"[{""entity"": ""role"", ""value"": ""Account Executive"", ""normalized"": ""Account Executive""}]"
+TST-115,rank applicants for Support Executive,resume_score_request,"[{""entity"": ""role"", ""value"": ""Support Executive"", ""normalized"": ""Support Executive""}]"
+TST-116,which resumes fit Software Engineer,resume_score_request,"[{""entity"": ""role"", ""value"": ""Software Engineer"", ""normalized"": ""Software Engineer""}]"
+TST-117,how much does Priya Nair earn,salary_of_other,"[{""entity"": ""person_name"", ""value"": ""Priya Nair"", ""normalized"": ""Priya Nair""}]"
+TST-118,share Priya Nair salary details,salary_of_other,"[{""entity"": ""person_name"", ""value"": ""Priya Nair"", ""normalized"": ""Priya Nair""}]"
+TST-119,what does my colleague get paid,salary_of_other,
+TST-120,show Priya Nair payslip,salary_of_other,"[{""entity"": ""person_name"", ""value"": ""Priya Nair"", ""normalized"": ""Priya Nair""}]"
+TST-121,will it rain tomorrow,out_of_scope,
+TST-122,tell me something funny,out_of_scope,
+TST-123,who is leading the ipl,out_of_scope,
+TST-124,order me a pizza,out_of_scope,
+TST-125,how is your day,chitchat,
+TST-126,what should I call you,chitchat,
+TST-127,are you a human,chitchat,
+TST-128,what are you,chitchat,
+TST-129,what can this bot do,help,
+TST-130,list your features,help,
+TST-131,I need help,help,
+TST-132,show commands,help,

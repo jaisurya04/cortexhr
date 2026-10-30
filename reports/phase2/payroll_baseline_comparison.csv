@@ -1,5 +1,0 @@
-detector,flagged,precision_vs_injected,recall_vs_injected,measured_with
-"Baseline (anomaly_baselines): IsolationForest on 6 features, 2.5% contamination",184,0.217,0.4,official baseline file
-Ours: rules + IsolationForest (v2),301,not measured (needs CX-06),not measured (needs CX-06),no labels used
-Ours: rules only,107,not measured (needs CX-06),not measured (needs CX-06),no labels used
-Ours: model only,221,not measured (needs CX-06),not measured (needs CX-06),no labels used
