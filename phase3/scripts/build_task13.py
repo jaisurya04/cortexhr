@@ -109,7 +109,7 @@ cands = {**models, 'HistGradientBoosting tuned': V.wrap(V.make_hgb(**params)), '
 ft = pd.concat([V.fold_table(m, Xtr, ytr, folds, k) for k, m in cands.items()], ignore_index=True)
 summ = V.summarise(ft); summ[['model', 'roc_auc_mean', 'roc_auc_sd', 'pr_auc_mean', 'pr_auc_sd', 'precision_mean', 'recall_mean', 'f1_mean', 'balanced_accuracy_mean', 'brier_mean']].round(3)""")
     n.code("""fig, ax = plt.subplots(figsize=(9, 3.4)); piv = ft.pivot(index='fold', columns='model', values='roc_auc'); piv.plot(ax=ax, marker='o'); ax.set_ylabel('ROC-AUC'); ax.legend(fontsize=6); ax.set_title('ROC-AUC per fold (same folds for all models)'); plt.tight_layout(); plt.savefig(P.FIGURES / 'task13_fold_roc_auc.png', dpi=130, bbox_inches='tight')""")
-    n.stage(28, "16 settings of a deliberately small grid (shallow trees, strong regularisation, small learning rates). Selection uses mean cross-validation PR-AUC on the training part only; the test set is untouched.")
+    n.stage(28, "12 settings of a deliberately small grid (shallow trees, strong regularisation, small learning rates). Selection uses mean cross-validation PR-AUC on the training part only; the test set is untouched.")
     n.code("""save_table(log, P.task_dir(13) / 'tuning_log.csv'); log[['experiment_id', 'params', 'roc_auc_mean', 'roc_auc_sd', 'pr_auc_mean', 'decision']].round(3)""")
     n.code("""top = log.sort_values('pr_auc_mean', ascending=False).head(5)
 print('selected:', log.loc[log.decision.str.startswith('selected'), 'experiment_id'].iloc[0], params)

@@ -1,2 +1,2 @@
 # Optional library for the separate LightGBM challenger (Task 13). shap is now in requirements.txt.
-lightgbm==4.7.0
+lightgbm==4.6.0

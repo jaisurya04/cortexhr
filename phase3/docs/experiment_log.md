@@ -7,7 +7,7 @@
 | Attrition gradient boosting | 12 settings, 5 folds each | highest mean CV PR-AUC on the training part | selected `HGB-02`; top-5 settings span 0.007 PR-AUC (fold sd about 0.043) | `reports/task13/tuning_log.csv` |
 | Attrition calibration | 3 methods | lowest out-of-fold Brier | chosen sigmoid: none Brier 0.1895 ECE 0.2521, sigmoid Brier 0.1144 ECE 0.0137, isotonic Brier 0.1153 ECE 0.0144 | `reports/task13/calibration_comparison.csv` |
 | Attrition v2 vs baseline | 5 paired folds, bootstrap | gain real only if the 95% interval is above 0 | Gain is NOT proven: the 95% interval of the paired fold difference includes 0 (or is below it), so the simpler baseline is not beaten. | `reports/task13/paired_differences.csv` |
-| Explanations | shap PermutationExplainer, 50-row background, all 430 employees | additivity (contributions + base = prediction) | shap 0.54.1; additivity error 4.4e-16 | `reports/task14/explanation_run.json` |
+| Explanations | shap PermutationExplainer, 50-row background, all 430 employees | additivity (contributions + base = prediction) | shap 0.54.1; additivity error 5.6e-16 | `reports/task14/explanation_run.json` |
 | Salary gradient boosting | 6 settings, 5 folds each | lowest CV MAE | selected `S01` | `reports/task15/tuning_log.csv` |
 
 **Official LightGBM candidate (separate challenger).** Best of three predeclared settings on the same five Task 3 folds: CV ROC-AUC 0.692, PR-AUC 0.319; calibrated holdout ROC-AUC 0.696, PR-AUC 0.360. It did not beat the existing LR + HGB blend and is stored separately as `artifacts/models/attrition_lightgbm_candidate.joblib`. Details: `reports/task13/lightgbm_tuning_log.csv`.

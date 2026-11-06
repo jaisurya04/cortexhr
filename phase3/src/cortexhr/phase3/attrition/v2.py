@@ -142,7 +142,7 @@ def bootstrap_oof_auc_diff(y, p_a, p_b, n_boot=1000, seed=C.SEED) -> dict:
 
 # --------------------------------------------------------------- tuning
 def tuning_grid() -> list[dict]:
-    """A deliberately small, controlled search (16 settings): shallow trees, strong regularisation."""
+    """A deliberately small, controlled search (12 settings): shallow trees, strong regularisation."""
     out = []
     for lr, it in ((0.03, 250), (0.05, 150), (0.08, 100)):
         for depth, leaves in ((2, 4), (3, 8)):

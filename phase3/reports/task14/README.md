@@ -1,7 +1,7 @@
 # Task 14: explain every person's risk
 Notebooks 10 and 11. 430 active employees scored with attrition-v2; bands {'Low': 301, 'Medium': 86, 'High': 43}; mean risk 0.127.
-**Reasons in the 430-row report:** native `shap` library (PermutationExplainer, shap 0.54.1, all 430 employees, 50-row background); additivity error 5.6e-16. Source and checks: `final_report_source.json`; built by `scripts/build_risk_report_native_shap.py`.
-**Cross-check:** grouped Monte Carlo Shapley over 23 groups (120 permutations, 200-row background): additivity error 2.1e-16; split-half correlation 0.971; identical top-3 set in 49% of employees (mean overlap 0.82).
+**Reasons in the 430-row report:** native `shap` library (PermutationExplainer, shap 0.54.1, all 430 employees, 50-row background); additivity error 5.6e-16. Source and checks: `final_report_source.json`; built by `scripts/run_shap_full430.py`.
+**Historical comparison:** the saved output of the earlier grouped Monte Carlo estimator (no longer in the code) is kept only for comparison in `shap_full430_comparison.csv`; the reasons in the report do not use it.
 **Format checks:** 14 of 14 passed (columns, order, ranges, bands, three distinct reasons, human-review note, wording).
 **Output:** `attrition_risk_2026.csv` (reasons from native SHAP). Manual review of 10 rows and the wording changes it caused are in notebook 11.
 

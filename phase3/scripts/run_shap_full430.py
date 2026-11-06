@@ -1,10 +1,10 @@
-﻿"""Run the REAL shap library (PermutationExplainer) on ALL 430 employees and compare it with the saved Monte Carlo reasons.
+﻿"""Run the REAL shap library (PermutationExplainer) on ALL 430 employees and compare it with the saved output of the earlier estimator (historical comparison only).
 
-Needs: pip install -r requirements.txt -r requirements-optional.txt   (shap==0.50.0)
+Needs: pip install -r requirements.txt   (shap==0.54.1)
 Run:   python scripts/run_shap_full430.py          (a few minutes on one CPU)
 
 Writes reports/task14/shap_full430_group_values.csv, shap_full430_comparison.csv and shap_full430_summary.json.
-It does NOT change the 430-row report; it proves that the grouped Monte Carlo reasons agree with the real library on everyone."""
+It writes the shap_full430_* files. The 430-row report itself is written by run_task14() (notebooks 10 and 11), which uses the same shap library."""
 import json, sys, datetime, platform
 from pathlib import Path
 import numpy as np, pandas as pd
@@ -19,7 +19,7 @@ print("run started (UTC):", datetime.datetime.now(datetime.timezone.utc).isoform
 try:
     import shap  # noqa: F401
 except Exception as e:
-    sys.exit(f"shap is not installed ({e!r}). Run: pip install -r requirements.txt -r requirements-optional.txt")
+    sys.exit(f"shap is not installed ({e!r}). Run: pip install -r requirements.txt")
 import joblib
 from cortexhr.phase3.attrition import v2 as V
 from cortexhr.phase3.explanations import risk_report as RR

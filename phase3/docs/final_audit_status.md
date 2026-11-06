@@ -9,7 +9,7 @@ Generated: 2026-11-05
 - Saved a separate LightGBM challenger artifact and metadata; the existing production attrition-v2 artifact was not silently replaced because LightGBM did not establish a clear improvement.
 - Added combined CV and holdout comparison tables alongside the original baseline/HGB results.
 - Implemented the previously unfinished SHAP PermutationExplainer cross-check. Categorical inputs are encoded for the SHAP masker and decoded before model prediction, preserving the model's original input representation.
-- Ran the real SHAP library cross-check on 10 scoring employees with a 50-row background; aggregated feature-level values to the existing HR explanation groups and saved both outputs.
+- Ran the real SHAP library (PermutationExplainer) on all 430 scoring employees with a 50-row background; aggregated feature-level values to the existing HR explanation groups and saved both outputs.
 - Updated Task 13 and Task 14 notebook builders/notebooks, traceability, limitations, model card, task reports, quality-gate instructions and the 3-page Phase 3 PDF.
 - Added automated tests for LightGBM candidate construction, saved candidate artifact/checksum, real SHAP execution and saved SHAP outputs.
 
@@ -38,7 +38,7 @@ The user supplied both authorized files. They were copied into the local `04_Val
 
 ## Execution scope limitation
 
-The complete 15-notebook clean-kernel rebuild was not rerun in this audit. Notebooks 04, 05 and 06 (Tasks 11 and 12), and 12, 13 and 14 (Task 15) were re-executed successfully; notebook 15 was also re-executed successfully after regenerating the resume-ranker artifact under the current environment. Notebooks 01-03 and 07-11 retain their previously verified saved outputs. Task 13's full training/tuning function exceeded the 10-minute execution limit, so its prior saved model metrics and group tables were retained; the group counts were cross-checked against the supplied protected data. The new LightGBM audit and SHAP cross-check functions were executed independently, and Task 14 integration was smoke-tested on all 430 scoring rows with a reduced permutation count. The saved full 120-permutation Task 14 results were preserved rather than overwritten by a reduced run.
+The complete 15-notebook clean-kernel rebuild was not rerun in this audit. Notebooks 04, 05 and 06 (Tasks 11 and 12), and 12, 13 and 14 (Task 15) were re-executed successfully; notebook 15 was also re-executed successfully after regenerating the resume-ranker artifact under the current environment. Notebooks 01-03 and 07-11 retain their previously verified saved outputs. Task 13's full training/tuning function exceeded the 10-minute execution limit, so its prior saved model metrics and group tables were retained; the group counts were cross-checked against the supplied protected data. The new LightGBM audit and SHAP cross-check functions were executed independently, and Task 14 integration was smoke-tested on all 430 scoring rows with a reduced permutation count. The final Task 14 results come from the full run of `scripts/run_shap_full430.py` (all 430 employees).
 
 ## Reproduction commands
 
