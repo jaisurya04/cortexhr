@@ -1,0 +1,3 @@
+# Optional libraries for official Phase 3 model/explanation cross-checks
+lightgbm==4.7.0
+shap==0.54.1

@@ -1,0 +1,14 @@
+# Restricted validation files must NEVER be committed (used locally for protected-group measurements only)
+04_Validation_Vault/*
+!04_Validation_Vault/README.md
+unlock_CX-*
+*unlock_CX*
+
+# Python / environment
+.venv/
+venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+.ipynb_checkpoints/
+.DS_Store

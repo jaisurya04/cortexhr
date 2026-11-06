@@ -1,0 +1,11 @@
+# Model card: attrition-v2
+**Intended use.** Support for HR conversations: a calibrated probability that an employee leaves within 12 months, with reasons (Task 14). **Not for:** dismissal, pay, promotion or any single-handed decision about a person; every output says human review is required.
+**Model.** LogisticRegression(balanced) + HistGradientBoosting (equal-weight probability blend), calibrated. Calibration: sigmoid (chosen by out-of-fold Brier score). Gradient-boosting settings: {'learning_rate': 0.05, 'max_iter': 150, 'max_depth': 2, 'max_leaf_nodes': 4, 'min_samples_leaf': 40, 'l2_regularization': 1.0}.
+**Data and split.** Phase 1 frame (exact duplicates removed, cut-off-safe monthly aggregates). 1906 training rows, 477 test rows; 5 stratified folds, seed 42, identical to Task 3. Final production fit on 2383 rows. Inputs: 43 raw columns; excluded as inputs: left_within_12m, row_id, employee_id, observation_date, exit_date, resignation_date, exit_reason, exit_interview_done, fnf_settlement_amount, voluntary_left_within_12m, source.
+**Same-fold results (mean +- sd over 5 folds).** Baseline logistic regression ROC-AUC 0.709 +- 0.021, PR-AUC 0.325; attrition-v2 ROC-AUC 0.716 +- 0.017, PR-AUC 0.325.
+**Is the gain real?** Gain is NOT proven: the 95% interval of the paired fold difference includes 0 (or is below it), so the simpler baseline is not beaten. (mean paired fold difference +0.0070, 95% interval [-0.0022, +0.0162]).
+**Test set (used once).** ROC-AUC 0.704, PR-AUC 0.382, Brier 0.113, ECE 0.028.
+**Honest summary.** v2 is equivalent to the simpler logistic baseline within the noise of five folds; it is saved because Task 14 asks for it, not because it is proven better.
+**Environment.** {'python': '3.12.3', 'scikit-learn': '1.8.0', 'pandas': '3.0.2', 'numpy': '2.4.4', 'scipy': '1.17.1', 'optional_libraries': {'lightgbm': None, 'xgboost': None, 'shap': None}}. Checksums are in `artifacts/metadata/attrition_v2_metadata.json`.
+
+**Official LightGBM candidate (separate challenger).** Best of three predeclared settings on the same five Task 3 folds: CV ROC-AUC 0.692, PR-AUC 0.319; calibrated holdout ROC-AUC 0.696, PR-AUC 0.360. It did not beat the existing LR + HGB blend and is stored separately as `artifacts/models/attrition_lightgbm_candidate.joblib`. Details: `reports/task13/lightgbm_tuning_log.csv`.

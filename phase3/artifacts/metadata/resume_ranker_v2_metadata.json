@@ -1,0 +1,50 @@
+{
+  "engine_version": "resume-ranker-v2-masked",
+  "created_utc": "2026-11-05T16:23:28+00:00",
+  "weights": {
+    "tfidf": 0.3,
+    "required_skill": 0.4,
+    "nice_skill": 0.1,
+    "experience": 0.2
+  },
+  "score_inputs": [
+    "resume_text (identifiers masked)",
+    "job_title",
+    "required_skills",
+    "nice_to_have_skills",
+    "education_preference",
+    "description_text",
+    "min_experience_years"
+  ],
+  "never_used": [
+    "candidate_name",
+    "email",
+    "gender",
+    "age",
+    "college_tier",
+    "city",
+    "target_job_family"
+  ],
+  "metrics_labelled_pool": {
+    "precision@5": 0.94,
+    "recall@5": 0.5491,
+    "hit_rate@5": 1.0,
+    "ndcg@5": 0.9228,
+    "mrr": 1.0,
+    "average_precision": 0.9596,
+    "r_precision": 0.8816
+  },
+  "random_baseline": {
+    "precision@5": 0.1661,
+    "recall@5": 0.0893,
+    "hit_rate@5": 0.5923,
+    "ndcg@5": 0.2655,
+    "mrr": 0.355,
+    "average_precision": 0.2232,
+    "r_precision": 0.1679
+  },
+  "seed": 42,
+  "sklearn": "1.8.0",
+  "python": "3.13.5",
+  "sha256": "0e4c1a5600e43420df866394bdd4df6ddab76390bd389401f40e9c37502a2d1e"
+}

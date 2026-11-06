@@ -1,0 +1,78 @@
+{
+  "before": {
+    "comparisons": 75,
+    "pairs": 25,
+    "mean_abs_gap": 0.0001259588533333314,
+    "median_abs_gap": 2.7878199999997744e-05,
+    "max_abs_gap": 0.0016192286000000777,
+    "mean_signed_gap(twin-original)": -3.1397922666669146e-05,
+    "comparisons_with_nonzero_gap": 74,
+    "comparisons_above_tolerance": 2,
+    "mean_abs_relative_gap_pct": 0.06906171639677403,
+    "share_twin_ranked_higher": 0.48,
+    "mean_abs_rank_difference": 1.0
+  },
+  "after": {
+    "comparisons": 75,
+    "pairs": 25,
+    "mean_abs_gap": 0.0,
+    "median_abs_gap": 0.0,
+    "max_abs_gap": 0.0,
+    "mean_signed_gap(twin-original)": 0.0,
+    "comparisons_with_nonzero_gap": 0,
+    "comparisons_above_tolerance": 0,
+    "mean_abs_relative_gap_pct": 0.0,
+    "share_twin_ranked_higher": 0.4266666666666667,
+    "mean_abs_rank_difference": 1.0
+  },
+  "quality_before": {
+    "precision@5": 0.96,
+    "recall@5": 0.5824585137085136,
+    "hit_rate@5": 1.0,
+    "ndcg@5": 0.9258298233765787,
+    "mrr": 1.0,
+    "average_precision": 0.9632987422824607,
+    "r_precision": 0.8865079365079366
+  },
+  "quality_after": {
+    "precision@5": 0.9400000000000001,
+    "recall@5": 0.5491251803751803,
+    "hit_rate@5": 1.0,
+    "ndcg@5": 0.9227856321175949,
+    "mrr": 1.0,
+    "average_precision": 0.9596089389281355,
+    "r_precision": 0.8816468253968253
+  },
+  "ablation": [
+    {
+      "masked": "none (v1)",
+      "mean_abs_gap": 0.0001259588533333314,
+      "max_abs_gap": 0.0016192286000000777,
+      "nonzero_comparisons": 74
+    },
+    {
+      "masked": "name + e-mail only",
+      "mean_abs_gap": 0.0,
+      "max_abs_gap": 0.0,
+      "nonzero_comparisons": 0
+    },
+    {
+      "masked": "college-tier phrase only",
+      "mean_abs_gap": 0.0001266198439999958,
+      "max_abs_gap": 0.001614948599999999,
+      "nonzero_comparisons": 74
+    },
+    {
+      "masked": "city only",
+      "mean_abs_gap": 0.00010768209866666998,
+      "max_abs_gap": 0.0017531204999999828,
+      "nonzero_comparisons": 65
+    },
+    {
+      "masked": "everything (v2)",
+      "mean_abs_gap": 0.0,
+      "max_abs_gap": 0.0,
+      "nonzero_comparisons": 0
+    }
+  ]
+}

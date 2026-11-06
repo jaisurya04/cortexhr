@@ -1,0 +1,29 @@
+dialogue_id,turn_no,speaker,user_role,text,expected_intent,context_note
+DLG-01,1,USER,employee,how many casual leaves do I have left,leave_balance,
+DLG-01,2,USER,employee,and sick leave?,leave_balance,follow-up: reuse entity/slot from previous turn
+DLG-01,3,USER,employee,thanks,thanks,
+DLG-02,1,USER,employee,is my March payslip ready,payslip_status,
+DLG-02,2,USER,employee,who is my manager,my_manager,
+DLG-03,1,USER,employee,how do I apply for leave,apply_leave_howto,
+DLG-03,2,USER,employee,what is the leave policy,hr_policy_leave,
+DLG-03,3,USER,employee,ok bye,goodbye,
+DLG-04,1,USER,employee,show my attendance for last month,attendance_summary,
+DLG-04,2,USER,employee,any unusual days?,unusual_attendance,
+DLG-05,1,USER,employee,what is Priya Nair salary,salary_of_other,
+DLG-05,2,USER,employee,show my payslip for last month,payslip_status,
+DLG-06,1,USER,employee,hi,greet,
+DLG-06,2,USER,employee,what can you do,chitchat,
+DLG-06,3,USER,employee,work from home policy,wfh_policy,
+DLG-07,1,USER,hr,who is at risk of leaving in Sales,attrition_risk_query,
+DLG-07,2,USER,hr,and in Engineering?,attrition_risk_query,follow-up: reuse entity/slot from previous turn
+DLG-07,3,USER,hr,why is it high,attrition_risk_query,follow-up: reuse entity/slot from previous turn
+DLG-08,1,USER,hr,any unusual payroll this month,payroll_flags,
+DLG-08,2,USER,hr,show details,payroll_flags,follow-up: reuse entity/slot from previous turn
+DLG-09,1,USER,hr,suggest a salary band for Data Analyst,salary_band_query,
+DLG-09,2,USER,hr,what about Software Engineer,salary_band_query,follow-up: reuse entity/slot from previous turn
+DLG-10,1,USER,hr,forecast headcount for next quarter,headcount_forecast,
+DLG-10,2,USER,hr,for Support only,headcount_forecast,follow-up: reuse entity/slot from previous turn
+DLG-11,1,USER,hr,score this resume for Data Analyst,resume_score_request,
+DLG-11,2,USER,hr,thanks,thanks,
+DLG-12,1,USER,employee,tell me a joke,out_of_scope,
+DLG-12,2,USER,employee,help,help,

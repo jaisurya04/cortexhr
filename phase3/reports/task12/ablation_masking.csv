@@ -1,0 +1,6 @@
+masked,mean_abs_gap,max_abs_gap,nonzero_comparisons
+none (v1),0.0001259588533333314,0.0016192286000000777,74
+name + e-mail only,0.0,0.0,0
+college-tier phrase only,0.0001266198439999958,0.001614948599999999,74
+city only,0.00010768209866666998,0.0017531204999999828,65
+everything (v2),0.0,0.0,0

@@ -1,0 +1,10 @@
+model,roc_auc_mean,roc_auc_sd,pr_auc_mean,source
+Dummy (always stays),0.5,0.0,0.146,programme reference
+Logistic Regression (class_weight=balanced),0.713,0.01,0.332,programme reference
+"Decision Tree (depth 4, balanced)",0.65,0.019,0.256,programme reference
+"Random Forest (300 trees, balanced)",0.715,0.018,0.336,programme reference
+HistGradientBoosting default,0.6798089762997739,0.016970806521590845,0.29383447749627345,"this repo, same folds"
+HistGradientBoosting tuned,0.6947773851914956,0.020886918467188487,0.30990115393424866,"this repo, same folds"
+Logistic Regression (balanced) [baseline],0.7094574321384137,0.02092953175820087,0.3245249351583831,"this repo, same folds"
+"Random Forest (300, balanced) [baseline]",0.699963809196938,0.025481301032812362,0.31621762932868935,"this repo, same folds"
+attrition-v2 candidate: LR + tuned HGB blend,0.7164566568400924,0.017124864043787776,0.3250303722216664,"this repo, same folds"

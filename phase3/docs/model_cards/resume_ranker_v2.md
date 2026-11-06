@@ -1,0 +1,7 @@
+# Model card: resume ranker v2 (resume-ranker-v2-masked)
+**Intended use.** Decision support for recruiters: rank resumes against a job description and show why. A human reviews every candidate. **Not for:** automatic rejection, hiring decisions, or any use that adds name, gender, age or college tier.
+**Method.** TF-IDF similarity + required and nice-to-have skill coverage + capped experience fit; weights {'tfidf': 0.3, 'required_skill': 0.4, 'nice_skill': 0.1, 'experience': 0.2}. No parameters learned from labels.
+**Inputs used:** resume_text (identifiers masked), job_title, required_skills, nice_to_have_skills, education_preference, description_text, min_experience_years. **Never used:** candidate_name, email, gender, age, college_tier, city, target_job_family.
+**Evidence (555 human-labelled pairs, 10 jobs, ranking inside each job's labelled pool).** precision@5 0.940, recall@5 0.549, hit rate@5 1.000, NDCG@5 0.923, MRR 1.000; random ordering gives precision@5 0.166 and NDCG@5 0.266.
+**Fairness (Task 12).** 25 twin pairs: mean absolute twin gap 0.000126 before masking, 0.000000 after; NDCG@5 0.926 to 0.923. See `docs/fairness/fairness_statement.md`.
+**Limits.** See `docs/limitations.md`. Artifact `artifacts/models/resume_ranker_v2.joblib`, sha256 `0e4c1a5600e43420...`, created 2026-11-05T16:23:28+00:00.

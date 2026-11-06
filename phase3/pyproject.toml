@@ -1,0 +1,10 @@
+[project]
+name = "cortexhr-phase3"
+version = "3.0.0"
+description = "CortexHR Phase 3: Intelligence (resume ranking, fairness audit, attrition v2, risk explanations, pay bands)"
+requires-python = ">=3.11"
+
+[tool.pytest.ini_options]
+pythonpath = ["src", "05_Starter", "tests"]
+testpaths = ["tests"]
+addopts = "-q"

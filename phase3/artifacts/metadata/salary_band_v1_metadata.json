@@ -1,0 +1,140 @@
+{
+  "model_version": "salary-band-v1",
+  "created_utc": "2026-11-05T16:20:35+00:00",
+  "model": "Ridge regression (job-related features)",
+  "features": [
+    "job_level",
+    "log_band_mid",
+    "log_market_index",
+    "prior_experience_years",
+    "skills_count",
+    "department_id",
+    "role_id",
+    "work_location",
+    "highest_education"
+  ],
+  "never_inputs": [
+    "hire_id",
+    "hire_date",
+    "source",
+    "gender",
+    "age_years",
+    "age_band",
+    "offered_annual_fixed"
+  ],
+  "excluded_job_unrelated": [
+    "career_gap_months"
+  ],
+  "band_multipliers_log": {
+    "low": -0.1079854165011379,
+    "mid": 0.0,
+    "high": 0.10192508943375349
+  },
+  "band_coverage_test": 0.8023850085178875,
+  "seed": 42,
+  "train_rows": 2347,
+  "test_rows": 587,
+  "production_fit_rows": 2934,
+  "environment": {
+    "python": "3.13.5",
+    "scikit-learn": "1.8.0",
+    "pandas": "2.2.3",
+    "numpy": "2.3.5",
+    "scipy": "1.17.0",
+    "optional_libraries": {
+      "lightgbm": "4.6.0",
+      "xgboost": "3.1.3",
+      "shap": "0.50.0"
+    }
+  },
+  "cv_metrics": {
+    "baseline: average offered salary by role": {
+      "MAE_rupees": 115963.7766,
+      "RMSE_rupees": 176580.6412,
+      "R2": 0.9236,
+      "median_abs_pct_error": 12.5088,
+      "MAE_log": 0.141
+    },
+    "baseline 2: role average adjusted for market index": {
+      "MAE_rupees": 54898.2897,
+      "RMSE_rupees": 88556.9045,
+      "R2": 0.9808,
+      "median_abs_pct_error": 5.4351,
+      "MAE_log": 0.0657
+    },
+    "Ridge regression (job-related features)": {
+      "MAE_rupees": 54401.4642,
+      "RMSE_rupees": 87685.5854,
+      "R2": 0.9812,
+      "median_abs_pct_error": 5.4023,
+      "MAE_log": 0.0651
+    },
+    "Ridge regression + career_gap_months": {
+      "MAE_rupees": 54221.0231,
+      "RMSE_rupees": 87538.0227,
+      "R2": 0.9812,
+      "median_abs_pct_error": 5.36,
+      "MAE_log": 0.0648
+    },
+    "Gradient boosting (job-related features, tuned)": {
+      "MAE_rupees": 55567.0412,
+      "RMSE_rupees": 89878.8658,
+      "R2": 0.9802,
+      "median_abs_pct_error": 5.4845,
+      "MAE_log": 0.0671
+    },
+    "Gradient boosting + career_gap_months": {
+      "MAE_rupees": 55450.6169,
+      "RMSE_rupees": 89617.4414,
+      "R2": 0.9803,
+      "median_abs_pct_error": 5.4887,
+      "MAE_log": 0.0668
+    }
+  },
+  "test_metrics": {
+    "baseline: average offered salary by role": {
+      "MAE_rupees": 115094.2366,
+      "RMSE_rupees": 167820.719,
+      "R2": 0.9333,
+      "median_abs_pct_error": 12.7691,
+      "MAE_log": 0.1403
+    },
+    "baseline 2: role average adjusted for market index": {
+      "MAE_rupees": 55656.2808,
+      "RMSE_rupees": 88203.6491,
+      "R2": 0.9816,
+      "median_abs_pct_error": 5.5211,
+      "MAE_log": 0.0663
+    },
+    "Ridge regression (job-related features)": {
+      "MAE_rupees": 53924.8074,
+      "RMSE_rupees": 84330.025,
+      "R2": 0.9832,
+      "median_abs_pct_error": 5.3973,
+      "MAE_log": 0.0649
+    },
+    "Gradient boosting (job-related features, tuned)": {
+      "MAE_rupees": 57504.058,
+      "RMSE_rupees": 93722.1003,
+      "R2": 0.9792,
+      "median_abs_pct_error": 5.731,
+      "MAE_log": 0.0677
+    },
+    "Ridge regression + career_gap_months": {
+      "MAE_rupees": 53160.6259,
+      "RMSE_rupees": 83054.1307,
+      "R2": 0.9837,
+      "median_abs_pct_error": 5.4511,
+      "MAE_log": 0.0643
+    },
+    "Gradient boosting + career_gap_months": {
+      "MAE_rupees": 56955.5789,
+      "RMSE_rupees": 92902.1143,
+      "R2": 0.9796,
+      "median_abs_pct_error": 5.6572,
+      "MAE_log": 0.0671
+    }
+  },
+  "sha256": "129cb9183ebe124361b19480a75b8001fc8dc430e07f361a9629a2481473961c",
+  "note": "Advice for a manager and HR, never an offer. The target is historical offers and may contain past bias."
+}

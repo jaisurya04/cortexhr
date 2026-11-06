@@ -1,0 +1,97 @@
+Unnamed: 0,Unnamed: 1,Unnamed: 2,Unnamed: 3,Unnamed: 4,Unnamed: 5
+,CortexHR AI/ML Dataset,,,,
+,"Aura Workforce  ·  CortexHR (AI/ML Developers track)   |   Zenith Nova Technologies (fictional)   |   Snapshot 30 Sep 2025, scoring 30 Sep 2026",,,,
+,,,,,
+,About this dataset,,,,
+,,,,,
+,"Everything in this file is FICTIONAL. The company ""Zenith Nova Technologies Pvt Ltd"", its people, clients, vendors, e-mails and numbers were generated for training. Any resemblance to real persons or businesses is accidental. Tax, PF, ESI and professional-tax rules are SAMPLE values for learning; never use them for real payroll.",,,,
+,,,,,
+,"This workbook is complete on its own. It comes from the Zenith Nova master dataset that all six Aura Workforce tracks share, so ids (employees, departments, payroll runs, ledger numbers) are consistent across tracks, but you never need any other file to finish your project.",,,,
+,,,,,
+,What is in this workbook,,,,
+,,,,,
+,"A complete practice kit for the AI/ML team: a leakage-trap attrition table, anomaly-detection sets with hidden ground truth, a salary and headcount history for regression and forecasting, resumes with bias twins, a full chatbot training and test set, and reference results so you know what a sensible model should score.",,,,
+,,,,,
+,Headline numbers,,,,
+,,,,,
+,Item,,Value,,
+,Attrition table,,"2,389 rows = 383 real employee snapshots (taken 30 Sep 2025) + 2,000 historical extension rows; label left_within_12m positive in 349 rows (14.6%)",,
+,Scoring table,,"430 active employees at 30 Sep 2026, same features, no label",,
+,Attendance features,,"7,339 employee-months, 150 injected anomalies in 5 types",,
+,Payroll features,,"7,355 rows, 100 injected errors in 8 types",,
+,Headcount history,,81 months x 11 departments + company total (972 rows),,
+,Salary training table,,"2,934 hires (734 real, 2,200 extension)",,
+,Resumes,,"185 (160 originals + 25 bias twins), 10 job descriptions, 555 labelled resume-job pairs",,
+,Chatbot,,"858 training messages, 33 intents, 132 test messages, 33 reply templates, 30 FAQs, 12 dialogues",,
+,Baselines,,Reference scores in baseline_benchmarks and anomaly_baselines,,
+,,,,,
+,How the attrition label was built,,,,
+,,,,,
+,"Snapshot date is 30 September 2025. Features describe each employee at that date (tenure, pay position, raises, engagement, attendance, overtime, manager changes ...). The label left_within_12m is 1 if the employee left between 1 October 2025 and 30 September 2026. The extension rows follow the same rules so that you have enough data to train on. Split your data with care: use stratified folds and never let any information from after the snapshot into the features.",,,,
+,,,,,
+,Read before you start,,,,
+,,,,,
+,"•  Protected attributes (gender, age) are deliberately kept in the separate sheets protected_attributes and resume_protected_attrs. Use them to TEST fairness, not as model inputs.",,,,
+,"•  Labels for anomalies are in separate sheets (attendance_anomaly_labels, payroll_anomaly_labels). Treat them as hidden when you train an unsupervised detector, and use them only to measure catch rate.",,,,
+,"•  The sample_* sheets show the output format a downstream dashboard expects (risk bands, reason codes, forecast ranges). They come from simple baseline models and are examples, not targets to copy.",,,,
+,"•  baseline_benchmarks shows what honest models score. If your model scores far above that, check for leakage before celebrating.",,,,
+,"•  The sheet answer_key_planted_dirt lists every planted data problem. Do your own audit first (Task 1), then compare.",,,,
+,•  Facts about the planted traps and how the data was built are summarised in the sheet answer_key_notes. Open it only after your own audit.,,,,
+,,,,,
+,Which sheets help with which task (CX-01 to CX-20),,,,
+,,,,,
+,Task,Name,,,Sheets to use
+,CX-01,Data Audit & Leakage Hunt,,,attrition_dataset
+,CX-02,Reusable Feature Pipeline,,,"attendance_monthly_features, payroll_monthly_features"
+,CX-03,Attrition Baselines,,,"attrition_dataset, baseline_benchmarks"
+,CX-04,Honest Evaluation & Risk Bands,,,baseline_benchmarks
+,CX-05,Attendance Anomaly Detector,,,"attendance_monthly_features, attendance_anomaly_labels"
+,CX-06,Payroll Outlier Detector,,,"payroll_monthly_features, payroll_anomaly_labels"
+,CX-07,Reason Codes & Money-at-Risk,,,sample_anomaly_results
+,CX-08,Anomaly Microservice,,,Sample rows as test inputs
+,CX-09,HR FAQ & Intent Chatbot,,,"chatbot_nlu_training, hr_faq, chatbot_test_set"
+,CX-10,"Entities, Slots & Multi-Turn Dialogue",,,"chatbot_dialogues, chatbot_responses"
+,CX-11,Resume Screener,,,"resumes, job_descriptions, resume_job_labels"
+,CX-12,Fairness Audit of the Screener,,,"resume_bias_pairs, resume_protected_attrs"
+,CX-13,Attrition Model v2,,,attrition_dataset
+,CX-14,Explainable Risk Reports,,,"attrition_scoring_2026, sample_attrition_risk"
+,CX-15,Pay-Band Recommender,,,"salary_training, protected_attributes"
+,CX-16,Workforce Forecasting,,,"monthly_headcount_history, workforce_events"
+,CX-17,Unified CortexHR API (Go-Live),,,Sample rows as smoke tests
+,CX-18,Responsible AI: Drift & Fairness Monitoring,,,"attrition_scoring_2026, protected_attributes"
+,CX-19,CortexHR Insights Console,,,All model outputs
+,CX-20,Model Cards & Final Submission,,,All work
+,,,,,
+,Sheet index (click a sheet name to jump),,,,
+,Sheet,Group,Rows,Columns,What it contains
+,attrition_dataset,Attrition,2389,42,"Main training table: 2,389 rows (383 real employee snapshots + 2,000 historical extension rows) with label left_within_12m"
+,protected_attributes,Attrition,5317,5,MOVED to 04_Validation_Vault: open only at task CX-15 (after you have built your own answer)
+,attrition_scoring_2026,Attrition,430,34,Features for all 430 active employees at 30 Sep 2026 (no label) - use to practise scoring
+,engagement_survey,Attrition,2829,6,Half-yearly engagement survey responses (Jun and Dec rounds)
+,performance_reviews,Attrition,1740,5,Annual appraisal ratings
+,attendance_monthly_features,Anomaly,7339,16,Employee-month attendance features with 150 injected anomalies (labels in a separate sheet)
+,attendance_anomaly_labels,Anomaly,150,5,MOVED to 04_Validation_Vault: open only at task CX-05 (after you have built your own answer)
+,attendance_daily_examples,Anomaly,2000,13,"Labelled daily records: 120 anomalous + 1,880 normal sampled (6% anomaly rate by design)"
+,payroll_monthly_features,Anomaly,7355,23,Employee-month payroll rows with 100 injected errors (labels separate)
+,payroll_anomaly_labels,Anomaly,100,5,MOVED to 04_Validation_Vault: open only at task CX-06 (after you have built your own answer)
+,monthly_headcount_history,Forecast & Pay,972,14,"Headcount, hires and exits by department and month, Jan 2020 to Sep 2026 (81 months)"
+,workforce_events,Forecast & Pay,9,6,Events that explain bumps in hiring and exits (use as forecasting regressors)
+,salary_training,Forecast & Pay,2934,17,"Salary-at-hire training table: 734 real hires + 2,200 historical extension hires"
+,job_descriptions,NLP,10,11,10 job descriptions with required and nice-to-have skills
+,resumes,NLP,185,15,185 fake resumes (160 originals + 25 bias twins) as plain text with layout difficulty
+,resume_job_labels,NLP,555,7,Human suitability scores (1-5) for resume-job pairs
+,resume_bias_pairs,NLP,25,8,25 twin resumes that differ only in name and/or college tier
+,resume_protected_attrs,NLP,185,3,MOVED to 04_Validation_Vault: open only at task CX-12 (after you have built your own answer)
+,chatbot_nlu_training,NLP,858,4,858 labelled user messages across 33 intents with entities and typos
+,chatbot_test_set,NLP,132,4,132 unseen messages for evaluating the chatbot
+,chatbot_responses,NLP,33,7,"Reply templates, permissions and backend calls per intent"
+,hr_faq,NLP,30,5,30 policy questions and answers from a fictional handbook
+,chatbot_dialogues,NLP,28,7,12 multi-turn conversations for conversation tests
+,baseline_benchmarks,Reference results,5,9,"Reference scores for attrition models (cleaned features) - your targets, and a leakage warning"
+,anomaly_baselines,Reference results,2,6,Reference Isolation Forest results on the injected anomalies
+,sample_attrition_risk,Reference results,430,11,Sample output of a baseline attrition model (output-format example)
+,sample_anomaly_results,Reference results,405,12,Sample output of anomaly models (output-format example)
+,sample_forecast,Reference results,72,10,Sample 6-month forecasts (output-format example)
+,answer_key_planted_dirt,Answer key,98,3,MOVED to 04_Validation_Vault: open only at task CX-01 (after you have built your own answer)
+,answer_key_notes,Answer key,15,2,MOVED to 04_Validation_Vault: open only at task CX-01 (after you have built your own answer)
+,data_dictionary,Reference,315,8,"Every column in every sheet: type, meaning, null count, distinct values, example"

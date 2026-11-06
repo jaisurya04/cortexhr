@@ -1,0 +1,34 @@
+intent,response_template,requires_login,allowed_roles,backend_or_service_call,on_failure,policy_note
+greet,"Hello! I am the Zenith Nova HR assistant. Ask me about leave, payslips, attendance or policies.",N,ALL,,,
+goodbye,Goodbye! Message me anytime.,N,ALL,,,
+thanks,You are welcome!,N,ALL,,,
+hr_policy_leave,"You get 12 casual leave and 12 sick leave days each financial year, plus earned leave at 1.25 days per month (carry forward up to 30 days).",N,ALL,faq:hr_policy_leave,,
+working_hours,"Office hours are 9:00 to 18:00, Monday to Friday, with core hours from 11:00 to 16:00.",N,ALL,faq:working_hours,,
+holiday_list,The holiday calendar is published each year. The next holiday is {next_holiday}.,N,ALL,GET /api/v1/holidays,,
+payslip_date,Salary is credited on the first working day of the next month.,N,ALL,faq:payslip_date,,
+apply_leave_howto,"Open the Leave screen, choose the leave type and dates, then submit. Your manager gets an approval request.",N,ALL,faq:apply_leave,,
+reimbursement_policy,"Submit bills within 30 days in the Expenses screen. Your head of department approves, Finance pays in the next cycle.",N,ALL,faq:reimbursement,,
+who_to_contact,Payroll queries: payroll@znova-demo.example. Benefits and policies: hr@znova-demo.example. IT: it-help@znova-demo.example.,N,ALL,faq:contacts,,
+wfh_policy,Most roles follow a hybrid pattern with about three office days a week. Remote roles are listed in your offer letter.,N,ALL,faq:wfh,,
+notice_period_policy,"Notice is 30 days (L1-L2), 60 days (L3) or 90 days (L4 and above). Buy-out needs HR and manager approval.",N,ALL,faq:notice,,
+probation_policy,Probation is six months. Confirmation is reviewed by your manager and HR.,N,ALL,faq:probation,,
+insurance_benefits,"Group health insurance covers you, spouse and up to two children. Add dependents within 30 days of joining or a life event.",N,ALL,faq:insurance,,
+pf_info,"PF is 12% of basic salary (ceiling 15,000 basic) from both you and the company.",N,ALL,faq:pf,,
+tax_declaration,Upload investment proofs in the Tax screen before the cut-off. TDS is calculated on projected annual income.,N,ALL,faq:tax,,
+leave_balance,"You have {cl} CL, {sl} SL and {el} EL days left.",Y,"EMPLOYEE,HR,ADMIN",GET /api/v1/leave/balance?employee=me,"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+leave_request_status,Your latest leave request ({dates}) is {status}.,Y,"EMPLOYEE,HR,ADMIN",GET /api/v1/leave/requests?employee=me&limit=1,"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+payslip_status,Your payslip for {month} is {status}. You can download it from the Payslips screen.,Y,"EMPLOYEE,HR,ADMIN",GET /api/v1/payslips/me/{month},"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+my_manager,Your manager is {manager_name}.,Y,"EMPLOYEE,HR,ADMIN",GET /api/v1/employees/me,"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+my_department,You work in {department_name}.,Y,"EMPLOYEE,HR,ADMIN",GET /api/v1/employees/me,"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+team_members,Your direct reports: {team_list}.,Y,"EMPLOYEE,HR,ADMIN",GET /api/v1/employees/me/team,"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+attendance_summary,In {month} you were present {present} of {scheduled} days with {late} late arrivals.,Y,"EMPLOYEE,HR,ADMIN",GET /api/v1/attendance/summary?employee=me&month={month},"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+unusual_attendance,"{count} day(s) look unusual this month: {days}. Flags are leads to check, not conclusions.",Y,"EMPLOYEE,HR,ADMIN",POST /ai/v1/anomaly/attendance (own records only),"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+salary_band_query,"Suggested band for {role}: {low} to {high} (median {median}). This is guidance, not a decision.",Y,"HR,ADMIN",POST /ai/v1/salary-band,"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+attrition_risk_query,{n} employees in {dept} are in the high-risk band. Top drivers: {drivers}. Predictions support HR; they do not decide.,Y,"HR,ADMIN",GET /ai/v1/attrition/risk?department={dept},"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+headcount_forecast,Forecast headcount for {month}: {value} (80% range {low} to {high}).,Y,"HR,ADMIN",GET /ai/v1/forecast/headcount,"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+payroll_flags,{count} payslips were flagged for {month}. Top reason: {reason}.,Y,"HR,ADMIN",GET /ai/v1/anomaly/payroll?month={month},"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+resume_score_request,Match score {score}/100 for {role}. Matched skills: {matched}. Missing: {missing}.,Y,"HR,ADMIN",POST /ai/v1/resume/score,"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+salary_of_other,"Sorry, I cannot share another person's pay. You can ask about your own payslip.",Y,ALL,REFUSE,"Sorry, I could not fetch that right now. Please try again or contact HR.",Employees may only see their own data; HR/Admin rules apply for aggregate AI views
+out_of_scope,"I can help with HR topics such as leave, payslips, attendance and policies.",N,ALL,,,
+chitchat,I am an AI assistant for Zenith Nova HR. I can answer policy questions and look up your own HR data.,N,ALL,,,
+help,"Try: ""leave balance"", ""payslip for March"", ""who is my manager"", ""work from home policy"".",N,ALL,,,

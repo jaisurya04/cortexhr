@@ -1,0 +1,7 @@
+experiment_id,params,MAE_rupees,RMSE_rupees,R2,median_abs_pct_error,MAE_log,decision
+S00,"{'learning_rate': 0.05, 'max_iter': 200, 'max_depth': 2, 'min_samples_leaf': 20}",55803.06188102993,90977.88662866612,0.9797325949268468,5.490776264733124,0.06658296202872535,not selected
+S01,"{'learning_rate': 0.05, 'max_iter': 300, 'max_depth': 3, 'min_samples_leaf': 20}",55567.04117026075,89878.86577478779,0.9802193013979579,5.484452597761436,0.06707625951514477,selected (lowest CV MAE)
+S02,"{'learning_rate': 0.03, 'max_iter': 400, 'max_depth': 3, 'min_samples_leaf': 40}",57716.95015337521,95779.34585267835,0.9775368740364373,5.621738836484439,0.06873949346053419,not selected
+S03,"{'learning_rate': 0.08, 'max_iter': 150, 'max_depth': 3, 'min_samples_leaf': 20}",55729.30918421336,90070.3330313542,0.9801349347311485,5.534978159127761,0.06713925084032205,not selected
+S04,"{'learning_rate': 0.05, 'max_iter': 300, 'max_depth': 4, 'min_samples_leaf': 30}",57791.334418520084,95164.86495181489,0.9778241778189024,5.663544203653894,0.06837449161173323,not selected
+S05,"{'learning_rate': 0.1, 'max_iter': 100, 'max_depth': 2, 'min_samples_leaf': 20}",56098.91775402651,91394.83190662757,0.9795464010516436,5.413052535809041,0.06682224570663467,not selected

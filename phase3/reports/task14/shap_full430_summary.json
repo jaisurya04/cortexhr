@@ -1,0 +1,22 @@
+{
+  "created_utc": "2026-11-06T05:31:30+00:00",
+  "shap_version": "0.54.1",
+  "rows": 430,
+  "background_rows": 50,
+  "additivity_max_error": 5.551115123125783e-16,
+  "feature_level_rows": 430,
+  "feature_level_additivity_max_error": 5.551115123125783e-16,
+  "python": "3.14.8",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "log_file": "reports/task14/shap_full430_run_log.txt",
+  "files": [
+    "shap_full430_feature_values.csv",
+    "shap_full430_group_values.csv",
+    "shap_full430_comparison.csv",
+    "shap_full430_summary.json"
+  ],
+  "mean_top3_overlap": 0.8224806201550388,
+  "share_all_three_identical": 0.5,
+  "share_same_top1": 0.6813953488372093,
+  "median_group_correlation": 0.9540857492183363
+}

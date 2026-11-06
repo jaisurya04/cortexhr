@@ -1,0 +1,319 @@
+sheet,column,data_type,description,null_count,null_percent,distinct_values,example
+attrition_dataset,row_id,integer,Row number in the sheet.,0,0.0,2389,1
+attrition_dataset,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,2383,EMP-0002
+attrition_dataset,observation_date,date,Date the features were measured (30 Sep 2025 for real snapshots).,0,0.0,1135,2025-09-30
+attrition_dataset,department_id,text,Department code (D00 Executive ... D10 Legal & Compliance).,0,0.0,10,D08
+attrition_dataset,role_id,text,Job role code from the roles table.,0,0.0,48,R047
+attrition_dataset,job_level,integer,"Level 1 to 7 (1 Associate ... 6 Head, 7 CEO).",0,0.0,6,4
+attrition_dataset,work_location,text,City of the office the employee is attached to.,0,0.0,16,Pune
+attrition_dataset,work_mode,text,"Onsite, Hybrid or Remote.",0,0.0,3,Remote
+attrition_dataset,employment_type,text,Permanent or Fixed-Term Contract. Contract staff have no PF/ESI.,0,0.0,2,Permanent
+attrition_dataset,highest_education,text,Highest qualification (may be blank).,15,0.6,27,B.E. Computer Science
+attrition_dataset,tenure_months,integer,Months since joining at the observation date.,0,0.0,148,164
+attrition_dataset,total_experience_years,decimal,"Prior experience plus tenure, in years.",0,0.0,224,30.8
+attrition_dataset,previous_employers_count,integer,Number of employers before joining.,0,0.0,7,1
+attrition_dataset,commute_distance_km,decimal,Home-to-office distance in kilometres.,55,2.3,372,12.2
+attrition_dataset,annual_fixed_pay,integer,Annual fixed pay at the observation date (INR).,0,0.0,2364,1733520
+attrition_dataset,comp_ratio,decimal,Pay divided by role mid-point (inflation-adjusted); below 1 means paid under midpoint.,0,0.0,585,0.989
+attrition_dataset,raises_received,integer,Pay revisions received since joining.,0,0.0,8,6
+attrition_dataset,last_raise_pct,decimal,Percentage of the latest raise (blank if none).,202,8.5,184,6.3
+attrition_dataset,months_since_last_raise,integer,Months since the last pay raise (or since joining).,0,0.0,48,5
+attrition_dataset,promotions_received,integer,Promotions since joining.,0,0.0,8,0
+attrition_dataset,months_since_last_promotion,decimal,Months since last promotion (blank if never).,1459,61.1,94,65.0
+attrition_dataset,internal_transfers,integer,Department transfers since joining.,0,0.0,3,1
+attrition_dataset,last_performance_rating,decimal,Latest appraisal rating (blank for new joiners).,182,7.6,5,3.0
+attrition_dataset,last_engagement_score,decimal,Latest engagement survey score 1-5 (blank if no response).,528,22.1,38,2.5
+attrition_dataset,manager_changes_12m,integer,Manager changes in the previous 12 months.,0,0.0,5,0
+attrition_dataset,training_hours_12m,decimal,Training hours in the previous 12 months.,0,0.0,593,34.0
+attrition_dataset,attendance_rate_3m,decimal,Attendance rate over the previous 3 months.,0,0.0,1051,0.9219
+attrition_dataset,late_arrivals_3m,integer,Late arrivals in the previous 3 months.,0,0.0,27,3
+attrition_dataset,avg_overtime_hours_per_month_3m,decimal,Average overtime hours per month over 3 months.,0,0.0,390,0.0
+attrition_dataset,avg_hours_worked_3m,decimal,Average daily hours worked over 3 months.,0,0.0,181,8.01
+attrition_dataset,wfh_share_3m,decimal,Share of days worked from home over 3 months.,0,0.0,619,0.891
+attrition_dataset,unpaid_leave_days_6m,decimal,Unpaid leave days over 6 months.,0,0.0,20,2.0
+attrition_dataset,paid_leave_days_6m,decimal,Paid leave days over 6 months.,0,0.0,23,5.0
+attrition_dataset,dept_attrition_rate_prior_12m,decimal,Department attrition over the previous 12 months (context feature).,0,0.0,1082,0.2353
+attrition_dataset,left_within_12m,integer,LABEL: 1 if the employee left within 12 months of the observation date.,0,0.0,2,0
+attrition_dataset,voluntary_left_within_12m,integer,1 if the exit was a resignation.,0,0.0,2,0
+attrition_dataset,source,text,"Where the row came from (Biometric, Web Check-in, HR System, or dataset origin).",0,0.0,2,master_employee_snapshot
+attrition_dataset,exit_date,date,Last working day; blank for active employees.,2040,85.4,307,2026-04-23
+attrition_dataset,resignation_date,date,Date resignation was submitted (voluntary leavers only).,2068,86.6,296,2026-03-24
+attrition_dataset,exit_reason,text,Reason recorded at exit. POST-OUTCOME information: leakage risk in the AI dataset.,2040,85.4,11,Work-Life Balance
+attrition_dataset,exit_interview_done,text,Y if an exit interview was held. POST-OUTCOME: leakage risk.,2040,85.4,2,Y
+attrition_dataset,fnf_settlement_amount,decimal,Full and final settlement paid at exit. POST-OUTCOME: leakage risk.,2040,85.4,349,117098.85
+protected_attributes,person_ref,text,"Employee, historical-row or hire id the attributes belong to.",0,0.0,4934,EMP-0002
+protected_attributes,record_type,text,Which table the person_ref belongs to.,0,0.0,2,attrition_snapshot
+protected_attributes,gender,text,"Self-declared gender: Male, Female or Other. Use only for fairness testing, never as a model input.",0,0.0,3,Male
+protected_attributes,age_years,decimal,Age in years.,0,0.0,271,52.3
+protected_attributes,age_band,text,"Age band (<25, 25-34, 35-44, 45+).",0,0.0,4,45+
+attrition_scoring_2026,row_id,integer,Row number in the sheet.,0,0.0,430,1
+attrition_scoring_2026,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,430,EMP-0002
+attrition_scoring_2026,observation_date,date,Date the features were measured (30 Sep 2025 for real snapshots).,0,0.0,1,2026-09-30
+attrition_scoring_2026,department_id,text,Department code (D00 Executive ... D10 Legal & Compliance).,0,0.0,10,D08
+attrition_scoring_2026,role_id,text,Job role code from the roles table.,0,0.0,47,R047
+attrition_scoring_2026,job_level,integer,"Level 1 to 7 (1 Associate ... 6 Head, 7 CEO).",0,0.0,6,4
+attrition_scoring_2026,work_location,text,City of the office the employee is attached to.,0,0.0,9,Pune
+attrition_scoring_2026,work_mode,text,"Onsite, Hybrid or Remote.",0,0.0,3,Remote
+attrition_scoring_2026,employment_type,text,Permanent or Fixed-Term Contract. Contract staff have no PF/ESI.,0,0.0,2,Permanent
+attrition_scoring_2026,highest_education,text,Highest qualification (may be blank).,0,0.0,26,B.E. Computer Science
+attrition_scoring_2026,tenure_months,integer,Months since joining at the observation date.,0,0.0,121,176
+attrition_scoring_2026,total_experience_years,decimal,"Prior experience plus tenure, in years.",0,0.0,176,31.8
+attrition_scoring_2026,previous_employers_count,integer,Number of employers before joining.,0,0.0,6,1
+attrition_scoring_2026,commute_distance_km,decimal,Home-to-office distance in kilometres.,0,0.0,199,12.2
+attrition_scoring_2026,annual_fixed_pay,integer,Annual fixed pay at the observation date (INR).,0,0.0,428,1908600
+attrition_scoring_2026,comp_ratio,decimal,Pay divided by role mid-point (inflation-adjusted); below 1 means paid under midpoint.,0,0.0,300,1.032
+attrition_scoring_2026,raises_received,integer,Pay revisions received since joining.,0,0.0,9,7
+attrition_scoring_2026,last_raise_pct,decimal,Percentage of the latest raise (blank if none).,96,22.3,136,10.1
+attrition_scoring_2026,months_since_last_raise,integer,Months since the last pay raise (or since joining).,0,0.0,13,5
+attrition_scoring_2026,promotions_received,integer,Promotions since joining.,0,0.0,4,0
+attrition_scoring_2026,months_since_last_promotion,decimal,Months since last promotion (blank if never).,393,91.4,6,5.0
+attrition_scoring_2026,internal_transfers,integer,Department transfers since joining.,0,0.0,2,1
+attrition_scoring_2026,last_performance_rating,decimal,Latest appraisal rating (blank for new joiners).,97,22.6,5,4.0
+attrition_scoring_2026,last_engagement_score,decimal,Latest engagement survey score 1-5 (blank if no response).,73,17.0,38,2.2
+attrition_scoring_2026,manager_changes_12m,integer,Manager changes in the previous 12 months.,0,0.0,5,0
+attrition_scoring_2026,training_hours_12m,decimal,Training hours in the previous 12 months.,0,0.0,279,34.0
+attrition_scoring_2026,attendance_rate_3m,decimal,Attendance rate over the previous 3 months.,0,0.0,39,0.9615
+attrition_scoring_2026,late_arrivals_3m,integer,Late arrivals in the previous 3 months.,0,0.0,17,4
+attrition_scoring_2026,avg_overtime_hours_per_month_3m,decimal,Average overtime hours per month over 3 months.,0,0.0,44,0.0
+attrition_scoring_2026,avg_hours_worked_3m,decimal,Average daily hours worked over 3 months.,0,0.0,154,8.36
+attrition_scoring_2026,wfh_share_3m,decimal,Share of days worked from home over 3 months.,0,0.0,69,0.908
+attrition_scoring_2026,unpaid_leave_days_6m,decimal,Unpaid leave days over 6 months.,0,0.0,15,2.5
+attrition_scoring_2026,paid_leave_days_6m,decimal,Paid leave days over 6 months.,0,0.0,29,1.0
+attrition_scoring_2026,dept_attrition_rate_prior_12m,decimal,Department attrition over the previous 12 months (context feature).,0,0.0,10,0.1765
+engagement_survey,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,605,EMP-0002
+engagement_survey,survey_round,text,"Survey round, for example 2025-H1.",0,0.0,13,2020-H1
+engagement_survey,survey_date,date,Date of the survey.,0,0.0,13,2020-06-15
+engagement_survey,engagement_score,decimal,Engagement score 1-5.,0,0.0,41,2.5
+engagement_survey,would_recommend_company,text,Y if score at least 3.6.,0,0.0,2,N
+engagement_survey,manager_support_score,decimal,Manager support score 1-5.,0,0.0,41,2.0
+performance_reviews,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,562,EMP-0002
+performance_reviews,review_year,integer,Appraisal year (cycle effective 1 April of that year).,0,0.0,7,2020
+performance_reviews,appraisal_date,date,Date the appraisal rating took effect.,0,0.0,7,2020-04-01
+performance_reviews,performance_rating,integer,Rating from 1 (Needs Improvement) to 5 (Outstanding).,0,0.0,5,4
+performance_reviews,rating_label,text,Text label for the rating.,0,0.0,5,Exceeds Expectations
+attendance_monthly_features,attendance_feature_id,text,Id of an employee-month attendance feature row.,0,0.0,7339,AF-00001
+attendance_monthly_features,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,528,EMP-0002
+attendance_monthly_features,month,date,Month (first day).,0,0.0,18,2025-04-01
+attendance_monthly_features,department_id,text,Department code (D00 Executive ... D10 Legal & Compliance).,0,0.0,11,D08
+attendance_monthly_features,job_level,integer,"Level 1 to 7 (1 Associate ... 6 Head, 7 CEO).",0,0.0,7,4
+attendance_monthly_features,scheduled_days,decimal,Working days the employee was scheduled in the month.,0,0.0,23,20.0
+attendance_monthly_features,present_days,decimal,Days present (office or work from home).,0,0.0,24,20.0
+attendance_monthly_features,wfh_days,decimal,Days worked from home.,0,0.0,24,18.0
+attendance_monthly_features,half_days_unpaid,decimal,Half days without pay.,0,0.0,5,0.0
+attendance_monthly_features,paid_leave_days,decimal,Days on paid leave.,0,0.0,22,0.0
+attendance_monthly_features,unpaid_absence_days,decimal,Unpaid absence and unpaid leave days.,0,0.0,20,0.0
+attendance_monthly_features,longest_unpaid_streak_days,integer,Longest run of consecutive unpaid absence days in the month.,0,0.0,20,0
+attendance_monthly_features,late_arrivals,decimal,Late check-ins in the month.,0,0.0,19,1.0
+attendance_monthly_features,avg_hours_worked,decimal,Average working hours per recorded day.,0,0.0,513,8.5
+attendance_monthly_features,overtime_hours,decimal,Overtime hours recorded (only overtime-eligible roles).,0,0.0,55,0.0
+attendance_monthly_features,attendance_rate,decimal,(Present days + 0.5 x half days) / scheduled days.,0,0.0,136,1.0
+attendance_anomaly_labels,attendance_feature_id,text,Id of an employee-month attendance feature row.,0,0.0,150,AF-04604
+attendance_anomaly_labels,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,132,EMP-0484
+attendance_anomaly_labels,month,date,Month (first day).,0,0.0,18,2025-12-01
+attendance_anomaly_labels,anomaly_type,text,Type of injected anomaly (ground truth).,0,0.0,5,ABSENCE_STREAK
+attendance_anomaly_labels,injection_note,text,How the anomaly was created.,0,0.0,51,10 consecutive unpaid absence days
+attendance_daily_examples,sample_row_id,integer,Row number in the sample.,0,0.0,2000,1
+attendance_daily_examples,attendance_id,text,Unique attendance row id.,0,0.0,1999,ATT-0041469
+attendance_daily_examples,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,471,EMP-0238
+attendance_daily_examples,attendance_date,date,Working day the row refers to.,0,0.0,374,2026-03-24
+attendance_daily_examples,weekday,text,Day of week (three letters).,0,0.0,5,Tue
+attendance_daily_examples,status,text,Status of the record (meaning depends on the sheet; see sheet description).,0,0.0,2,WFH
+attendance_daily_examples,check_in,text,"Check-in time (HH:MM, 24-hour).",0,0.0,183,10:08
+attendance_daily_examples,check_out,text,Check-out time (HH:MM); blank when missed.,0,0.0,286,20:08
+attendance_daily_examples,hours_worked,decimal,Working hours (excluding 1-hour break); blank when check-out is missing.,0,0.0,54,9.0
+attendance_daily_examples,overtime_hours,decimal,Overtime hours recorded (only overtime-eligible roles).,0,0.0,7,0.0
+attendance_daily_examples,late_flag,text,Y if check-in was after 09:45.,0,0.0,2,Y
+attendance_daily_examples,is_anomaly,integer,1 if the row is an injected anomaly.,0,0.0,2,0
+attendance_daily_examples,anomaly_type,text,Type of injected anomaly (ground truth).,1880,94.0,4,ODD_HOUR_LOGIN
+payroll_monthly_features,payroll_item_id,text,Unique id of one employee-month pay calculation.,0,0.0,7355,PI-000001
+payroll_monthly_features,run_id,text,Payroll run id (PR-YYYY-MM).,0,0.0,18,PR-2025-04
+payroll_monthly_features,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,528,EMP-0002
+payroll_monthly_features,month,date,Month (first day).,0,0.0,18,2025-04-01
+payroll_monthly_features,department_id,text,Department code (D00 Executive ... D10 Legal & Compliance).,0,0.0,11,D08
+payroll_monthly_features,role_id,text,Job role code from the roles table.,0,0.0,57,R047
+payroll_monthly_features,job_level,integer,"Level 1 to 7 (1 Associate ... 6 Head, 7 CEO).",0,0.0,7,4
+payroll_monthly_features,overtime_eligible,text,"Y if the role earns overtime pay (levels 1-2 in Support, HR, Finance, Operations).",0,0.0,2,N
+payroll_monthly_features,monthly_fixed_gross,decimal,Full-month fixed gross entitlement (INR).,0,0.0,900,144460.0
+payroll_monthly_features,payable_days,decimal,Days paid = days employed minus loss-of-pay days.,0,0.0,44,30.0
+payroll_monthly_features,lop_days,decimal,"Loss-of-pay days (unpaid absence, unpaid leave, half day = 0.5).",0,0.0,14,0.0
+payroll_monthly_features,overtime_hours_paid,decimal,Overtime hours paid (capped at 50).,0,0.0,66,0.0
+payroll_monthly_features,overtime_pay,decimal,Overtime pay (2x hourly rate).,0,0.0,905,0.0
+payroll_monthly_features,variable_pay,decimal,"Bonus, incentive or award paid in the month.",0,0.0,758,34670.4
+payroll_monthly_features,variable_pay_type,text,"Performance Bonus, Sales Incentive, Festival Bonus or Spot Award.",6202,84.3,4,Performance Bonus
+payroll_monthly_features,gross_pay,decimal,Earned fixed pay + overtime + variable pay.,0,0.0,3873,179130.4
+payroll_monthly_features,pf_employee,decimal,Employee provident fund deduction.,0,0.0,420,1800.0
+payroll_monthly_features,esi_employee,decimal,Employee ESI deduction.,0,0.0,93,0.0
+payroll_monthly_features,professional_tax,decimal,Professional tax deduction.,0,0.0,2,200.0
+payroll_monthly_features,tds,decimal,Income tax deducted at source.,0,0.0,1253,18625.79
+payroll_monthly_features,other_deductions,decimal,Other deductions (loan recovery).,0,0.0,8,0.0
+payroll_monthly_features,total_deductions,decimal,Sum of all employee deductions.,0,0.0,1752,20625.79
+payroll_monthly_features,net_pay,decimal,Take-home pay = gross pay minus total deductions.,0,0.0,3902,158504.61
+payroll_anomaly_labels,payroll_item_id,text,Unique id of one employee-month pay calculation.,0,0.0,100,PI-D00001
+payroll_anomaly_labels,anomaly_type,text,Type of injected anomaly (ground truth).,0,0.0,8,DOUBLE_PAYMENT
+payroll_anomaly_labels,field_changed,text,Column(s) altered by the injection.,0,0.0,6,row
+payroll_anomaly_labels,original_value,text,Value before injection.,0,0.0,67,single payment
+payroll_anomaly_labels,injection_note,text,How the anomaly was created.,0,0.0,8,second identical payment for same employee and month
+monthly_headcount_history,month,date,Month (first day).,0,0.0,81,2020-01-01
+monthly_headcount_history,department_id,text,Department code (D00 Executive ... D10 Legal & Compliance).,0,0.0,12,ALL
+monthly_headcount_history,department_name,text,Department name.,0,0.0,12,Company total
+monthly_headcount_history,headcount_end,integer,Headcount at end of month.,0,0.0,172,171
+monthly_headcount_history,hires,integer,Employees who joined in the month.,0,0.0,17,5
+monthly_headcount_history,exits,integer,Employees who left in the month.,0,0.0,11,4
+monthly_headcount_history,voluntary_exits,integer,Resignations in the month.,0,0.0,9,4
+monthly_headcount_history,transfers_in,integer,Employees transferred into the department.,0,0.0,3,0
+monthly_headcount_history,transfers_out,integer,Employees transferred out of the department.,0,0.0,3,0
+monthly_headcount_history,headcount_start,integer,Headcount at start of month.,0,0.0,171,170
+monthly_headcount_history,hiring_drive_flag,integer,1 if a hiring drive was running for this department.,0,0.0,2,0
+monthly_headcount_history,attrition_rate_monthly_pct,decimal,Exits / headcount_start x 100.,0,0.0,148,2.35
+monthly_headcount_history,appraisal_cycle_flag,integer,"1 in April, the appraisal month.",0,0.0,2,0
+monthly_headcount_history,financial_year_end_flag,integer,1 in March.,0,0.0,2,0
+workforce_events,event_id,text,Event id.,0,0.0,9,EV-01
+workforce_events,start_date,date,First day of leave.,0,0.0,8,2020-04-01
+workforce_events,end_date,date,Last day of leave.,0,0.0,9,2020-06-30
+workforce_events,department_id,text,Department code (D00 Executive ... D10 Legal & Compliance).,0,0.0,5,ALL
+workforce_events,event_name,text,Event name.,0,0.0,9,COVID-19 hiring freeze
+workforce_events,description,text,Description.,0,0.0,9,Hiring almost stopped; exits slowed
+salary_training,hire_id,text,Hire id (employee id or HIRE-nnnn).,0,0.0,2934,EMP-0001
+salary_training,hire_date,date,Date the employee joined.,0,0.0,1956,2012-01-19
+salary_training,hire_year,integer,Year of hire.,0,0.0,15,2012
+salary_training,department_id,text,Department code (D00 Executive ... D10 Legal & Compliance).,0,0.0,10,D01
+salary_training,role_id,text,Job role code from the roles table.,0,0.0,47,R002
+salary_training,job_level,integer,"Level 1 to 7 (1 Associate ... 6 Head, 7 CEO).",0,0.0,5,1
+salary_training,band_min_2026,integer,Role band minimum (2026).,0,0.0,34,400000
+salary_training,band_mid_2026,integer,Role band mid-point (2026).,0,0.0,34,500000
+salary_training,band_max_2026,integer,Role band maximum (2026).,0,0.0,34,650000
+salary_training,prior_experience_years,decimal,Years of work experience before joining.,0,0.0,178,0.0
+salary_training,career_gap_months,integer,Months of career break before joining (0 if none). Linked to a planted pay bias; see the AI answer key.,0,0.0,8,0
+salary_training,work_location,text,City of the office the employee is attached to.,0,0.0,9,Pune
+salary_training,highest_education,text,Highest qualification (may be blank).,0,0.0,27,B.E. Computer Science
+salary_training,skills_count,integer,Number of listed skills (noise variable).,0,0.0,14,5
+salary_training,market_index,decimal,Pay inflation index relative to April 2026 (5.5% a year).,0,0.0,1951,0.4676
+salary_training,offered_annual_fixed,integer,TARGET: annual fixed pay offered at hire (INR).,0,0.0,2889,240480
+salary_training,source,text,"Where the row came from (Biometric, Web Check-in, HR System, or dataset origin).",0,0.0,2,master_hire
+job_descriptions,job_id,text,Job id (J01 ...).,0,0.0,10,J01
+job_descriptions,job_title,text,Job title.,0,0.0,10,Software Engineer
+job_descriptions,department_id,text,Department code (D00 Executive ... D10 Legal & Compliance).,0,0.0,8,D01
+job_descriptions,job_level,integer,"Level 1 to 7 (1 Associate ... 6 Head, 7 CEO).",0,0.0,2,2
+job_descriptions,min_experience_years,integer,Minimum experience required.,0,0.0,5,2
+job_descriptions,required_skills,text,Must-have skills (semicolon separated).,0,0.0,10,Python; SQL; REST APIs; Git; Data Structures
+job_descriptions,nice_to_have_skills,text,Good-to-have skills.,0,0.0,10,Docker; AWS; Django; FastAPI; PostgreSQL; Unit Testing
+job_descriptions,education_preference,text,Preferred education.,0,0.0,9,B.E./B.Tech in Computer Science or related
+job_descriptions,work_location,text,City of the office the employee is attached to.,0,0.0,1,Bengaluru / Chennai / Hyderabad (hybrid)
+job_descriptions,openings,integer,Number of open positions.,0,0.0,4,4
+job_descriptions,description_text,text,Full job description.,0,0.0,10,Zenith Nova Technologies is hiring a Software Engineer for t
+resumes,resume_id,text,Resume id (RES-0001 ...).,0,0.0,185,RES-0001
+resumes,candidate_name,text,Fictional candidate name.,0,0.0,180,Girish Joseph
+resumes,email,text,Fictional e-mail.,0,0.0,180,girish.joseph@mail-demo.example
+resumes,city,text,City.,0,0.0,10,Delhi NCR
+resumes,total_experience_years,decimal,"Prior experience plus tenure, in years.",0,0.0,73,4.8
+resumes,current_title,text,Current job title on the resume.,0,0.0,34,ML Engineer
+resumes,current_company,text,Current employer (fictional).,0,0.0,12,Quantum Leaf Technologies
+resumes,highest_education,text,Highest qualification (may be blank).,0,0.0,16,M.Sc Statistics
+resumes,college_tier,text,"Tier 1, 2 or 3 institution (for bias testing).",0,0.0,3,Tier 3
+resumes,skills,text,Skills listed (semicolon separated).,0,0.0,160,MLOps; Communication; TensorFlow; scikit-learn; PyTorch; Mac
+resumes,certifications,text,Certifications listed.,114,61.6,12,Microsoft Power BI Data Analyst
+resumes,source_format,text,"PDF, DOCX or Plain text origin.",0,0.0,3,DOCX
+resumes,layout_difficulty,text,"Parsing difficulty: Clean, Two-column, All-caps, Missing sections or Tables.",0,0.0,5,Missing sections
+resumes,target_job_family,text,Job the candidate was written for.,0,0.0,10,J04
+resumes,resume_text,text,Full resume text.,0,0.0,185,"GIRISH JOSEPH
+Delhi NCR | girish.joseph@mail-demo.example
+
+S"
+resume_job_labels,resume_id,text,Resume id (RES-0001 ...).,0,0.0,185,RES-0001
+resume_job_labels,job_id,text,Job id (J01 ...).,0,0.0,10,J04
+resume_job_labels,human_suitability_score,integer,Reviewer score 1 (weak) to 5 (strong).,0,0.0,5,4
+resume_job_labels,shortlist,text,Y if score is 4 or more.,0,0.0,2,Y
+resume_job_labels,required_skill_coverage,decimal,Share of required skills present.,0,0.0,6,1.0
+resume_job_labels,nice_skill_coverage,decimal,Share of nice-to-have skills present.,0,0.0,13,0.6
+resume_job_labels,reviewer_note,text,Reviewer comment.,0,0.0,3,Strong match
+resume_bias_pairs,pair_id,text,Bias pair id.,0,0.0,25,BP-01
+resume_bias_pairs,resume_id_original,text,Original resume.,0,0.0,25,RES-0123
+resume_bias_pairs,resume_id_twin,text,Twin resume.,0,0.0,25,RES-0161
+resume_bias_pairs,attribute_changed,text,What differs between original and twin.,0,0.0,2,candidate_name (gender-coded) and college tier
+resume_bias_pairs,skills_identical,text,Y: skills are the same.,0,0.0,1,Y
+resume_bias_pairs,experience_identical,text,Y: experience is the same.,0,0.0,1,Y
+resume_bias_pairs,expected_score_difference,integer,Expected score difference (0 for a fair screener).,0,0.0,1,0
+resume_bias_pairs,instruction,text,What to test.,0,0.0,1,A fair screener must give both resumes the same score
+resume_protected_attrs,resume_id,text,Resume id (RES-0001 ...).,0,0.0,185,RES-0001
+resume_protected_attrs,inferred_gender,text,Gender implied by the name.,0,0.0,2,Male
+resume_protected_attrs,college_tier,text,"Tier 1, 2 or 3 institution (for bias testing).",0,0.0,3,Tier 3
+chatbot_nlu_training,example_id,text,Training example id.,0,0.0,858,NLU-0001
+chatbot_nlu_training,text,text,User message.,0,0.0,858,I want to know who is in my team
+chatbot_nlu_training,intent,text,Labelled intent.,0,0.0,33,team_members
+chatbot_nlu_training,entities,text,Entities found in the message (JSON).,694,80.9,39,"[{""entity"": ""person_name"", ""value"": ""Karthik Iyer"", ""normali"
+chatbot_test_set,test_id,text,Test message id.,0,0.0,132,TST-001
+chatbot_test_set,text,text,User message.,0,0.0,132,yo
+chatbot_test_set,expected_intent,text,Correct intent.,0,0.0,33,greet
+chatbot_test_set,expected_entities,text,Correct entities (JSON).,106,80.3,19,"[{""entity"": ""holiday"", ""value"": ""Holi"", ""normalized"": ""Holi"""
+chatbot_responses,intent,text,Labelled intent.,0,0.0,33,greet
+chatbot_responses,response_template,text,Bot reply with {placeholders}.,0,0.0,33,Hello! I am the Zenith Nova HR assistant. Ask me about leave
+chatbot_responses,requires_login,text,Y if the answer uses personal data.,0,0.0,2,N
+chatbot_responses,allowed_roles,text,Roles that may receive the answer.,0,0.0,3,ALL
+chatbot_responses,backend_or_service_call,text,Backend or AI call used.,6,18.2,26,faq:hr_policy_leave
+chatbot_responses,on_failure,text,Reply when the call fails.,19,57.6,1,"Sorry, I could not fetch that right now. Please try again or"
+chatbot_responses,policy_note,text,Policy note.,19,57.6,1,Employees may only see their own data; HR/Admin rules apply 
+hr_faq,faq_id,text,FAQ id.,0,0.0,30,FAQ-01
+hr_faq,question,text,Question text.,0,0.0,30,How many casual leaves do I get?
+hr_faq,answer,text,Answer text.,0,0.0,30,"12 days per financial year, prorated for joiners."
+hr_faq,category,text,Category.,0,0.0,10,Leave
+hr_faq,policy_source,text,Source of the policy text.,0,0.0,1,"Zenith Nova HR Policy Handbook v3.2 (fictional, for training"
+chatbot_dialogues,dialogue_id,text,Dialogue id.,0,0.0,12,DLG-01
+chatbot_dialogues,turn_no,integer,Turn number.,0,0.0,3,1
+chatbot_dialogues,speaker,text,Who speaks.,0,0.0,1,USER
+chatbot_dialogues,user_role,text,Role of the user in the dialogue.,0,0.0,2,employee
+chatbot_dialogues,text,text,User message.,0,0.0,27,how many casual leaves do I have left
+chatbot_dialogues,expected_intent,text,Correct intent.,0,0.0,20,leave_balance
+chatbot_dialogues,context_note,text,Follow-up hint.,22,78.6,1,follow-up: reuse entity/slot from previous turn
+baseline_benchmarks,model,text,Model name.,0,0.0,5,Dummy (always stays)
+baseline_benchmarks,roc_auc_mean,decimal,Mean ROC-AUC across 5 folds.,0,0.0,5,0.5
+baseline_benchmarks,roc_auc_sd,decimal,Standard deviation of ROC-AUC.,0,0.0,4,0.0
+baseline_benchmarks,pr_auc_mean,decimal,Mean average precision (PR-AUC).,0,0.0,5,0.146
+baseline_benchmarks,precision_mean,decimal,Mean precision at 0.5 threshold.,0,0.0,5,0.0
+baseline_benchmarks,recall_mean,decimal,Mean recall at 0.5 threshold.,0,0.0,5,0.0
+baseline_benchmarks,f1_mean,decimal,Mean F1.,0,0.0,5,0.0
+baseline_benchmarks,accuracy_mean,decimal,Mean accuracy.,0,0.0,4,0.854
+baseline_benchmarks,comment,text,Comment.,0,0.0,3,Looks 85% accurate yet catches nobody: why accuracy alone mi
+anomaly_baselines,task,text,Task evaluated.,0,0.0,2,"Attendance anomalies (Isolation Forest, 3% contamination)"
+anomaly_baselines,features,text,Features used.,0,0.0,2,"scheduled_days, present_days, half_days_unpaid, paid_leave_d"
+anomaly_baselines,precision,decimal,Share of flagged rows that are truly anomalous.,0,0.0,2,0.403
+anomaly_baselines,recall,decimal,Share of injected anomalies that were caught.,0,0.0,2,0.593
+anomaly_baselines,flagged,integer,Y if above the model threshold.,0,0.0,2,221
+anomaly_baselines,injected,integer,Number of injected anomalies.,0,0.0,2,150
+sample_attrition_risk,prediction_id,text,Prediction id.,0,0.0,430,AR-0001
+sample_attrition_risk,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,430,EMP-0002
+sample_attrition_risk,department_id,text,Department code (D00 Executive ... D10 Legal & Compliance).,0,0.0,10,D08
+sample_attrition_risk,as_of_date,date,Date the snapshot or prediction refers to.,0,0.0,1,2026-09-30
+sample_attrition_risk,risk_score_12m,decimal,Probability of leaving within 12 months (0-1).,0,0.0,84,0.035
+sample_attrition_risk,risk_band,text,"Low, Medium or High (High = top 10%).",0,0.0,3,Low
+sample_attrition_risk,top_reason_1,text,Strongest driver of the score.,0,0.0,152,Total experience years (31.8)
+sample_attrition_risk,top_reason_2,text,Second driver.,0,0.0,122,Low engagement score (2.2/5)
+sample_attrition_risk,top_reason_3,text,Third driver.,0,0.0,118,Wfh share 3m (0.9)
+sample_attrition_risk,model_version,text,Model that produced the row.,0,0.0,1,attrition-logreg-baseline-0.1
+sample_attrition_risk,model_note,text,Caveat shown with the prediction.,0,0.0,1,"Baseline demo model: a support signal for HR, never a decisi"
+sample_anomaly_results,result_id,text,Anomaly result id (AN-0001 ...).,0,0.0,405,AN-0001
+sample_anomaly_results,source_dataset,text,Dataset that was scored.,0,0.0,2,attendance_monthly_features
+sample_anomaly_results,record_id,text,Id of the scored record.,0,0.0,405,AF-03170
+sample_anomaly_results,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,225,EMP-0356
+sample_anomaly_results,period,date,Period of the scored record.,0,0.0,18,2025-07-01
+sample_anomaly_results,anomaly_score,decimal,0 to 1; higher means more unusual.,0,0.0,222,1.0
+sample_anomaly_results,flagged,text,Y if above the model threshold.,0,0.0,1,Y
+sample_anomaly_results,reason_code,text,Machine reason code.,0,0.0,11,NO_ATTENDANCE
+sample_anomaly_results,reason_text,text,Plain-English reason.,0,0.0,30,No presence recorded for the whole month
+sample_anomaly_results,money_at_risk,decimal,Estimated money exposure (payroll rows).,221,54.6,174,347844.46
+sample_anomaly_results,model_version,text,Model that produced the row.,0,0.0,2,iforest-attendance-0.1
+sample_anomaly_results,scored_at,timestamp,When scoring ran.,0,0.0,1,2026-10-01 02:00:00
+sample_forecast,forecast_id,text,Forecast id.,0,0.0,72,FC-0001
+sample_forecast,metric,text,Forecast metric.,0,0.0,2,headcount_end
+sample_forecast,department_id,text,Department code (D00 Executive ... D10 Legal & Compliance).,0,0.0,11,ALL
+sample_forecast,forecast_month,date,Month being forecast.,0,0.0,6,2026-10-01
+sample_forecast,forecast_value,decimal,Point forecast.,0,0.0,62,426.3
+sample_forecast,lower_80,decimal,Lower bound of the 80% range.,0,0.0,63,417.5
+sample_forecast,upper_80,decimal,Upper bound of the 80% range.,0,0.0,65,435.1
+sample_forecast,method,text,Forecast method.,0,0.0,2,linear trend (36m) + half-strength seasonality
+sample_forecast,trained_through,text,Last month of actual data used.,0,0.0,1,2026-09
+sample_forecast,model_version,text,Model that produced the row.,0,0.0,1,trend-seasonal-baseline-0.1
+answer_key_planted_dirt,employee_id,text,Unique employee code (EMP-0001 ...). Same code in every table and every workbook.,0,0.0,98,EMP-0389
+answer_key_planted_dirt,issue_type,text,Type of issue.,0,0.0,6,INCONSISTENT_CATEGORY
+answer_key_planted_dirt,detail,text,Details.,0,0.0,13,work_location 'Delhi NCR' written as 'delhi ncr'
+answer_key_notes,topic,text,Topic.,0,0.0,15,Label
+answer_key_notes,detail,text,Details.,0,0.0,15,left_within_12m = 1 if exit_date falls between 2025-10-01 an

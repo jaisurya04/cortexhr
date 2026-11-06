@@ -1,0 +1,5 @@
+metric,a,b,mean_diff,sd_diff,boot_ci_low,boot_ci_high,folds_a_better,n_folds
+roc_auc,attrition-v2 candidate: LR + tuned HGB blend,Logistic Regression (balanced) [baseline],0.006999224701678663,0.011535237467348613,-0.0021694195375176807,0.01616786894087501,3,5
+pr_auc,attrition-v2 candidate: LR + tuned HGB blend,Logistic Regression (balanced) [baseline],0.000505437063283276,0.027916474862366494,-0.018087301279774003,0.02488440337660832,2,5
+roc_auc,HistGradientBoosting tuned,Logistic Regression (balanced) [baseline],-0.014680046946918112,0.018371040070607834,-0.028910267646463962,-0.0004498262473722647,1,5
+pr_auc,HistGradientBoosting tuned,Logistic Regression (balanced) [baseline],-0.014623781224134436,0.05987987693637128,-0.052291493915774444,0.036294716676628445,1,5

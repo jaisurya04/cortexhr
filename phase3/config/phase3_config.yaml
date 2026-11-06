@@ -1,0 +1,48 @@
+# CortexHR Phase 3 configuration: every number used by the code lives here (no hidden constants).
+seed: 42
+paths:
+  data_csv: 03_Data/csv
+  artifacts: artifacts
+  reports: reports
+  vault: 04_Validation_Vault          # restricted, never committed; optional
+resume:
+  top_k: 5
+  shortlist_label_threshold: 4         # human_suitability_score >= 4 counts as a good match (checked in the audit)
+  weights:                             # tested in notebook 04; chosen weights below
+    tfidf: 0.30
+    required_skill: 0.40
+    nice_skill: 0.10
+    experience: 0.20
+  success_criteria:                    # fixed BEFORE looking at results
+    precision_at_5_min_multiple_of_random: 2.0
+    hit_rate_at_5_min: 0.80
+    max_twin_gap_after_fix: 0.001
+    max_ndcg_drop_after_fix: 0.05
+  tfidf:
+    ngram_range: [1, 2]
+    sublinear_tf: true
+    min_df: 1
+fairness:
+  tolerance: 0.001                     # twin gap below this counts as "no practical gap"
+attrition:
+  n_splits: 5
+  calibration_methods: [none, sigmoid, isotonic]
+  risk_bands: {high_top_fraction: 0.10, medium_next_fraction: 0.20}   # company rule (starter helper)
+  model_version: attrition-v2
+  success_criteria:                    # fixed BEFORE looking at results
+    gain_is_real_if_bootstrap_ci_low_above: 0.0   # paired fold difference in ROC-AUC vs the Task 3 baseline
+    max_expected_calibration_error: 0.05
+    max_leakage_single_feature_auc: 0.80
+explain:
+  n_permutations: 120
+  top_n: 3
+  human_review_text: "Human review required: this is a support signal for HR, not a decision about the person."
+salary:
+  n_splits: 5
+  band_quantiles: [0.10, 0.50, 0.90]
+  min_group_size: 30
+  success_criteria:                    # fixed BEFORE looking at results
+    must_beat_role_average_baseline_mae: true
+    band_target_coverage: 0.80          # the low..high band should contain about 80% of actual offers
+    max_acceptable_band_coverage_error: 0.05
+    output_is_a_range_not_one_number: true

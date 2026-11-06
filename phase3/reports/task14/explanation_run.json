@@ -1,0 +1,90 @@
+{
+  "created_utc": "2026-11-05T02:24:57+00:00",
+  "n_permutations": 120,
+  "background_rows": 200,
+  "additivity_max_error": 2.0816681711721685e-16,
+  "stability": {
+    "phi_correlation": 0.9714132901036352,
+    "top_n_identical_share": 0.4906976744186046,
+    "mean_top_n_overlap": 0.8178294573643411
+  },
+  "checks": [
+    {
+      "check": "430 rows",
+      "passed": true,
+      "detail": "430"
+    },
+    {
+      "check": "columns equal sample (names and order)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "employee ids unique",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "employee ids and order equal the scoring file",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "risk score in [0,1], no NaN",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "risk band values valid",
+      "passed": true,
+      "detail": "{np.str_('Low'): 301, np.str_('Medium'): 86, np.str_('High'): 43}"
+    },
+    {
+      "check": "band counts 43/86/301 (top 10%, next 20%)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "band is monotone in score",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "three non-empty reasons per row",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "the three reasons are different",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "every row says human review is required",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "model_version is attrition-v2",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "same dtype kinds as sample",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "no banned wording (certainty, blame, protected traits)",
+      "passed": true,
+      "detail": "[]"
+    }
+  ],
+  "shap_library_cross_check": {
+    "shap_version": "0.50.0",
+    "rows": 10,
+    "background_rows": 50,
+    "max_evals": 87,
+    "additivity_max_error": 2.7755575615628914e-16
+  }
+}

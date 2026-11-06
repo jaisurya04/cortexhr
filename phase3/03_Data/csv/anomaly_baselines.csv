@@ -1,0 +1,3 @@
+task,features,precision,recall,flagged,injected
+"Attendance anomalies (Isolation Forest, 3% contamination)","scheduled_days, present_days, half_days_unpaid, paid_leave_days, unpaid_absence_days, longest_unpaid_streak_days, late_arrivals, avg_hours_worked, overtime_hours, attendance_rate",0.403,0.593,221,150
+"Payroll anomalies (Isolation Forest on ratios, 2.5% contamination)","gross_vs_fixed, ded_ratio, net_ratio, overtime_hours_paid, dup_flag, net_pay",0.217,0.4,184,100
