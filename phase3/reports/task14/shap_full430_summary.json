@@ -1,12 +1,25 @@
 {
-  "created_utc": "2026-11-06T09:11:52+00:00",
-  "reasons_source": "shap library, PermutationExplainer, all 430 employees",
+  "created_utc": "2026-11-06T11:01:00+00:00",
   "shap_version": "0.54.1",
   "rows": 430,
   "background_rows": 50,
-  "max_evals": 87,
-  "additivity_max_error": 4.440892098500626e-16,
+  "additivity_max_error": 5.551115123125783e-16,
+  "feature_level_rows": 430,
   "feature_level_additivity_max_error": 5.551115123125783e-16,
+  "python": "3.14.8",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "log_file": "reports/task14/shap_full430_run_log.txt",
+  "files": [
+    "shap_full430_feature_values.csv",
+    "shap_full430_group_values.csv",
+    "shap_full430_comparison.csv",
+    "shap_full430_summary.json"
+  ],
+  "mean_top3_overlap": 0.8224806201550388,
+  "share_all_three_identical": 0.5,
+  "share_same_top1": 0.6813953488372093,
+  "median_group_correlation": 0.9540857492183363,
+  "reasons_source": "shap library, PermutationExplainer, all 430 employees",
   "bands": {
     "Low": 301,
     "Medium": 86,
@@ -43,7 +56,7 @@
     {
       "check": "risk band values valid",
       "passed": true,
-      "detail": "{np.str_('Low'): 301, np.str_('Medium'): 86, np.str_('High'): 43}"
+      "detail": "{'Low': 301, 'Medium': 86, 'High': 43}"
     },
     {
       "check": "band counts 43/86/301 (top 10%, next 20%)",

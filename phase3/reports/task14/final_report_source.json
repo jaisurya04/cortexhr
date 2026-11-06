@@ -1,0 +1,14 @@
+{
+  "created_utc": "2026-11-06T08:18:20+00:00",
+  "reasons_source": "native shap library, PermutationExplainer, all 430 employees",
+  "shap_version": "0.54.1",
+  "background_rows": 50,
+  "additivity_max_error": 5.551115123125783e-16,
+  "format_checks_passed": 14,
+  "format_checks_total": 14,
+  "bands": {
+    "Low": 301,
+    "Medium": 86,
+    "High": 43
+  }
+}
