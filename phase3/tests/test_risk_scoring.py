@@ -37,5 +37,6 @@ def test_reasons_do_not_state_certainty_or_protected_traits():
 
 
 def test_report_copies_are_identical_and_scores_are_calibrated_probabilities():
+    import json; src = json.loads((task_dir(14) / "explanation_run.json").read_text(encoding="utf-8")); assert src["reasons_source"].startswith("shap library") and src["format_checks_passed"] == src["format_checks_total"]
     assert (PREDICTIONS / "attrition_risk_2026.csv").read_bytes() == (task_dir(14) / "attrition_risk_2026.csv").read_bytes()
     assert 0.08 < _rep().risk_score_12m.mean() < 0.20

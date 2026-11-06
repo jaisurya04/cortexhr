@@ -7,6 +7,7 @@ scipy==1.17.1
 matplotlib==3.10.8
 joblib==1.5.3
 openpyxl==3.1.5
+shap==0.54.1                 # Task 14 explanations use the real shap library (required, no fallback)
 # Tooling for notebook execution, testing and configuration:
 pytest>=8.0
 jupyterlab>=4.2
@@ -14,5 +15,4 @@ ipykernel>=6.29
 nbformat>=5.10
 nbconvert>=7.16
 pyyaml>=6.0
-# Optional audit dependencies are pinned separately in requirements-optional.txt.
-# Install both files to reproduce the LightGBM challenger and native-SHAP cross-check.
+# lightgbm (optional, for the separate LightGBM challenger) is pinned in requirements-optional.txt.

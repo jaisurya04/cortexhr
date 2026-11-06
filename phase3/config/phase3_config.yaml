@@ -34,7 +34,7 @@ attrition:
     max_expected_calibration_error: 0.05
     max_leakage_single_feature_auc: 0.80
 explain:
-  n_permutations: 120
+  background_rows: 50                  # rows of background data given to shap's PermutationExplainer
   top_n: 3
   human_review_text: "Human review required: this is a support signal for HR, not a decision about the person."
 salary:

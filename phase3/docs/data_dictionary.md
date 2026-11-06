@@ -12,7 +12,7 @@
 | model_version | attrition-v2 |
 | model_note | human-review note and how to read bands and reasons |
 
-**reports/task14/group_contributions.csv**: contribution of each of 23 explanation groups to each employee's score (probability points), the baseline value and the prediction; contributions plus base equal the prediction.
+**reports/task14/shap_full430_group_values.csv**: SHAP contribution of each of 23 explanation groups to each of the 430 employees' scores (probability points). `shap_full430_feature_values.csv` has the 43 raw-feature SHAP values plus `base_value` and `prediction`; contributions plus base equal the prediction.
 
 **reports/task11/top5_per_job_all_resumes.csv**: job_id, rank, resume_id, score, tfidf_scaled, required_coverage, nice_coverage, experience_score, matched_required, missing_required, total_years, relevant_years, recommendation, human_review.
 

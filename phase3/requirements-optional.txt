@@ -1,3 +1,2 @@
-# Optional libraries for official Phase 3 model/explanation cross-checks
+# Optional library for the separate LightGBM challenger (Task 13). shap is now in requirements.txt.
 lightgbm==4.7.0
-shap==0.54.1

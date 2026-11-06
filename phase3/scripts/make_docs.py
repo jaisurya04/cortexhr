@@ -52,7 +52,7 @@ W("docs/experiment_log.md", f"""# Experiment log (generated from the saved table
 | Attrition gradient boosting | {len(tl13)} settings, 5 folds each | highest mean CV PR-AUC on the training part | selected `{tl13.loc[tl13.decision.str.startswith('selected'),'experiment_id'].iloc[0]}`; top-5 settings span {f3(tl13.pr_auc_mean.nlargest(5).max()-tl13.pr_auc_mean.nlargest(5).min())} PR-AUC (fold sd about {f3(tl13.pr_auc_sd.mean())}) | `reports/task13/tuning_log.csv` |
 | Attrition calibration | {len(cal)} methods | lowest out-of-fold Brier | chosen {m13['calibration_method']}: {', '.join(f"{r['method']} Brier {r['brier']:.4f} ECE {r['ece']:.4f}" for _, r in cal.iterrows())} | `reports/task13/calibration_comparison.csv` |
 | Attrition v2 vs baseline | 5 paired folds, bootstrap | gain real only if the 95% interval is above 0 | {m13['verdict']['text']} | `reports/task13/paired_differences.csv` |
-| Explanations | 120 permutations (2 independent halves) | split-half agreement | phi correlation {run14['stability']['phi_correlation']:.3f}; additivity error {run14['additivity_max_error']:.1e} | `reports/task14/explanation_run.json` |
+| Explanations | shap PermutationExplainer, 50-row background, all 430 employees | additivity (contributions + base = prediction) | shap {run14['shap_version']}; additivity error {run14['additivity_max_error']:.1e} | `reports/task14/explanation_run.json` |
 | Salary gradient boosting | {len(tl15)} settings, 5 folds each | lowest CV MAE | selected `{tl15.loc[tl15.decision.str.startswith('selected'),'experiment_id'].iloc[0]}` | `reports/task15/tuning_log.csv` |
 """)
 # ---------------------------------------------------------------------------------------------- task reports
@@ -78,9 +78,9 @@ Notebooks 07 to 09. Same folds as Task 3. Candidates: logistic regression (basel
 bands = risk.risk_band.value_counts().to_dict()
 W("reports/task14/README.md", f"""# Task 14: explain every person's risk
 Notebooks 10 and 11. 430 active employees scored with attrition-v2; bands {bands}; mean risk {risk.risk_score_12m.mean():.3f}.
-**Explanations:** Monte Carlo Shapley values over 23 groups (120 permutations, 200-row background): additivity error {run14['additivity_max_error']:.1e}; split-half correlation {run14['stability']['phi_correlation']:.3f}; identical top-3 set in {run14['stability']['top_n_identical_share']*100:.0f}% of employees (mean overlap {run14['stability']['mean_top_n_overlap']:.2f}).
+**Reasons in the 430-row report:** real `shap` library (PermutationExplainer, shap {run14['shap_version']}, all {run14['rows']} employees, {run14['background_rows']}-row background) folded into 23 HR groups; additivity error {run14['additivity_max_error']:.1e}. Produced by `scripts/run_shap_full430.py` (or notebook 10) through `run_task14`; run data in `explanation_run.json`.
 **Format checks:** {sum(c['passed'] for c in run14['checks'])} of {len(run14['checks'])} passed (columns, order, ranges, bands, three distinct reasons, human-review note, wording).
-**Output:** `attrition_risk_2026.csv`. Manual review of 10 rows and the wording changes it caused are in notebook 11.""")
+**Output:** `attrition_risk_2026.csv` (reasons from the shap library). Manual review of 10 rows and the wording changes it caused are in notebook 11.""")
 g15 = rd("reports/task15/gender_means.csv").set_index("gender") if (ROOT / "reports/task15/gender_means.csv").exists() else None
 W("reports/task15/README.md", f"""# Task 15: fair pay bands
 Notebooks 12 to 14. Model {fm}, job-related inputs only (career_gap_months excluded, gender and age never inputs).
@@ -102,15 +102,6 @@ if lgb_summary_path.exists() and lgb_test_path.exists():
         fp = ROOT / rel; old = fp.read_text(encoding="utf-8")
         if "Official LightGBM candidate (separate challenger)" not in old:
             fp.write_text(old.rstrip() + extra13, encoding="utf-8")
-shap_check = run14.get("shap_library_cross_check")
-if shap_check:
-    extra14 = ("\n\n**Actual SHAP library cross-check:** SHAP " + str(shap_check["shap_version"])
-               + " PermutationExplainer on " + str(shap_check["rows"]) + " employees; additivity error "
-               + f"{shap_check['additivity_max_error']:.1e}"
-               + ". Feature-level and grouped results: `shap_library_feature_cross_check.csv` and `shap_library_group_cross_check.csv`.\n")
-    fp = ROOT / "reports/task14/README.md"; old = fp.read_text(encoding="utf-8")
-    if "Actual SHAP library cross-check" not in old:
-        fp.write_text(old.rstrip() + extra14, encoding="utf-8")
 
 n_ok, n_all = TR.write(TR.build())
 print("docs written;", n_ok, "of", n_all, "requirements complete")

@@ -11,7 +11,7 @@ phase3/
 │       ├── resume/        text, skills, experience, scoring (TF-IDF + skills + experience), metrics, analysis, api
 │       ├── fairness/      twin-pair audit
 │       ├── attrition/     v2 candidates, tuning, calibration, training run
-│       ├── explanations/  groups, Monte Carlo Shapley, reason lookup, risk report
+│       ├── explanations/  groups, shap_explainer (real shap library), reason lookup, risk report (reasons from shap)
 │       └── salary/        regression models, bands, group gaps
 ├── notebooks/             15 notebooks, each with the 38-stage headings, executed with real outputs
 ├── scripts/               notebook builders, executor, docs generator

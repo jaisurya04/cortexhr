@@ -28,19 +28,20 @@ Python 3.11 or newer.
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\activate
-pip install -r requirements.txt -r requirements-optional.txt
+pip install -r requirements.txt            # includes shap, required for Task 14
+pip install -r requirements-optional.txt   # only for the separate LightGBM challenger
 python tests/run_all.py                    # or: pytest -q tests
 python scripts/execute_notebooks.py        # re-run all 15 notebooks (about 12 minutes on one CPU)
 python scripts/make_docs.py                # regenerate model cards, task reports, traceability
 python scripts/run_quality_gate.py         # tests + traceability gate -> docs/phase3_quality_gate.md
 ```
 
-`lightgbm` and `shap` are optional extras for reproducing the separate LightGBM challenger and the native-SHAP cross-check. Install `requirements-optional.txt` to reproduce those audit outputs. The production Task 13 model remains the LR + HGB blend; the Task 14 full-population explanations remain grouped Monte Carlo Shapley (see `docs/limitations.md`).
+`shap` is a required package: every Task 14 explanation comes from the real `shap` library (`PermutationExplainer`), with no home-made fallback. `lightgbm` is the only optional extra (the separate LightGBM challenger in `requirements-optional.txt`). The production Task 13 model remains the LR + HGB blend.
 
 ## Honest notes
 
 - The attrition v2 gain over the simple baseline is **not proven** (Task 13 says so and why).
-- The 430 employee-level Task 14 explanations are produced by the grouped Monte Carlo Shapley estimator. SHAP 0.50.0 was subsequently installed and its `PermutationExplainer` was run as a separate cross-check on 10 employees only; it was not used to generate the full 430-row explanation report.
+- The 430 employee-level Task 14 reasons come from the real `shap` library (`PermutationExplainer`, shap 0.54.1, all 430 employees, 23 HR-readable groups). Reasons are drivers of the score, not certainty.
 - Group fairness measurements use two restricted files (`04_Validation_Vault/unlock_CX-12...`, `unlock_CX-15...`) that are **never committed**; without them those cells say they were skipped.
 - Everything here is decision support. A human decides.
 
@@ -51,6 +52,6 @@ python scripts/run_quality_gate.py         # tests + traceability gate -> docs/p
 
 Answers to the five "Think for yourself" questions: `docs/think_for_yourself.md`. `python tests/run_all.py` prints installed vs pinned versions and reports any test it cannot run as SKIP with the reason.
 
-Optional strict check: `python scripts/run_shap_full430.py` runs the real `shap` library on all 430 employees and writes `reports/task14/shap_full430_*` comparing its top-3 reasons with the Monte Carlo ones. It needs `shap` (requirements-optional.txt).
+Task 14 in one step (needs `shap`, installed by `requirements.txt`): `python scripts/run_shap_full430.py` scores the 430 employees, runs the real library on all of them, builds the 3 reasons per person and writes `reports/task14/attrition_risk_2026.csv` (all 14 format checks must pass) plus `reports/task14/shap_full430_*`. `python scripts/plot_shap_full430.py` then draws the SHAP charts. Notebooks 10 and 11 call the same `run_task14` function.
 
-**Native SHAP on all 430 employees (run on the author's machine, 2026-11-06):** shap 0.54.1 PermutationExplainer on all 430 employees (50-row background): additivity error 5.6e-16; mean top-3 overlap with the grouped Monte Carlo reasons 0.82; all three reasons identical for 50.0% of employees; same #1 reason for 68.1%; median per-person correlation of group contributions 0.954. Output files: `reports/task14/shap_full430_group_values.csv`, `shap_full430_comparison.csv`, `shap_full430_summary.json` (rows = 430). The 430-row HR report still uses the grouped Monte Carlo reasons; the two methods agree on all three reasons for half of the employees, and differences are expected because the Monte Carlo method treats related columns as grouped players.
+**SHAP on all 430 employees (run on the author's machine, 2026-11-06):** shap 0.54.1 PermutationExplainer on all 430 employees (50-row background): additivity error 5.6e-16. Output files: `reports/task14/shap_full430_group_values.csv`, `shap_full430_feature_values.csv`, `shap_full430_summary.json` (rows = 430).

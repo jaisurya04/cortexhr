@@ -18,7 +18,6 @@ Generated: 2026-11-05
 - LightGBM: 3 predeclared configurations x 5 Task 3 folds (15 fold-result rows).
 - Best LightGBM CV ROC-AUC: 0.692233; PR-AUC: 0.319219.
 - Calibrated LightGBM holdout ROC-AUC: 0.695683; PR-AUC: 0.359738; Brier: 0.114869.
-- SHAP version: 0.50.0; 10 rows; 50 background rows; 87 evaluations per row; additivity max error: 2.78e-16.
 - All 15 notebooks pass nbformat validation; all code cells have execution counts and no stored error outputs.
 - The notebook workflow test verifies that each Task 11–15 notebook group covers stages 1 through 38.
 - Full automated test suite: 72 passed, 0 failed.
@@ -68,15 +67,15 @@ For the full Task 14 explanation run, use notebook 10 or call `run_task14(write=
 
 ## Task 14 explanation-method disclosure
 
-The main Task 14 explanation report and all 430 employee-level reason sets use the grouped Monte Carlo Shapley estimator over 23 HR-readable groups. The native SHAP 0.50.0 `PermutationExplainer` run is a separate implementation cross-check on a reproducible 10-employee sample with a 50-row background; it is not a full-population SHAP run and did not generate the 430-row report. Figure 4 is therefore a grouped Monte Carlo Shapley summary, not a native SHAP summary plot.
+The final Task 14 report (`attrition_risk_2026.csv`, 430 employees) takes its top-3 reasons from the real `shap` library (`PermutationExplainer`, shap 0.54.1, all 430 employees, 50-row background, 23 HR-readable groups; sensitive-proxy groups are never shown as reasons). No Monte Carlo or other home-made estimator remains in the code. Figure 4 in the report is the SHAP summary.
 
 ## Submission documentation corrections
 
-- README installation instructions now include both `requirements.txt` and `requirements-optional.txt`; the stale offline-SHAP statement and the blanket claim that optional-library outputs do not affect results have been removed.
-- The current audit container already had scikit-learn 1.8.0, SHAP 0.50.0 and LightGBM 4.6.0 installed, and the full test suite passed 72/72. The installed pandas 2.2.3, NumPy 2.3.5 and SciPy 1.17.0 do not match the exact pins in `requirements.txt` (pandas 3.0.2, NumPy 2.4.4, SciPy 1.17.1). A fresh `pip install -r requirements.txt -r requirements-optional.txt` was attempted but could not reach the package index because this execution environment has no DNS/network access; therefore a clean-machine installation with every pinned version was not verified here.
-- The report states that all 430 main explanations use grouped Monte Carlo Shapley and native SHAP was only cross-checked on 10 employees. The figure title and caption now match that scope.
+- README installation instructions: `requirements.txt` now includes `shap==0.54.1` (required); `requirements-optional.txt` holds only `lightgbm`.
+- The current audit container already had scikit-learn 1.8.0 and LightGBM 4.6.0 installed, and the full test suite passed 72/72. The installed pandas 2.2.3, NumPy 2.3.5 and SciPy 1.17.0 do not match the exact pins in `requirements.txt` (pandas 3.0.2, NumPy 2.4.4, SciPy 1.17.1). A fresh `pip install -r requirements.txt` was attempted but could not reach the package index because this execution environment has no DNS/network access; therefore a clean-machine installation with every pinned version was not verified here.
+- The report states that the 430 final reasons come from the shap library. The figure and caption match.
 - The PDF now describes the saved notebook outputs and 38-stage coverage without claiming that every notebook was clean-kernel re-executed in this final audit.
 
 ## Native SHAP on all 430 employees
 
-Executed on the author's machine (Windows, project `.venv`): shap 0.54.1 PermutationExplainer on all 430 employees (50-row background): additivity error 5.6e-16; mean top-3 overlap with the grouped Monte Carlo reasons 0.82; all three reasons identical for 50.0% of employees; same #1 reason for 68.1%; median per-person correlation of group contributions 0.954. rows = 430 confirmed in the run summary. Note: this run used shap 0.54.1, while `requirements-optional.txt` pins 0.50.0 (used for the earlier 10-employee check); keep the pin consistent with the version you want reviewers to install.
+Executed on the author's machine (Windows, project `.venv`): shap 0.54.1 PermutationExplainer on all 430 employees (50-row background): additivity error 5.6e-16. rows = 430 confirmed in the run summary. `requirements.txt` pins the same version (0.54.1).

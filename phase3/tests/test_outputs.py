@@ -6,7 +6,7 @@ sys.path.insert(0, str(ROOT / "scripts"))
 EXPECTED = {11: ["ranking_quality_per_job.csv", "ranking_quality_summary.csv", "misranking_analysis.csv", "top5_per_job_all_resumes.csv", "weight_experiments.csv"],
             12: ["before_after_gap.csv", "ranking_quality_before_after.csv", "twin_pair_results.csv", "ablation_masking.csv", "fairness_results.json"],
             13: ["tuning_log.csv", "fold_metrics.csv", "cv_summary.csv", "paired_differences.csv", "calibration_comparison.csv", "test_metrics.csv"],
-            14: ["attrition_risk_2026.csv", "group_contributions.csv", "explanation_run.json", "manual_review_10_rows.csv"],
+            14: ["attrition_risk_2026.csv", "shap_full430_group_values.csv", "explanation_run.json", "manual_review_10_rows.csv"],
             15: ["cv_metrics.csv", "test_metrics.csv", "tuning_log.csv", "band_recommendations_test.csv"]}
 NOTEBOOKS = {11: ["01", "02", "03", "04"], 12: ["05", "06"], 13: ["07", "08", "09"], 14: ["10", "11"], 15: ["12", "13", "14"]}
 

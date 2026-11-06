@@ -1,13 +1,19 @@
 {
-  "created_utc": "2026-11-05T02:24:57+00:00",
-  "n_permutations": 120,
-  "background_rows": 200,
-  "additivity_max_error": 2.0816681711721685e-16,
-  "stability": {
-    "phi_correlation": 0.9714132901036352,
-    "top_n_identical_share": 0.4906976744186046,
-    "mean_top_n_overlap": 0.8178294573643411
+  "created_utc": "2026-11-06T09:11:52+00:00",
+  "reasons_source": "shap library, PermutationExplainer, all 430 employees",
+  "shap_version": "0.54.1",
+  "rows": 430,
+  "background_rows": 50,
+  "max_evals": 87,
+  "additivity_max_error": 4.440892098500626e-16,
+  "feature_level_additivity_max_error": 5.551115123125783e-16,
+  "bands": {
+    "Low": 301,
+    "Medium": 86,
+    "High": 43
   },
+  "format_checks_passed": 14,
+  "format_checks_total": 14,
   "checks": [
     {
       "check": "430 rows",
@@ -79,12 +85,5 @@
       "passed": true,
       "detail": "[]"
     }
-  ],
-  "shap_library_cross_check": {
-    "shap_version": "0.50.0",
-    "rows": 10,
-    "background_rows": 50,
-    "max_evals": 87,
-    "additivity_max_error": 2.7755575615628914e-16
-  }
+  ]
 }

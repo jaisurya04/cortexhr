@@ -1,22 +1,89 @@
 {
-  "created_utc": "2026-11-06T05:31:30+00:00",
+  "created_utc": "2026-11-06T09:11:52+00:00",
+  "reasons_source": "shap library, PermutationExplainer, all 430 employees",
   "shap_version": "0.54.1",
   "rows": 430,
   "background_rows": 50,
-  "additivity_max_error": 5.551115123125783e-16,
-  "feature_level_rows": 430,
+  "max_evals": 87,
+  "additivity_max_error": 4.440892098500626e-16,
   "feature_level_additivity_max_error": 5.551115123125783e-16,
-  "python": "3.14.8",
-  "platform": "Windows-11-10.0.26300-SP0",
-  "log_file": "reports/task14/shap_full430_run_log.txt",
-  "files": [
-    "shap_full430_feature_values.csv",
-    "shap_full430_group_values.csv",
-    "shap_full430_comparison.csv",
-    "shap_full430_summary.json"
-  ],
-  "mean_top3_overlap": 0.8224806201550388,
-  "share_all_three_identical": 0.5,
-  "share_same_top1": 0.6813953488372093,
-  "median_group_correlation": 0.9540857492183363
+  "bands": {
+    "Low": 301,
+    "Medium": 86,
+    "High": 43
+  },
+  "format_checks_passed": 14,
+  "format_checks_total": 14,
+  "checks": [
+    {
+      "check": "430 rows",
+      "passed": true,
+      "detail": "430"
+    },
+    {
+      "check": "columns equal sample (names and order)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "employee ids unique",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "employee ids and order equal the scoring file",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "risk score in [0,1], no NaN",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "risk band values valid",
+      "passed": true,
+      "detail": "{np.str_('Low'): 301, np.str_('Medium'): 86, np.str_('High'): 43}"
+    },
+    {
+      "check": "band counts 43/86/301 (top 10%, next 20%)",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "band is monotone in score",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "three non-empty reasons per row",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "the three reasons are different",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "every row says human review is required",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "model_version is attrition-v2",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "same dtype kinds as sample",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "check": "no banned wording (certainty, blame, protected traits)",
+      "passed": true,
+      "detail": "[]"
+    }
+  ]
 }

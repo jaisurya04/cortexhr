@@ -1,5 +1,5 @@
 from _common import *
-from cortexhr.phase3.explanations.shapley import shapley_values, additivity_error, top_drivers
+from cortexhr.phase3.explanations.shap_explainer import explain_with_shap, additivity_error, top_drivers
 from cortexhr.phase3.explanations.reasons import sentence, wording_problems, describe
 from cortexhr.phase3.explanations.risk_report import select_reasons
 from cortexhr.phase3.explanations.groups import SENSITIVE_PROXY
@@ -11,20 +11,42 @@ def _toy():
     return X, bg, w, f
 
 
-def test_shapley_matches_the_exact_solution_for_a_linear_model():
-    X, bg, w, f = _toy(); groups = {"a": ["a"], "b": ["b"], "c": ["c"]}
-    phi, base, fx = shapley_values(f, X, bg, groups, n_permutations=300, seed=1)
-    exact = (X.to_numpy() - bg.mean().to_numpy()) * w
-    assert np.max(np.abs(phi.to_numpy() - exact)) < 0.35          # background sampling noise only
+def _shap_or_skip():
+    try:
+        import shap  # noqa: F401
+    except Exception:
+        raise Skip("shap is not installed here: pip install -r requirements.txt")
+
+
+def test_shap_matches_the_exact_solution_for_a_linear_model():
+    _shap_or_skip(); X, bg, w, f = _toy(); groups = {"a": ["a"], "b": ["b"], "c": ["c"]}
+    r = explain_with_shap(f, X, bg, groups=groups, seed=1, max_background=50)
+    exact = (X.to_numpy() - bg.sample(50, random_state=1).mean().to_numpy()) * w
+    assert np.max(np.abs(r["group_values"].to_numpy() - exact)) < 1e-6    # permutation SHAP is exact for a linear model
 
 
 def test_efficiency_property_is_exact():
-    X, bg, w, f = _toy(); phi, base, fx = shapley_values(f, X, bg, {"ab": ["a", "b"], "c": ["c"]}, n_permutations=20, seed=2)
-    assert additivity_error(phi, base, fx) < 1e-10
+    _shap_or_skip(); X, bg, w, f = _toy(); r = explain_with_shap(f, X, bg, groups={"ab": ["a", "b"], "c": ["c"]}, seed=2, max_background=20)
+    assert additivity_error(r["group_values"], r["base_values"], r["predictions"]) < 1e-10 and r["additivity_max_error"] < 1e-10
 
 
 def test_group_players_share_credit_once():
-    X, bg, w, f = _toy(); phi, _, _ = shapley_values(f, X, bg, {"ab": ["a", "b"], "c": ["c"]}, 10, 3); assert list(phi.columns) == ["ab", "c"]
+    _shap_or_skip(); X, bg, w, f = _toy(); r = explain_with_shap(f, X, bg, groups={"ab": ["a", "b"], "c": ["c"]}, seed=3, max_background=10)
+    assert list(r["group_values"].columns) == ["ab", "c"] and r["feature_values"].shape == (8, 3)
+
+
+def test_missing_shap_raises_instead_of_falling_back():
+    import sys
+    X, bg, w, f = _toy(); saved = sys.modules.get("shap", "absent")
+    sys.modules["shap"] = None          # makes `import shap` fail, as if the package were not installed
+    try:
+        try: explain_with_shap(f, X, bg)
+        except ImportError: ok = True
+        else: ok = False
+    finally:
+        if saved == "absent": sys.modules.pop("shap", None)
+        else: sys.modules["shap"] = saved
+    assert ok, "expected ImportError when shap is missing"
 
 
 def test_top_drivers_keep_direction_and_order():
@@ -53,35 +75,16 @@ def test_sensitive_groups_never_reveal_values():
         t = describe(g, r); assert not any(ch.isdigit() for ch in t) and str(r["highest_education"]).lower() not in t.lower()
 
 
-def test_saved_explanation_run_is_additive_and_stable_enough():
+def test_saved_explanation_run_comes_from_real_shap_on_all_430():
     import json; from cortexhr.phase3.common.paths import task_dir
-    run = json.loads((task_dir(14) / "explanation_run.json").read_text()); assert run["additivity_max_error"] < 1e-9 and run["stability"]["phi_correlation"] > 0.9
+    td = task_dir(14); run = json.loads((td / "explanation_run.json").read_text())
+    assert run["rows"] == 430 and run["shap_version"] and "shap library" in run["reasons_source"]
+    assert run["additivity_max_error"] < 1e-8 and run["feature_level_additivity_max_error"] < 1e-8 and run["format_checks_passed"] == run["format_checks_total"]
+    for name in ("shap_full430_feature_values.csv", "shap_full430_group_values.csv", "shap_full430_summary.json"): assert (td / name).exists(), name
+    assert len(pd.read_csv(td / "shap_full430_group_values.csv")) == 430
 
 
-def test_real_shap_permutation_cross_check_runs_when_library_is_available():
-    from cortexhr.phase3.explanations.shapley import shap_cross_check
-    X, bg, w, f = _toy()
-    result = shap_cross_check(f, X, bg, n_rows=3, groups={"ab": ["a", "b"], "c": ["c"]}, seed=7, max_background=10)
-    try:
-        import shap  # noqa: F401
-    except Exception:
-        assert result is None
-    else:
-        assert result is not None
-        assert result["feature_values"].shape == (3, 3)
-        assert result["group_values"].shape == (3, 2)
-        assert result["additivity_max_error"] < 1e-5
-
-
-def test_saved_shap_library_cross_check_is_reproducible():
-    import json
-    from cortexhr.phase3.common.paths import task_dir
-    td = task_dir(14)
-    meta = json.loads((td / "explanation_run.json").read_text())
-    check = meta.get("shap_library_cross_check")
-    # The saved outputs were produced with shap 0.50.0 (requirements-optional.txt). They are validated whether or not shap is
-    # installed here, so the test no longer depends on which optional packages happen to be present.
-    assert check is not None and check["rows"] == 10, "saved SHAP library cross-check missing from explanation_run.json"
-    assert check["additivity_max_error"] < 1e-8
-    assert (td / "shap_library_feature_cross_check.csv").exists()
-    assert (td / "shap_library_group_cross_check.csv").exists()
+def test_no_home_made_shapley_code_is_left():
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]; assert not (root / "src/cortexhr/phase3/explanations/shapley.py").exists()
+    src = "\n".join(p.read_text(encoding="utf-8") for p in (root / "src").rglob("*.py")); assert "shapley_values" not in src and "monte carlo" not in src.lower()

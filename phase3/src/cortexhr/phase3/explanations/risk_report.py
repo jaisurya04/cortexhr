@@ -11,7 +11,7 @@ from cortexhr.phase3.common.paths import MODELS, PREDICTIONS, ROOT, task_dir
 from cortexhr.phase3.common.validation import require_probability, require_columns, require_unique
 from .groups import GROUPS, SENSITIVE_PROXY, check_groups
 from .reasons import sentence, wording_problems
-from .shapley import additivity_error, shapley_values, stability, top_drivers, shap_cross_check
+from .shap_explainer import additivity_error, explain_with_shap, top_drivers
 
 SAMPLE_COLUMNS = ["prediction_id", "employee_id", "department_id", "as_of_date", "risk_score_12m", "risk_band", "top_reason_1", "top_reason_2", "top_reason_3", "model_version", "model_note"]
 
@@ -47,18 +47,18 @@ def build_background(n=200) -> pd.DataFrame:
     d = V.load_training(); allX = pd.concat([d["Xtr"], d["Xte"]]); return allX.sample(n, random_state=load_config()["seed"]).reset_index(drop=True)
 
 
-def run_task14(write=True, n_permutations=None) -> dict:
-    cfg = load_config(); P = n_permutations or cfg["explain"]["n_permutations"]; seed = cfg["seed"]
+def run_task14(write=True, max_background=None) -> dict:
+    """Score the 430 employees with attrition-v2 and explain EVERY person with the real shap library (PermutationExplainer)."""
+    cfg = load_config(); seed = cfg["seed"]; nbg = max_background or cfg["explain"]["background_rows"]
     model = joblib.load(MODELS / "attrition_v2.joblib"); scoring, X, join_rep = V.load_scoring(); check_groups(X.columns)
     p = model.predict_proba(X)[:, 1]; require_probability(p, "risk_score_12m")
     H = load_helpers(); band = H.risk_bands(p)
     bg = build_background(); predict = lambda df: model.predict_proba(df)[:, 1]
-    half = P // 2
-    phi_a, base_a, fx = shapley_values(predict, X, bg, GROUPS, half, seed); phi_b, base_b, _ = shapley_values(predict, X, bg, GROUPS, P - half, seed + 1)
-    phi = (phi_a * half + phi_b * (P - half)) / P; base = (base_a * half + base_b * (P - half)) / P
-    shap_check = shap_cross_check(predict, X, bg, n_rows=10, groups=GROUPS, seed=seed, max_background=50)
-    out = {"phi_a": phi_a, "phi_b": phi_b, "model": model, "scoring": scoring, "X": X, "p": p, "band": np.asarray(band), "phi": phi, "base": base, "fx": fx, "background": bg, "join_report": join_rep,
-           "additivity_max_error": additivity_error(phi, base, fx), "stability": stability(phi_a, phi_b), "n_permutations": P, "shap_cross_check": shap_check}
+    res = explain_with_shap(predict, X, bg, n_rows=None, groups=GROUPS, seed=seed, max_background=nbg)
+    assert len(res["predictions"]) == len(X) == 430, "expected real SHAP values for all 430 employees"
+    phi, base, fx = res["group_values"], res["base_values"], res["predictions"]
+    out = {"model": model, "scoring": scoring, "X": X, "p": p, "band": np.asarray(band), "phi": phi, "base": base, "fx": fx, "background": bg, "join_report": join_rep,
+           "additivity_max_error": additivity_error(phi, base, fx), "shap_version": res["shap_version"], "shap": res, "background_rows": res["background_rows"]}
     td = select_reasons(phi, 3); rows = []; sc = scoring.reset_index(drop=True); Xr = X.reset_index(drop=True)
     for i in range(len(sc)):
         reasons = [sentence(td.loc[i, f"driver_{k}"], Xr.iloc[i], td.loc[i, f"phi_{k}"]) for k in (1, 2, 3)]
@@ -69,14 +69,15 @@ def run_task14(write=True, n_permutations=None) -> dict:
     out["checks"] = validate_report(rep, read_csv("sample_attrition_risk"))
     if write:
         save_table(rep, PREDICTIONS / "attrition_risk_2026.csv"); save_table(rep, task_dir(14) / "attrition_risk_2026.csv")
-        sv = phi.copy(); sv.insert(0, "employee_id", sc["employee_id"].to_numpy()); sv["base_value"] = base.to_numpy(); sv["prediction"] = fx.to_numpy()
-        save_table(sv, task_dir(14) / "group_contributions.csv")
-        if shap_check is not None:
-            save_table(shap_check["feature_values"].assign(employee_id=sc["employee_id"].head(len(shap_check["feature_values"])).to_numpy()), task_dir(14) / "shap_library_feature_cross_check.csv")
-            save_table(shap_check["group_values"].assign(employee_id=sc["employee_id"].head(len(shap_check["group_values"])).to_numpy()), task_dir(14) / "shap_library_group_cross_check.csv")
-        save_json({"created_utc": utc_now(), "n_permutations": P, "background_rows": len(bg), "additivity_max_error": out["additivity_max_error"], "stability": out["stability"],
-                   "shap_library_cross_check": None if shap_check is None else {"shap_version": shap_check["shap_version"], "rows": len(shap_check["predictions"]), "background_rows": shap_check["background_rows"], "max_evals": shap_check["max_evals"], "additivity_max_error": shap_check["additivity_max_error"]},
-                   "checks": out["checks"]}, task_dir(14) / "explanation_run.json")
+        ids = sc["employee_id"].to_numpy()
+        feat = res["feature_values"].copy(); feat.insert(0, "employee_id", ids); feat["base_value"] = base.to_numpy(); feat["prediction"] = fx.to_numpy()
+        save_table(feat, task_dir(14) / "shap_full430_feature_values.csv")
+        grp = phi.copy(); grp.insert(0, "employee_id", ids); save_table(grp, task_dir(14) / "shap_full430_group_values.csv")
+        summary = {"created_utc": utc_now(), "reasons_source": "shap library, PermutationExplainer, all 430 employees", "shap_version": res["shap_version"], "rows": len(ids),
+                   "background_rows": res["background_rows"], "max_evals": res["max_evals"], "additivity_max_error": out["additivity_max_error"],
+                   "feature_level_additivity_max_error": res["additivity_max_error"], "bands": rep.risk_band.value_counts().to_dict(),
+                   "format_checks_passed": sum(c["passed"] for c in out["checks"]), "format_checks_total": len(out["checks"]), "checks": out["checks"]}
+        save_json(summary, task_dir(14) / "explanation_run.json"); save_json(summary, task_dir(14) / "shap_full430_summary.json")
     return out
 
 
