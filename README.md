@@ -5,12 +5,14 @@ All companies, people and datasets in this programme (Aura Workforce, Growmar, Z
 
 Repository layout
 
+Repository layout
+
 cortexhr/
 ├── README.md
 ├── .gitignore
-├── phase1/          <- Phase 1: Data foundations and baseline models
-├── phase2/          <- Phase 2: Core development
-└── phase3/          <- Phase 3: Intelligence
+├── phase1/          # Phase 1: Data foundations and baseline models
+├── phase2/          # Phase 2: Core development
+└── phase3/          # Phase 3: Intelligence
 
 All three phases are maintained in this single GitHub repository.
 
