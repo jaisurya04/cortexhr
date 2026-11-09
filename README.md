@@ -5,8 +5,6 @@ All companies, people and datasets in this programme (Aura Workforce, Growmar, Z
 
 Repository layout
 
-Repository layout
-
 cortexhr/
 ├── README.md
 ├── .gitignore
