@@ -16,7 +16,7 @@ Not applicable in Phase 1 (deployment is Phase 4). The working evidence is the e
 Python 3.11+, pandas, NumPy, scikit-learn, Matplotlib, joblib, openpyxl, JupyterLab, pytest, Docker (see `requirements.txt`).
 
 ## Run it locally
-1. `From the cloned repository root, run: `cd phase1`
+1. .From the cloned repository root, run: `cd phase1`
 2. `python -m venv .venv` then activate (`source .venv/bin/activate`, Windows: `.venv\Scripts\activate`)
 3. `pip install -r requirements.txt && pip install -e .`
 4. `bash scripts/run_all.sh` (or run the five scripts one by one, see `docs/requirements_traceability.md`)
