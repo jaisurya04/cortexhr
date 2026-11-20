@@ -1,0 +1,21 @@
+# Render Blueprint (reference). Render reads blueprints from the repository ROOT; either copy this file there as render.yaml
+# (a new file outside phase4/ - needs your approval) or create the web service by hand in the dashboard with the same values.
+services:
+  - type: web
+    name: cortexhr-api
+    runtime: python
+    plan: free            # free = 512 MB RAM, sleeps after 15 min idle; use "starter" ($7/month) if the API runs out of memory or the sleep hurts
+    buildCommand: pip install -r phase4/requirements.txt
+    startCommand: uvicorn cortexhr_phase4.api.app:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /v1/health
+    envVars:
+      - key: PYTHONPATH
+        value: phase4/src
+      - key: PYTHON_VERSION
+        value: 3.12.3
+      - key: CORTEXHR_ENV
+        value: production
+      - key: CORTEXHR_API_KEY
+        sync: false       # set in the dashboard; never in the repository
+      - key: CORTEXHR_ALLOWED_ORIGINS
+        value: "*"

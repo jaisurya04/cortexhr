@@ -1,0 +1,16 @@
+# Run the console from the phase4/ folder so Streamlit finds this file:  cd phase4 && streamlit run src/cortexhr_phase4/console/app.py
+[theme]
+base = "dark"
+primaryColor = "#c9a24d"
+backgroundColor = "#06302f"
+secondaryBackgroundColor = "#0a3a37"
+textColor = "#e9efe9"
+font = "sans serif"
+
+[server]
+headless = true
+enableCORS = false
+enableXsrfProtection = true
+
+[browser]
+gatherUsageStats = false

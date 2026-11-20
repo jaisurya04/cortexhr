@@ -1,0 +1,17 @@
+Only in ./assets: avatar_reference.png
+Only in ./assets: brain_promo_clear.png
+Only in ./assets: cortexhr_logo_mark_clear.png
+Only in ./assets: cortexhr_logo_sidebar_clear.png
+Only in ./docs: CHANGES_2026-11-17.txt
+Only in ./docs: STATUS_2026-11-17.md
+Only in ./docs: design_reference_match.md
+Only in ./outputs/console: reference_match
+Only in ./scripts: compare_with_reference.py
+Only in ./scripts: render_reference_preview.py
+Files phase4/src/cortexhr_phase4/console/dashboard.py and ./src/cortexhr_phase4/console/dashboard.py differ
+Only in ./src/cortexhr_phase4/console: design_reference.py
+Files phase4/src/cortexhr_phase4/console/static/dashboard.css and ./src/cortexhr_phase4/console/static/dashboard.css differ
+Files phase4/src/cortexhr_phase4/console/static/dashboard.js and ./src/cortexhr_phase4/console/static/dashboard.js differ
+Only in ./src/cortexhr_phase4/console/static: reference_skin.css
+Only in ./src/cortexhr_phase4/console/static: reference_skin.js
+Files phase4/tests/run_all.py and ./tests/run_all.py differ

@@ -1,0 +1,7 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+# generated screenshots / previews can be re-created; the evidence copies are kept in outputs/console
+outputs/console/*.html

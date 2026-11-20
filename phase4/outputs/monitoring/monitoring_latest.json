@@ -1,0 +1,249 @@
+{
+  "report_version": "monitor-1.0.0",
+  "created_utc": "2026-11-18T08:54:53Z",
+  "status": "ALERT",
+  "coverage": "partial",
+  "not_checked": [
+    "pay_gap/gender"
+  ],
+  "errors": {},
+  "thresholds": {
+    "psi_watch": 0.1,
+    "psi_alert": 0.25,
+    "twin_tolerance": 0.001,
+    "pay_gap_watch": 0.02,
+    "pay_gap_alert": 0.05,
+    "min_group_size": 30
+  },
+  "components": {
+    "drift": {
+      "status": "ALERT",
+      "table": [
+        {
+          "feature": "last_engagement_score",
+          "importance_auc_drop": 0.0644,
+          "psi": 0.0627,
+          "status": "OK",
+          "reference_mean": 3.4421,
+          "current_mean": 3.5213,
+          "shift_pct_of_reference_sd": 10.498,
+          "reference_missing_pct": 22.1013,
+          "current_missing_pct": 16.9767,
+          "n_reference": 1861,
+          "n_current": 357,
+          "current_top_value": 3.7,
+          "current_top_value_share_pct": 7.2829
+        },
+        {
+          "feature": "months_since_last_raise",
+          "importance_auc_drop": 0.056,
+          "psi": 3.8346,
+          "status": "ALERT",
+          "reference_mean": 10.99,
+          "current_mean": 5.0116,
+          "shift_pct_of_reference_sd": -74.6491,
+          "reference_missing_pct": 0.0,
+          "current_missing_pct": 0.0,
+          "n_reference": 2389,
+          "n_current": 430,
+          "current_top_value": 5.0,
+          "current_top_value_share_pct": 77.2093
+        },
+        {
+          "feature": "annual_fixed_pay",
+          "importance_auc_drop": 0.031,
+          "psi": 0.1593,
+          "status": "WATCH",
+          "reference_mean": 1029199.0222,
+          "current_mean": 1262075.4698,
+          "shift_pct_of_reference_sd": 27.1772,
+          "reference_missing_pct": 0.0,
+          "current_missing_pct": 0.0,
+          "n_reference": 2389,
+          "n_current": 430,
+          "current_top_value": 445596.0,
+          "current_top_value_share_pct": 0.4651
+        },
+        {
+          "feature": "manager_changes_12m",
+          "importance_auc_drop": 0.0306,
+          "psi": 0.0009,
+          "status": "OK",
+          "reference_mean": 0.3102,
+          "current_mean": 0.3395,
+          "shift_pct_of_reference_sd": 5.2355,
+          "reference_missing_pct": 0.0,
+          "current_missing_pct": 0.0,
+          "n_reference": 2389,
+          "n_current": 430,
+          "current_top_value": 0.0,
+          "current_top_value_share_pct": 72.093
+        },
+        {
+          "feature": "total_experience_years",
+          "importance_auc_drop": 0.0261,
+          "psi": 0.051,
+          "status": "OK",
+          "reference_mean": 8.2587,
+          "current_mean": 9.107,
+          "shift_pct_of_reference_sd": 18.2132,
+          "reference_missing_pct": 0.0,
+          "current_missing_pct": 0.0,
+          "n_reference": 2389,
+          "n_current": 430,
+          "current_top_value": 5.7,
+          "current_top_value_share_pct": 1.6279
+        },
+        {
+          "feature": "comp_ratio",
+          "importance_auc_drop": 0.0237,
+          "psi": 0.1038,
+          "status": "WATCH",
+          "reference_mean": 1.0328,
+          "current_mean": 1.0082,
+          "shift_pct_of_reference_sd": -18.0637,
+          "reference_missing_pct": 0.0,
+          "current_missing_pct": 0.0,
+          "n_reference": 2389,
+          "n_current": 430,
+          "current_top_value": 0.942,
+          "current_top_value_share_pct": 1.1628
+        },
+        {
+          "feature": "last_performance_rating",
+          "importance_auc_drop": 0.0211,
+          "psi": 0.0084,
+          "status": "OK",
+          "reference_mean": 3.3199,
+          "current_mean": 3.4234,
+          "shift_pct_of_reference_sd": 11.4546,
+          "reference_missing_pct": 7.6183,
+          "current_missing_pct": 22.5581,
+          "n_reference": 2207,
+          "n_current": 333,
+          "current_top_value": 3.0,
+          "current_top_value_share_pct": 39.039
+        },
+        {
+          "feature": "commute_distance_km",
+          "importance_auc_drop": 0.0132,
+          "psi": 0.0169,
+          "status": "OK",
+          "reference_mean": 12.4138,
+          "current_mean": 11.77,
+          "shift_pct_of_reference_sd": -6.881,
+          "reference_missing_pct": 2.3022,
+          "current_missing_pct": 0.0,
+          "n_reference": 2334,
+          "n_current": 430,
+          "current_top_value": 5.0,
+          "current_top_value_share_pct": 1.6279
+        }
+      ],
+      "reference": "attrition_dataset.csv",
+      "current": "attrition_scoring_2026.csv",
+      "n_reference": 2389,
+      "n_current": 430,
+      "features": [
+        "last_engagement_score",
+        "months_since_last_raise",
+        "annual_fixed_pay",
+        "manager_changes_12m",
+        "total_experience_years",
+        "comp_ratio",
+        "last_performance_rating",
+        "commute_distance_km"
+      ],
+      "note": "PSI compares the distribution of each feature in the training data with the 2026 scoring population. It shows that inputs moved, not that the model is wrong."
+    },
+    "twin_resume_gap": {
+      "status": "OK",
+      "summary": {
+        "comparisons": 75,
+        "pairs": 25,
+        "mean_abs_gap": 0.0,
+        "median_abs_gap": 0.0,
+        "max_abs_gap": 0.0,
+        "mean_signed_gap(twin-original)": 0.0,
+        "comparisons_with_nonzero_gap": 0,
+        "comparisons_above_tolerance": 0,
+        "mean_abs_relative_gap_pct": 0.0,
+        "share_twin_ranked_higher": 0.4266666666666667,
+        "mean_abs_rank_difference": 1.0
+      },
+      "tolerance": 0.001,
+      "limit": "The masked screener removes name, e-mail, city and college-tier text, so a zero gap is expected by construction. It does not test other proxies (for example hobbies or employer names)."
+    },
+    "pay_gap": {
+      "model_version": "salary-band-v1",
+      "n_hires": 2934,
+      "groups": {
+        "career_gap": {
+          "status": "OK",
+          "gap_history": 0.03684740779097673,
+          "gap_model": 0.008510488659495552,
+          "gap_model_with_career_gap": 0.04624139499669577,
+          "means": [
+            {
+              "gap_bin": "none",
+              "ratio_actual": "0.9953",
+              "ratio_model": "0.9889",
+              "ratio_model_with_gap": "0.9915"
+            },
+            {
+              "gap_bin": "1-6 months",
+              "ratio_actual": "0.9826",
+              "ratio_model": "0.99",
+              "ratio_model_with_gap": "0.9866"
+            },
+            {
+              "gap_bin": "7-12 months",
+              "ratio_actual": "0.9737",
+              "ratio_model": "0.9868",
+              "ratio_model_with_gap": "0.9747"
+            },
+            {
+              "gap_bin": "13-24 months",
+              "ratio_actual": "0.9584",
+              "ratio_model": "0.9853",
+              "ratio_model_with_gap": "0.9583"
+            },
+            {
+              "gap_bin": "over 24 months",
+              "ratio_actual": "0.9611",
+              "ratio_model": "0.9938",
+              "ratio_model_with_gap": "0.9453"
+            }
+          ],
+          "groups_compared": [
+            "none",
+            "1-6 months",
+            "7-12 months",
+            "13-24 months",
+            "over 24 months"
+          ],
+          "groups_too_small": []
+        },
+        "gender": {
+          "status": "SKIPPED",
+          "reason": "restricted CX-15 file not found (set CORTEXHR_VAULT_DIR); gender pay gap NOT checked"
+        }
+      },
+      "status": "OK",
+      "limit": "Compares group means of predicted pay relative to the role band; it does not control for every legitimate factor and small groups are not compared. A small gap does not prove the offers are fair."
+    }
+  },
+  "explanation": [
+    "Drift: 8 features checked, max PSI 3.835 (months_since_last_raise); 3 above the WATCH line: months_since_last_raise 3.835, annual_fixed_pay 0.159, comp_ratio 0.104",
+    "Note: months_since_last_raise has collapsed rather than drifted: 77% of the current population share the value 5 (reference mean 11.0, current mean 5.0). Check whether a company-wide event (for example a raise cycle) or a pipeline change explains it before trusting scores that use it.",
+    "Twin resumes: 75 comparisons, max gap 0.000000 (tolerance 0.001); status OK.",
+    "Pay gap by career_gap: model gap 0.0085 vs history 0.0368; status OK.",
+    "Pay gap by gender: restricted CX-15 file not found (set CORTEXHR_VAULT_DIR); gender pay gap NOT checked"
+  ],
+  "next_steps": [
+    "1. Confirm it is real: check the data pipeline, units and column mapping before blaming the world.",
+    "2. Locate it: which features and which departments moved, and since which month?",
+    "3. Measure impact: compare recent model scores and, once outcomes arrive, accuracy and calibration against the baseline.",
+    "4. Decide and record: recalibrate, retrain or roll back, keep a human override in place, and write the decision in the audit log."
+  ]
+}

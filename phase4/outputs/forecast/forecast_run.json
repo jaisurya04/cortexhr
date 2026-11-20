@@ -1,0 +1,52 @@
+{
+  "model_version": "cortexhr-forecast-1.0.0",
+  "horizon": 6,
+  "holdout_months": 6,
+  "coverage": 0.8,
+  "trained_through": "2026-09",
+  "improved_model": "statsmodels SARIMAX (events + seasonality)",
+  "improved_model_status": "run",
+  "statsmodels_version": "0.14.6",
+  "python": "3.14.8",
+  "numpy": "2.4.4",
+  "pandas": "3.0.2",
+  "interval_calibration": {
+    "exits": {
+      "method": "pooled over all series, last 12 origins",
+      "final_scale": 1.1257251568160744,
+      "scored_rows": 114,
+      "coverage_raw_same_rows": 0.6578947368421053,
+      "coverage_calibrated_walk_forward": 0.8947368421052632
+    },
+    "headcount_end": {
+      "method": "pooled over all series, last 12 origins",
+      "final_scale": 1.3851850515390618,
+      "scored_rows": 1650,
+      "coverage_raw_same_rows": 0.6375757575757576,
+      "coverage_calibrated_walk_forward": 0.7878787878787878
+    }
+  },
+  "interval_calibration_note": "The improved model's own intervals were too narrow in rolling backtests. One width factor per metric is learned from ALL series' most recent already-known errors (pooled adaptive split-conformal, window = last 12 origins, chosen from five methods fixed in advance in scripts/interval_calibration_lab.py). Coverage is measured walk-forward: every origin is scored with a factor fitted only on EARLIER, resolved errors (scope rolling_origin_calibrated_walk_forward), next to the raw coverage on the same rows. Neighbouring origins overlap and the history is short, so this is indicative, not a guarantee.",
+  "scenarios": [],
+  "selection_rule": "improved model selected only if rolling-origin MAE < 0.99 x baseline MAE",
+  "selected": {
+    "headcount_end/ALL": "improved",
+    "headcount_end/D01": "improved",
+    "headcount_end/D02": "improved",
+    "headcount_end/D03": "improved",
+    "headcount_end/D04": "improved",
+    "headcount_end/D05": "improved",
+    "headcount_end/D06": "improved",
+    "headcount_end/D07": "improved",
+    "headcount_end/D08": "improved",
+    "headcount_end/D09": "improved",
+    "headcount_end/D10": "improved",
+    "exits/ALL": "baseline"
+  },
+  "data_sha256": {
+    "monthly_headcount_history.csv": "7a1147296e69b5c9daa3c35b4710eaa5e74104f63cb00e27129998adc5dd3be9",
+    "workforce_events.csv": "7a95e53a715efa4e31f80bc9d20b7f81d6c8a035633f3aab2ce4c00d6d940dbe"
+  },
+  "content_hash": "ec67ab17657e201baa04f4b7a25b74a06dae74cbec7caf1cec2c060f724015e2",
+  "created_utc": "2026-11-19T02:52:06Z"
+}

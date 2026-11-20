@@ -1,0 +1,25 @@
+metric,department_id,interval_method,n,mae,rmse,mape_pct,bias,coverage_80,mean_interval_width
+headcount_end,ALL,signed quantiles,162,9.8086,12.5808,2.5557,-5.3642,0.5432,22.4475
+headcount_end,ALL,symmetric absolute error,162,9.8086,12.5808,2.5557,-5.3642,0.679,25.3284
+headcount_end,D01,signed quantiles,162,4.4815,5.6743,3.1141,-2.2222,0.5556,10.4148
+headcount_end,D01,symmetric absolute error,162,4.4815,5.6743,3.1141,-2.2222,0.6914,11.4099
+headcount_end,D02,signed quantiles,162,1.2963,1.8019,5.3846,-0.321,0.7901,4.9642
+headcount_end,D02,symmetric absolute error,162,1.2963,1.8019,5.3846,-0.321,0.9012,6.3185
+headcount_end,D03,signed quantiles,162,3.4753,4.3298,7.2869,-1.463,0.5247,6.4827
+headcount_end,D03,symmetric absolute error,162,3.4753,4.3298,7.2869,-1.463,0.5617,6.6395
+headcount_end,D04,signed quantiles,162,3.8519,4.6904,9.632,-0.4938,0.4877,7.8309
+headcount_end,D04,symmetric absolute error,162,3.8519,4.6904,9.632,-0.4938,0.6852,8.5605
+headcount_end,D05,signed quantiles,162,1.1111,1.5396,10.1913,0.358,0.7222,2.8068
+headcount_end,D05,symmetric absolute error,162,1.1111,1.5396,10.1913,0.358,0.7531,2.9728
+headcount_end,D06,signed quantiles,162,3.642,4.5893,7.2963,-0.0247,0.5988,6.7877
+headcount_end,D06,symmetric absolute error,162,3.642,4.5893,7.2963,-0.0247,0.6914,9.0716
+headcount_end,D07,signed quantiles,162,1.2901,1.6906,8.2931,0.3519,0.7654,4.6784
+headcount_end,D07,symmetric absolute error,162,1.2901,1.6906,8.2931,0.3519,0.8889,5.2444
+headcount_end,D08,signed quantiles,162,1.6173,2.2388,10.0622,-0.8272,0.7469,4.2451
+headcount_end,D08,symmetric absolute error,162,1.6173,2.2388,10.0622,-0.8272,0.7901,4.1407
+headcount_end,D09,signed quantiles,162,2.3395,3.052,8.4856,-0.7346,0.7407,7.5765
+headcount_end,D09,symmetric absolute error,162,2.3395,3.052,8.4856,-0.7346,0.8086,7.6099
+headcount_end,D10,signed quantiles,162,0.9506,1.1706,10.3802,0.0123,0.9012,3.2296
+headcount_end,D10,symmetric absolute error,162,0.9506,1.1706,10.3802,0.0123,0.9444,3.3309
+exits,ALL,signed quantiles,162,1.965,2.6274,47.327,1.0473,0.7593,5.0068
+exits,ALL,symmetric absolute error,162,1.965,2.6274,47.327,1.0473,0.8519,6.4572

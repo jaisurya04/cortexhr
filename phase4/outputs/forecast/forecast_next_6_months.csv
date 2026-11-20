@@ -1,0 +1,79 @@
+forecast_id,metric,department_id,forecast_month,forecast_value,lower_80,upper_80,method,trained_through,model_version
+FC-0001,headcount_end,ALL,2026-10-01,443.8,437.0,450.6,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0002,headcount_end,ALL,2026-11-01,446.3,436.5,456.1,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0003,headcount_end,ALL,2026-12-01,450.1,438.0,462.2,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0004,headcount_end,ALL,2027-01-01,454.6,440.5,468.6,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0005,headcount_end,ALL,2027-02-01,458.0,442.2,473.7,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0006,headcount_end,ALL,2027-03-01,459.2,442.0,476.5,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0007,headcount_end,D01,2026-10-01,167.0,163.3,170.7,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0008,headcount_end,D01,2026-11-01,168.4,163.6,173.2,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0009,headcount_end,D01,2026-12-01,170.1,164.3,175.8,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0010,headcount_end,D01,2027-01-01,171.9,165.3,178.4,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0011,headcount_end,D01,2027-02-01,173.2,165.9,180.4,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0012,headcount_end,D01,2027-03-01,173.6,165.7,181.5,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0013,headcount_end,D02,2026-10-01,26.4,25.0,27.7,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0014,headcount_end,D02,2026-11-01,26.7,24.9,28.6,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0015,headcount_end,D02,2026-12-01,27.1,24.8,29.4,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0016,headcount_end,D02,2027-01-01,27.4,24.8,30.0,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0017,headcount_end,D02,2027-02-01,27.6,24.7,30.5,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0018,headcount_end,D02,2027-03-01,27.8,24.6,31.0,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0019,headcount_end,D03,2026-10-01,52.1,50.3,53.9,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0020,headcount_end,D03,2026-11-01,52.3,49.9,54.7,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0021,headcount_end,D03,2026-12-01,52.5,49.5,55.4,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0022,headcount_end,D03,2027-01-01,52.7,49.4,56.1,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0023,headcount_end,D03,2027-02-01,53.0,49.2,56.7,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0024,headcount_end,D03,2027-03-01,53.1,49.0,57.3,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0025,headcount_end,D04,2026-10-01,45.8,44.0,47.5,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0026,headcount_end,D04,2026-11-01,45.8,43.3,48.3,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0027,headcount_end,D04,2026-12-01,46.3,43.3,49.4,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0028,headcount_end,D04,2027-01-01,47.1,43.6,50.6,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0029,headcount_end,D04,2027-02-01,47.8,43.9,51.8,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0030,headcount_end,D04,2027-03-01,48.2,43.9,52.5,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0031,headcount_end,D05,2026-10-01,13.2,12.1,14.3,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0032,headcount_end,D05,2026-11-01,13.1,11.7,14.4,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0033,headcount_end,D05,2026-12-01,12.7,11.1,14.3,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0034,headcount_end,D05,2027-01-01,12.3,10.5,14.2,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0035,headcount_end,D05,2027-02-01,12.2,10.1,14.2,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0036,headcount_end,D05,2027-03-01,12.3,10.1,14.6,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0037,headcount_end,D06,2026-10-01,59.6,57.4,61.9,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0038,headcount_end,D06,2026-11-01,60.1,56.8,63.4,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0039,headcount_end,D06,2026-12-01,60.8,56.7,64.8,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0040,headcount_end,D06,2027-01-01,61.5,56.7,66.2,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0041,headcount_end,D06,2027-02-01,62.1,56.7,67.4,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0042,headcount_end,D06,2027-03-01,62.2,56.4,68.1,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0043,headcount_end,D07,2026-10-01,20.0,18.7,21.3,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0044,headcount_end,D07,2026-11-01,20.1,18.3,21.8,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0045,headcount_end,D07,2026-12-01,20.4,18.2,22.5,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0046,headcount_end,D07,2027-01-01,20.9,18.4,23.3,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0047,headcount_end,D07,2027-02-01,21.4,18.7,24.1,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0048,headcount_end,D07,2027-03-01,21.7,18.7,24.7,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0049,headcount_end,D08,2026-10-01,17.1,16.0,18.2,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0050,headcount_end,D08,2026-11-01,17.3,15.8,18.7,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0051,headcount_end,D08,2026-12-01,17.3,15.5,19.1,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0052,headcount_end,D08,2027-01-01,17.3,15.3,19.4,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0053,headcount_end,D08,2027-02-01,17.3,15.1,19.6,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0054,headcount_end,D08,2027-03-01,17.2,14.8,19.7,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0055,headcount_end,D09,2026-10-01,29.2,27.4,30.9,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0056,headcount_end,D09,2026-11-01,29.5,27.1,31.9,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0057,headcount_end,D09,2026-12-01,29.7,26.8,32.6,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0058,headcount_end,D09,2027-01-01,29.7,26.4,33.0,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0059,headcount_end,D09,2027-02-01,29.4,25.6,33.1,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0060,headcount_end,D09,2027-03-01,28.9,24.8,33.0,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0061,headcount_end,D10,2026-10-01,10.9,10.1,11.8,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0062,headcount_end,D10,2026-11-01,10.9,9.7,12.1,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0063,headcount_end,D10,2026-12-01,10.9,9.4,12.4,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0064,headcount_end,D10,2027-01-01,11.0,9.3,12.7,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0065,headcount_end,D10,2027-02-01,11.0,9.1,12.9,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0066,headcount_end,D10,2027-03-01,11.0,9.0,13.1,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),2026-09,cortexhr-forecast-1.0.0
+FC-0067,exits,ALL,2026-10-01,4.0,0.9,7.1,same-month average of last 3 years,2026-09,cortexhr-forecast-1.0.0
+FC-0068,exits,ALL,2026-11-01,3.7,0.5,6.8,same-month average of last 3 years,2026-09,cortexhr-forecast-1.0.0
+FC-0069,exits,ALL,2026-12-01,6.0,2.8,9.2,same-month average of last 3 years,2026-09,cortexhr-forecast-1.0.0
+FC-0070,exits,ALL,2027-01-01,3.3,0.1,6.6,same-month average of last 3 years,2026-09,cortexhr-forecast-1.0.0
+FC-0071,exits,ALL,2027-02-01,4.7,1.3,8.0,same-month average of last 3 years,2026-09,cortexhr-forecast-1.0.0
+FC-0072,exits,ALL,2027-03-01,7.0,3.7,10.3,same-month average of last 3 years,2026-09,cortexhr-forecast-1.0.0
+FC-0073,attrition_rate_monthly_pct,ALL,2026-10-01,0.91,0.21,1.6,exits forecast / projected start-of-month headcount,2026-09,cortexhr-forecast-1.0.0
+FC-0074,attrition_rate_monthly_pct,ALL,2026-11-01,0.83,0.12,1.53,exits forecast / projected start-of-month headcount,2026-09,cortexhr-forecast-1.0.0
+FC-0075,attrition_rate_monthly_pct,ALL,2026-12-01,1.34,0.63,2.06,exits forecast / projected start-of-month headcount,2026-09,cortexhr-forecast-1.0.0
+FC-0076,attrition_rate_monthly_pct,ALL,2027-01-01,0.74,0.01,1.47,exits forecast / projected start-of-month headcount,2026-09,cortexhr-forecast-1.0.0
+FC-0077,attrition_rate_monthly_pct,ALL,2027-02-01,1.03,0.29,1.76,exits forecast / projected start-of-month headcount,2026-09,cortexhr-forecast-1.0.0
+FC-0078,attrition_rate_monthly_pct,ALL,2027-03-01,1.53,0.8,2.26,exits forecast / projected start-of-month headcount,2026-09,cortexhr-forecast-1.0.0

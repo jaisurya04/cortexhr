@@ -1,0 +1,11 @@
+scope,method,rows,coverage_80,mean_width
+ALL series pooled,raw,1368,0.6301,5.1806
+ALL series pooled,series_window12,1368,0.7544,7.8449
+ALL series pooled,series_expanding,1368,0.7639,7.4625
+ALL series pooled,pooled_expanding,1368,0.7763,7.4203
+ALL series pooled,pooled_window12,1368,0.7939,7.7011
+headcount_end/ALL only,raw,114,0.693,17.7378
+headcount_end/ALL only,series_window12,114,0.7193,27.8327
+headcount_end/ALL only,series_expanding,114,0.7368,23.2323
+headcount_end/ALL only,pooled_expanding,114,0.7544,25.4627
+headcount_end/ALL only,pooled_window12,114,0.7544,26.629

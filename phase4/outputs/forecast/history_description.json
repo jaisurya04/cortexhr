@@ -1,0 +1,147 @@
+{
+  "first_month": "2020-01",
+  "last_month": "2026-09",
+  "months": 81,
+  "start_headcount": 171.0,
+  "end_headcount": 441.0,
+  "average_growth_per_month": 3.84,
+  "year_end_growth_pct": {
+    "2021": 18.0,
+    "2022": 33.0,
+    "2023": 24.4,
+    "2024": 12.5,
+    "2025": 5.3,
+    "2026": 10.8
+  },
+  "season_peaks": {
+    "hires_peak_month": 6,
+    "hires_low_month": 5,
+    "exits_peak_month": 5,
+    "exits_low_month": 11
+  },
+  "monthly_averages": [
+    {
+      "month": 1,
+      "hires": 9.0,
+      "exits": 3.71,
+      "net_change": 6.0
+    },
+    {
+      "month": 2,
+      "hires": 7.43,
+      "exits": 3.71,
+      "net_change": 3.71
+    },
+    {
+      "month": 3,
+      "hires": 5.57,
+      "exits": 4.29,
+      "net_change": 1.29
+    },
+    {
+      "month": 4,
+      "hires": 4.86,
+      "exits": 3.86,
+      "net_change": 1.0
+    },
+    {
+      "month": 5,
+      "hires": 4.71,
+      "exits": 5.29,
+      "net_change": -0.57
+    },
+    {
+      "month": 6,
+      "hires": 10.29,
+      "exits": 4.14,
+      "net_change": 6.14
+    },
+    {
+      "month": 7,
+      "hires": 9.14,
+      "exits": 3.43,
+      "net_change": 5.71
+    },
+    {
+      "month": 8,
+      "hires": 7.71,
+      "exits": 3.43,
+      "net_change": 4.29
+    },
+    {
+      "month": 9,
+      "hires": 8.57,
+      "exits": 2.86,
+      "net_change": 5.71
+    },
+    {
+      "month": 10,
+      "hires": 5.0,
+      "exits": 3.17,
+      "net_change": 1.83
+    },
+    {
+      "month": 11,
+      "hires": 6.5,
+      "exits": 2.83,
+      "net_change": 3.67
+    },
+    {
+      "month": 12,
+      "hires": 5.83,
+      "exits": 4.17,
+      "net_change": 1.67
+    }
+  ],
+  "unusual_months": [
+    {
+      "month": "2022-06",
+      "net_change": 12.0,
+      "robust_z": 3.0,
+      "events": [
+        "no recorded event"
+      ]
+    },
+    {
+      "month": "2022-07",
+      "net_change": 13.0,
+      "robust_z": 3.4,
+      "events": [
+        "no recorded event"
+      ]
+    },
+    {
+      "month": "2023-07",
+      "net_change": 14.0,
+      "robust_z": 3.7,
+      "events": [
+        "Hybrid work policy introduced",
+        "Engineering hiring drive"
+      ]
+    },
+    {
+      "month": "2023-09",
+      "net_change": 13.0,
+      "robust_z": 3.4,
+      "events": [
+        "no recorded event"
+      ]
+    },
+    {
+      "month": "2024-02",
+      "net_change": 13.0,
+      "robust_z": 3.4,
+      "events": [
+        "Sales expansion hiring drive"
+      ]
+    },
+    {
+      "month": "2026-09",
+      "net_change": 14.0,
+      "robust_z": 3.7,
+      "events": [
+        "no recorded event"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,5 @@
+-r requirements.txt
+pytest>=9.0
+httpx>=0.28,<1          # FastAPI TestClient
+flask>=3.0,<4           # Optional HTTP contract-test stand-in
+playwright>=1.50,<2     # Desktop/mobile dashboard browser tests

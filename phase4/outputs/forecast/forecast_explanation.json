@@ -1,0 +1,144 @@
+{
+  "current_headcount": 441.0,
+  "headcount_in_6_months": 459.2,
+  "growth_pct_6m": 4.1,
+  "expected_exits_6m": 28.7,
+  "trust_by_month": [
+    {
+      "forecast_month": "2026-10-01",
+      "interval_width": 13.6,
+      "relative_width_pct": 3.06
+    },
+    {
+      "forecast_month": "2026-11-01",
+      "interval_width": 19.6,
+      "relative_width_pct": 4.39
+    },
+    {
+      "forecast_month": "2026-12-01",
+      "interval_width": 24.2,
+      "relative_width_pct": 5.38
+    },
+    {
+      "forecast_month": "2027-01-01",
+      "interval_width": 28.1,
+      "relative_width_pct": 6.18
+    },
+    {
+      "forecast_month": "2027-02-01",
+      "interval_width": 31.5,
+      "relative_width_pct": 6.88
+    },
+    {
+      "forecast_month": "2027-03-01",
+      "interval_width": 34.5,
+      "relative_width_pct": 7.51
+    }
+  ],
+  "least_trusted_month": {
+    "month": "2027-03-01",
+    "interval_width": 34.5,
+    "why": "its 80% interval is the widest: uncertainty about monthly hires and exits accumulates month after month."
+  },
+  "backtest_company_headcount": {
+    "baseline": {
+      "holdout_mae": 4.333333333333333,
+      "holdout_coverage_80": 1.0
+    },
+    "improved": {
+      "holdout_mae": 3.957634642888479,
+      "holdout_coverage_80": 0.8333333333333334
+    }
+  },
+  "rolling_company_headcount": {
+    "baseline": {
+      "rolling_mae": 9.808641975308642,
+      "rolling_coverage_80": 0.6790123456790124
+    },
+    "improved": {
+      "rolling_mae": 7.153255457416858,
+      "rolling_coverage_80": 0.7530864197530864
+    }
+  },
+  "events_in_history": [
+    {
+      "event_id": "EV-01",
+      "event_name": "COVID-19 hiring freeze",
+      "effect": "hiring_freeze",
+      "department_id": "ALL",
+      "start_date": "2020-04-01",
+      "end_date": "2020-06-30"
+    },
+    {
+      "event_id": "EV-02",
+      "event_name": "Reduced increment cycle",
+      "effect": "policy_change",
+      "department_id": "ALL",
+      "start_date": "2021-04-01",
+      "end_date": "2021-04-30"
+    },
+    {
+      "event_id": "EV-03",
+      "event_name": "Support scale-up for festive season",
+      "effect": "hiring_boost",
+      "department_id": "D06",
+      "start_date": "2022-09-01",
+      "end_date": "2022-11-30"
+    },
+    {
+      "event_id": "EV-04",
+      "event_name": "Hybrid work policy introduced",
+      "effect": "policy_change",
+      "department_id": "ALL",
+      "start_date": "2023-07-01",
+      "end_date": "2023-07-31"
+    },
+    {
+      "event_id": "EV-05",
+      "event_name": "Engineering hiring drive",
+      "effect": "hiring_boost",
+      "department_id": "D01",
+      "start_date": "2023-07-01",
+      "end_date": "2023-08-31"
+    },
+    {
+      "event_id": "EV-06",
+      "event_name": "Sales expansion hiring drive",
+      "effect": "hiring_boost",
+      "department_id": "D04",
+      "start_date": "2024-01-01",
+      "end_date": "2024-02-29"
+    },
+    {
+      "event_id": "EV-07",
+      "event_name": "Data & AI team build-out",
+      "effect": "hiring_boost",
+      "department_id": "D03",
+      "start_date": "2025-01-01",
+      "end_date": "2025-06-30"
+    },
+    {
+      "event_id": "EV-08",
+      "event_name": "New 5-point appraisal framework",
+      "effect": "policy_change",
+      "department_id": "ALL",
+      "start_date": "2025-04-01",
+      "end_date": "2025-04-30"
+    },
+    {
+      "event_id": "EV-09",
+      "event_name": "Performance bonus paid with April payroll",
+      "effect": "policy_change",
+      "department_id": "ALL",
+      "start_date": "2026-04-01",
+      "end_date": "2026-04-30"
+    }
+  ],
+  "future_events_known": "none in workforce_events.csv after 2026-04",
+  "events_handling": "Past events enter the improved model as 0/1 regressors (hiring freeze, hiring boost, policy change); a future what-if event can be supplied as a scenario. The baseline ignores events on purpose: it is the benchmark.",
+  "limits": [
+    "A single hiring freeze (2020) is the only example the model has of that effect, so its size is uncertain.",
+    "Intervals ignore parameter uncertainty and assume no new unmodelled event (e.g. a sudden layoff).",
+    "Department series are small; their intervals are wide relative to the level."
+  ]
+}

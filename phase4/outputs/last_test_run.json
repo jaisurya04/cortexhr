@@ -1,0 +1,556 @@
+{
+ "finished": "2026-11-20 12:13:24",
+ "phase1_3_files": 730,
+ "results": {
+  "test_ai_label::test_console_has_exactly_the_five_official_tabs_and_attendance_is_reachable": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_ai_label::test_console_pages_never_draw_results_without_the_label_wrappers": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.35
+  },
+  "test_ai_label::test_dashboard_panels_with_model_output_show_the_label_in_the_browser": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 14.62
+  },
+  "test_ai_label::test_every_ai_api_response_carries_the_exact_label": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.94
+  },
+  "test_ai_label::test_every_wrapper_draws_the_label_before_the_content": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.01
+  },
+  "test_ai_label::test_real_streamlit_console_shows_the_label_on_every_tab": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 25.28
+  },
+  "test_ai_label::test_scenario_forecast_carries_the_label": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 3.39
+  },
+  "test_ai_label::test_wrappers_put_the_label_first_even_when_drawing_the_content_fails": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_api_fastapi::test_each_model_endpoint_returns_a_real_prediction": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 1.35
+  },
+  "test_api_fastapi::test_health_open_and_models_protected_when_key_set": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.21
+  },
+  "test_api_fastapi::test_openapi_lists_every_v1_route": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.34
+  },
+  "test_api_fastapi::test_pydantic_schemas_reject_impossible_values": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.06
+  },
+  "test_api_fastapi::test_validation_errors_use_the_common_json_shape": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.16
+  },
+  "test_api_http::test_client_friendly_messages_for_each_failure_mode": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 2.95
+  },
+  "test_api_http::test_every_documented_get_endpoint_returns_json": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 4.81
+  },
+  "test_api_http::test_smoke_test_script_fails_loudly_when_api_is_down": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 21.19
+  },
+  "test_api_http::test_smoke_test_script_passes_every_model": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 2.21
+  },
+  "test_dashboard::test_charts_render_and_hover_tooltip_works": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 2.23
+  },
+  "test_dashboard::test_desktop_layout_kpis_and_no_console_errors": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 2.81
+  },
+  "test_dashboard::test_greeting_and_account_chip_use_the_signed_in_name_not_a_fixed_one": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.11
+  },
+  "test_dashboard::test_mobile_layout_has_no_horizontal_overflow_and_popup_fits": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 2.94
+  },
+  "test_dashboard::test_no_demo_values_in_the_generated_page": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.12
+  },
+  "test_dashboard::test_period_search_menus_and_modals_work": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 3.01
+  },
+  "test_dashboard::test_streamlit_embed_mode_initialises_without_errors_and_shows_the_hiring_map": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 2.13
+  },
+  "test_dashboard::test_welcome_popup_opens_closes_and_is_remembered": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 3.59
+  },
+  "test_dashboard_integration::test_overview_has_grounded_city_location_counts_and_dashboard_map": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.09
+  },
+  "test_deliverables::test_architecture_picture_exists_and_is_a_png": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_demo_script_and_recording_checklist_exist": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_final_challenge_is_workflow_only_and_judgement_is_a_labelled_draft": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_final_checklist_and_user_action_list_exist": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_final_report_exists_and_does_not_claim_public_release": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_forecast_chart_and_backtest_table_evidence_exist": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_hosting_table_has_every_required_column_date_and_source_urls": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_load_test_doc_separates_local_from_public_measurements": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_readme_lists_every_v1_route_defined_in_the_api_source": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_reference_screenshot_comparison_evidence_exists_and_states_its_limits": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_release_notes_has_included_not_included_and_limits": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_requirements_are_pinned": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_tag_instructions_give_exact_commands_and_do_not_claim_a_tag": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_deliverables::test_workflow_template_is_not_active_in_the_repository": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_forecast_core::test_ar1_cumulative_sd_matches_simulation": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.02
+  },
+  "test_forecast_core::test_backtest_never_sees_the_future": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.01
+  },
+  "test_forecast_core::test_backtest_tables_are_honest_and_complete": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.85
+  },
+  "test_forecast_core::test_data_validation_rejects_broken_history": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.15
+  },
+  "test_forecast_core::test_eda_describes_trend_seasons_and_unusual_months": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 1.27
+  },
+  "test_forecast_core::test_empirical_interval_needs_enough_errors_and_is_symmetric": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_forecast_core::test_events_classification_and_matrix": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.05
+  },
+  "test_forecast_core::test_forecast_only_refuses_when_it_would_ignore_the_scenario": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_forecast_core::test_history_matches_sample_series_ids": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.03
+  },
+  "test_forecast_core::test_horizon_validation": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_forecast_core::test_improved_model_status_is_reported_not_hidden": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 3.41
+  },
+  "test_forecast_core::test_metrics_hand_computed": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_forecast_core::test_out_of_sample_check_uses_only_earlier_origins_to_fit": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.01
+  },
+  "test_forecast_core::test_pipeline_is_reproducible": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 1.63
+  },
+  "test_forecast_core::test_pipeline_output_matches_sample_forecast_layout": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.68
+  },
+  "test_forecast_core::test_pipeline_reports_walk_forward_calibration_honestly": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.85
+  },
+  "test_forecast_core::test_rolling_errors_counts": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_forecast_core::test_seasonal_mean_formula": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_forecast_core::test_seasonal_naive_drift_formula": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_forecast_core::test_statsmodels_event_regressor_changes_forecast": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.59
+  },
+  "test_forecast_core::test_statsmodels_level_and_count_models": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.25
+  },
+  "test_forecast_core::test_walk_forward_calibration_uses_only_known_earlier_errors_and_adapts_to_regimes": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 1.0
+  },
+  "test_forecast_core::test_width_scale_is_fitted_on_past_errors_and_applied_symmetrically": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_model_cards::test_cards_on_disk_equal_cards_regenerated_from_the_evaluation_files": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.44
+  },
+  "test_model_cards::test_every_registry_model_has_a_card_in_the_template_layout": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_model_cards::test_hand_typed_numbers_in_cards_are_rederived_from_their_sources": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.08
+  },
+  "test_model_cards::test_live_performance_numbers_appear_in_the_cards": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.04
+  },
+  "test_monitoring::test_drift_on_real_data_finds_the_collapsed_raise_feature": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.09
+  },
+  "test_monitoring::test_feature_selection_uses_importance_and_numeric_shared_columns": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.05
+  },
+  "test_monitoring::test_gender_gap_is_reported_as_not_checked_without_the_vault": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.68
+  },
+  "test_monitoring::test_monitor_failed_check_is_visible_not_silent": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.73
+  },
+  "test_monitoring::test_monitor_is_reproducible": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 2.61
+  },
+  "test_monitoring::test_monitor_persist_appends_audit_history": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 1.24
+  },
+  "test_monitoring::test_monitor_report_structure_and_alert_plan": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 1.14
+  },
+  "test_monitoring::test_other_status_rules": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_monitoring::test_pay_gap_reproduces_phase3_saved_numbers": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.64
+  },
+  "test_monitoring::test_psi_helper_behaviour_on_synthetic_data": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.02
+  },
+  "test_monitoring::test_psi_status_boundaries": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_monitoring::test_single_comparable_group_is_never_reported_ok": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.76
+  },
+  "test_monitoring::test_twin_resume_check_runs_and_reports_limit": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.57
+  },
+  "test_phase_integrity::test_no_phase4_source_writes_into_phase1_to_3": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.02
+  },
+  "test_phase_integrity::test_phase4_has_no_files_outside_its_folder_and_repo_phases_match_baseline": {
+   "status": "SKIP",
+   "note": "set CORTEXHR_PRISTINE_REPO to an untouched copy of the repository to compare byte by byte (the git check is in scripts/verify_phase1_3_unchanged.py)",
+   "seconds": 0.42
+  },
+  "test_phase_integrity::test_requirements_are_exactly_pinned": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_phase_integrity::test_secrets_are_not_in_the_repository": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.22
+  },
+  "test_requirements_traceability::test_every_pass_row_names_a_test_that_exists": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.02
+  },
+  "test_requirements_traceability::test_every_row_points_to_real_files_and_real_tests": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.08
+  },
+  "test_security::test_login_and_backend_role_enforcement": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 1.61
+  },
+  "test_security::test_password_hash_is_salted_and_verifies": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 1.65
+  },
+  "test_security::test_production_fails_closed_without_auth_configuration": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.14
+  },
+  "test_security::test_resume_docx_upload_is_masked_and_memory_only": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 2.61
+  },
+  "test_security::test_role_matrix_is_deny_by_default": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_security::test_short_signing_secret_fails_closed": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.18
+  },
+  "test_security::test_token_signature_expiry_and_role": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_services_models::test_attrition_list_bands_equal_phase3_counts": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.05
+  },
+  "test_services_models::test_attrition_predict_matches_phase3_report": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.15
+  },
+  "test_services_models::test_chatbot_answers_policy_question_and_rejects_blank": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.02
+  },
+  "test_services_models::test_concurrent_monitoring_refresh_runs_once_and_never_returns_a_broken_file": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 1.41
+  },
+  "test_services_models::test_forecast_endpoint_matches_saved_forecast_file": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.07
+  },
+  "test_services_models::test_health_and_models_shape": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_services_models::test_jsonable_handles_numpy_nan_and_timestamps": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_services_models::test_monitoring_handler_returns_status_and_history": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_services_models::test_overview_numbers_come_from_the_data_not_the_screenshot": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.14
+  },
+  "test_services_models::test_payband_low_mid_high_and_validation": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.1
+  },
+  "test_services_models::test_payroll_and_attendance_use_the_real_detectors": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 1.11
+  },
+  "test_services_models::test_payroll_invalid_row_is_a_clean_error_not_a_crash": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.05
+  },
+  "test_services_models::test_performance_endpoint_has_every_evaluation_table": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.05
+  },
+  "test_services_models::test_registry_loads_every_model_and_is_honest_about_fallbacks": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_services_models::test_resume_ranking_sorted_and_protected_fields_refused": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.17
+  },
+  "test_smoke_test_auth::test_smoke_headers_include_api_key_and_bearer_token": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  },
+  "test_smoke_test_auth::test_smoke_headers_support_local_demo_without_credentials": {
+   "status": "PASS",
+   "note": "",
+   "seconds": 0.0
+  }
+ }
+}

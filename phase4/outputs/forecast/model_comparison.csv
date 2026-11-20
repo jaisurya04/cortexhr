@@ -1,0 +1,73 @@
+metric,department_id,model,method,scope,n,mae,rmse,mape_pct,bias,coverage_80,mean_interval_width
+headcount_end,ALL,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,4.3333,6.9041,1.0084,2.0,1.0,29.4667
+headcount_end,ALL,baseline,seasonal naive + yearly drift,rolling_origin,162,9.8086,12.5808,2.5557,-5.3642,0.679,25.3284
+headcount_end,ALL,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,3.9576,4.8787,0.936,-0.9285,0.8333,17.7084
+headcount_end,ALL,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,7.1533,10.0496,1.859,-6.0821,0.7531,17.6059
+headcount_end,D01,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,2.8333,4.1028,1.7469,1.8333,0.8333,12.2667
+headcount_end,D01,baseline,seasonal naive + yearly drift,rolling_origin,162,4.4815,5.6743,3.1141,-2.2222,0.6914,11.4099
+headcount_end,D01,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,2.8057,3.1357,1.7734,-1.993,0.8333,8.193
+headcount_end,D01,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,2.949,4.0484,2.0599,-0.7741,0.7531,8.3417
+headcount_end,D02,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,1.6667,1.8257,6.4378,-1.6667,1.0,6.1333
+headcount_end,D02,baseline,seasonal naive + yearly drift,rolling_origin,162,1.2963,1.8019,5.3846,-0.321,0.9012,6.3185
+headcount_end,D02,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,1.0157,1.0831,3.9681,-0.8475,0.6667,3.4609
+headcount_end,D02,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,1.2364,1.5323,5.2418,-0.0115,0.7099,3.2571
+headcount_end,D03,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,2.0,2.1602,4.0773,-2.0,1.0,8.8667
+headcount_end,D03,baseline,seasonal naive + yearly drift,rolling_origin,162,3.4753,4.3298,7.2869,-1.463,0.5617,6.6395
+headcount_end,D03,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,0.6193,0.8992,1.2283,0.599,1.0,4.4891
+headcount_end,D03,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,2.6591,3.4085,5.5606,-1.2635,0.4074,3.629
+headcount_end,D04,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,1.5,1.6833,3.1934,1.5,1.0,9.7333
+headcount_end,D04,baseline,seasonal naive + yearly drift,rolling_origin,162,3.8519,4.6904,9.632,-0.4938,0.6852,8.5605
+headcount_end,D04,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,2.231,2.5262,4.7407,2.231,0.5,4.3316
+headcount_end,D04,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,2.1608,2.7786,5.2988,-0.3283,0.5741,4.1758
+headcount_end,D05,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,1.1667,1.472,8.9744,-1.1667,1.0,3.7333
+headcount_end,D05,baseline,seasonal naive + yearly drift,rolling_origin,162,1.1111,1.5396,10.1913,0.358,0.7531,2.9728
+headcount_end,D05,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,1.7887,1.8145,13.7591,-1.7887,0.0,2.493
+headcount_end,D05,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,1.0428,1.2705,9.1926,0.1537,0.5802,2.3189
+headcount_end,D06,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,3.8333,4.8132,6.7045,3.5,0.8333,10.4667
+headcount_end,D06,baseline,seasonal naive + yearly drift,rolling_origin,162,3.642,4.5893,7.2963,-0.0247,0.6914,9.0716
+headcount_end,D06,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,1.4484,1.8121,2.5283,1.4484,1.0,6.289
+headcount_end,D06,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,2.7029,3.4608,5.5657,-0.8153,0.5679,5.2789
+headcount_end,D07,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,0.5,0.7071,2.6909,0.1667,1.0,5.0
+headcount_end,D07,baseline,seasonal naive + yearly drift,rolling_origin,162,1.2901,1.6906,8.2931,0.3519,0.8889,5.2444
+headcount_end,D07,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,0.966,1.2375,5.0627,0.738,0.8333,3.2399
+headcount_end,D07,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,0.9939,1.2095,6.4803,0.0203,0.8457,3.3398
+headcount_end,D08,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,1.6667,2.0,10.8415,-1.6667,0.6667,4.3333
+headcount_end,D08,baseline,seasonal naive + yearly drift,rolling_origin,162,1.6173,2.2388,10.0622,-0.8272,0.7901,4.1407
+headcount_end,D08,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,1.0878,1.2193,7.0829,-1.0878,0.5,2.5999
+headcount_end,D08,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,1.2104,1.5509,7.5441,-0.6285,0.5802,2.4014
+headcount_end,D09,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,2.3333,2.8284,8.4876,2.0,1.0,8.2
+headcount_end,D09,baseline,seasonal naive + yearly drift,rolling_origin,162,2.3395,3.052,8.4856,-0.7346,0.8086,7.6099
+headcount_end,D09,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,1.1567,1.2914,4.2873,0.6465,1.0,4.4318
+headcount_end,D09,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,1.9484,2.3983,7.0873,-1.0276,0.6296,4.2017
+headcount_end,D10,baseline,seasonal naive + yearly drift,holdout_last_6_months,6,0.5,0.9129,5.3704,-0.5,1.0,3.3333
+headcount_end,D10,baseline,seasonal naive + yearly drift,rolling_origin,162,0.9506,1.1706,10.3802,0.0123,0.9444,3.3309
+headcount_end,D10,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,0.6206,0.8339,5.8754,0.4847,0.8333,2.1652
+headcount_end,D10,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,0.7758,1.0178,8.5103,-0.1983,0.679,2.0547
+exits,ALL,baseline,same-month average of last 3 years,holdout_last_6_months,6,1.8333,2.023,55.0926,-0.5,1.0,6.6667
+exits,ALL,baseline,same-month average of last 3 years,rolling_origin,162,1.965,2.6274,47.327,1.0473,0.8519,6.4572
+exits,ALL,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),holdout_last_6_months,6,1.3144,1.5386,30.4119,0.4114,0.8333,4.95
+exits,ALL,improved,events + seasonality regression with AR(1) errors (statsmodels SARIMAX),rolling_origin,162,2.0412,2.5654,43.6727,1.3864,0.6296,4.41
+exits,ALL,improved,,rolling_origin_raw_same_rows,114,,,,,0.6579,4.5526
+exits,ALL,improved,,rolling_origin_calibrated_walk_forward,114,,,,,0.8947,5.7976
+headcount_end,ALL,improved,,rolling_origin_raw_same_rows,150,,,,,0.7467,17.5996
+headcount_end,ALL,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.8133,25.7811
+headcount_end,D01,improved,,rolling_origin_raw_same_rows,150,,,,,0.7733,8.332
+headcount_end,D01,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.84,12.1886
+headcount_end,D02,improved,,rolling_origin_raw_same_rows,150,,,,,0.6933,3.2624
+headcount_end,D02,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.8733,4.7738
+headcount_end,D03,improved,,rolling_origin_raw_same_rows,150,,,,,0.3733,3.66
+headcount_end,D03,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.5133,5.3834
+headcount_end,D04,improved,,rolling_origin_raw_same_rows,150,,,,,0.5933,4.2482
+headcount_end,D04,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.7733,6.2144
+headcount_end,D05,improved,,rolling_origin_raw_same_rows,150,,,,,0.5533,2.3226
+headcount_end,D05,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.8,3.412
+headcount_end,D06,improved,,rolling_origin_raw_same_rows,150,,,,,0.5533,5.3287
+headcount_end,D06,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.7333,7.8663
+headcount_end,D07,improved,,rolling_origin_raw_same_rows,150,,,,,0.8333,3.3217
+headcount_end,D07,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.9733,4.8403
+headcount_end,D08,improved,,rolling_origin_raw_same_rows,150,,,,,0.5933,2.4314
+headcount_end,D08,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.72,3.5768
+headcount_end,D09,improved,,rolling_origin_raw_same_rows,150,,,,,0.6467,4.2253
+headcount_end,D09,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.8267,6.1873
+headcount_end,D10,improved,,rolling_origin_raw_same_rows,150,,,,,0.6533,2.0609
+headcount_end,D10,improved,,rolling_origin_calibrated_walk_forward,150,,,,,0.8,3.0287
