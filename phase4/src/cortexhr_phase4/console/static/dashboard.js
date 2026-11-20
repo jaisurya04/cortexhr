@@ -97,7 +97,10 @@
   function renderHiring() {
     const hr = D.overview.hiring || {}, fmt = (n) => (n == null ? "n/a" : Number(n).toLocaleString("en-IN"));
     const points = hr.location_counts || [];
-    $("cx-hires").innerHTML = `<span>Hires, last 6 months</span><b>${fmt(hr.hires_last_6m)}</b><small>${fmt(points.length)} mapped locations</small>`;
+    const selected = hr.periods?.[String(period)];
+    const hireCount = selected ? selected.hires : hr.hires_last_6m;
+
+    $("cx-hires").innerHTML = `<span>Hires, last ${period} months</span><b>${fmt(hireCount)}</b><small>${fmt(points.length)} mapped locations</small>`;
     const svg = $("cx-map");
     if (!points.length) {
       svg.innerHTML = `<text x="210" y="84" text-anchor="middle" fill="#cfe0d8" font-size="13">Location data unavailable</text>`;
@@ -274,7 +277,13 @@
   function init() {
     renderKpis(); renderWorkforce(); renderHiring(); renderAttrition(); renderInsights(); renderPerf(); renderActivity(); wireSearch(); wireMenus(); wireWelcome();
     if (REF) { $("cx-kbd").textContent = "38 K"; const lg = document.querySelector(".cx-legend span:nth-child(2)"); if (lg) lg.lastChild.textContent = "Attrition"; }
-    $("cx-period").onchange = (e) => { period = +e.target.value; renderKpis(); renderWorkforce(); };
+    $("cx-period").onchange = (e) => {
+    period = Math.max(3, Math.min(12, Number(e.target.value) || 6));
+
+    renderKpis();
+    renderWorkforce();
+    renderHiring();
+};
     $("lnk-att").onclick = openHighRisk; $("lnk-ins").onclick = openInsights; $("lnk-perf").onclick = openPerf; $("lnk-act").onclick = openActivity;
     // the sidebar promo button exists only in the full page, not in the Streamlit embed: never let a missing element stop init()
     if ($("btn-ai")) $("btn-ai").onclick = openFeatures;

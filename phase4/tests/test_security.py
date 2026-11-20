@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 from dataclasses import replace
 import json
 
@@ -35,7 +35,7 @@ def test_login_and_backend_role_enforcement():
     from cortexhr_phase4.core.settings import load_settings
     from _common import registry
     record = {"recruiter1": {"display_name": "Recruiter One", "role": "recruiter", "password_hash": hash_password("correct-horse-battery-staple")}}
-    cfg = replace(load_settings(), env="development", **{"auth_secret": "unit-test-signing-secret-at-least-32-bytes-long", "auth_users": json.dumps(record)})
+    cfg = replace(load_settings(), env="development", api_key=None, **{"auth_secret": "unit-test-signing-secret-at-least-32-bytes-long", "auth_users": json.dumps(record)})
     c = TestClient(create_app(cfg, registry()))
     assert c.get("/v1/resume/jobs").status_code == 401
     login = c.post("/v1/auth/login", json={"username": "recruiter1", "password": "correct-horse-battery-staple"})
@@ -59,13 +59,13 @@ def test_resume_docx_upload_is_masked_and_memory_only():
     users = {
         "recruiter1": {"display_name": "Recruiter One", "role": "recruiter", "password_hash": hash_password("correct-horse-battery-staple")}
     }
-    cfg = replace(load_settings(), env="development", **{"auth_secret": "upload-test-signing-secret-at-least-32-bytes-long", "auth_users": json.dumps(users)})
+    cfg = replace(load_settings(), env="development", api_key=None, **{"auth_secret": "upload-test-signing-secret-at-least-32-bytes-long", "auth_users": json.dumps(users)})
     c = TestClient(create_app(cfg, registry()))
     login = c.post("/v1/auth/login", json={"username": "recruiter1", "password": "correct-horse-battery-staple"})
     headers = {"Authorization": f"Bearer {login.json()['access_token']}"}
     doc = Document()
     doc.add_paragraph("Aarav Kumar")
-    doc.add_paragraph("aarav.kumar@example.com · +91 98765 43210 · Coimbatore")
+    doc.add_paragraph("aarav.kumar@example.com Â· +91 98765 43210 Â· Coimbatore")
     doc.add_paragraph("Gender: Female | Age: 31 | Date of Birth: 1995-03-11")
     doc.add_paragraph("SUMMARY\nExperienced software engineer with Python, Java, SQL, AWS and Docker.")
     doc.add_paragraph("EXPERIENCE\nSoftware Engineer, Example Systems (4.5 yrs) developed Python APIs, SQL data pipelines, machine learning services, cloud automation, CI/CD and distributed systems.")
@@ -91,7 +91,7 @@ def test_production_fails_closed_without_auth_configuration():
     from cortexhr_phase4.api.app import create_app
     from cortexhr_phase4.core.settings import load_settings
     from _common import registry
-    cfg = replace(load_settings(), env="production", **{"auth_secret": None, "auth_users": ""})
+    cfg = replace(load_settings(), env="production", api_key=None, **{"auth_secret": None, "auth_users": ""})
     c = TestClient(create_app(cfg, registry()))
     assert c.get("/v1/health").status_code == 200
     denied = c.get("/v1/models")
@@ -103,8 +103,27 @@ def test_short_signing_secret_fails_closed():
     from cortexhr_phase4.api.app import create_app
     from cortexhr_phase4.core.settings import load_settings
     from _common import registry
-    cfg = replace(load_settings(), env="production", **{"auth_secret": "too-short", "auth_users": "{}"})
+    cfg = replace(load_settings(), env="production", api_key=None, **{"auth_secret": "too-short", "auth_users": "{}"})
     c = TestClient(create_app(cfg, registry()))
     assert c.get("/v1/models").status_code == 503
     login = c.post("/v1/auth/login", json={"username": "admin", "password": "irrelevant"})
     assert login.status_code == 503 and login.json()["error"] == "auth_misconfigured"
+
+
+def test_auth_me_returns_verified_identity_and_rejects_revoked_session():
+    from fastapi.testclient import TestClient
+    from cortexhr_phase4.api.app import create_app
+    from cortexhr_phase4.core.settings import load_settings
+    from _common import registry
+    record = {"admin1": {"display_name": "Admin One", "role": "admin", "password_hash": hash_password("correct-horse-battery-staple")}}
+    cfg = replace(load_settings(), env="development", api_key=None, **{"auth_secret": "auth-me-test-secret-at-least-32-bytes-long", "auth_users": json.dumps(record)})
+    c = TestClient(create_app(cfg, registry()))
+    assert c.get("/v1/auth/me").status_code == 401
+    login = c.post("/v1/auth/login", json={"username": "admin1", "password": "correct-horse-battery-staple"})
+    token = login.json()["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    identity = c.get("/v1/auth/me", headers=headers)
+    assert identity.status_code == 200
+    assert identity.json()["user"] == {"username": "admin1", "display_name": "Admin One", "role": "admin"}
+    assert c.post("/v1/auth/logout", headers=headers, json={}).status_code == 200
+    assert c.get("/v1/auth/me", headers=headers).status_code == 401

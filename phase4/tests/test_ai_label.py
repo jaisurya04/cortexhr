@@ -1,4 +1,4 @@
-"""Official Day 19: "Add a clear label on every AI output: 'AI-generated, for human review'", and the brief: "make the label impossible to omit".
+﻿"""Official Day 19: "Add a clear label on every AI output: 'AI-generated, for human review'", and the brief: "make the label impossible to omit".
 
 1. every AI response of the API carries the label;
 2. the console draws results ONLY through ``console/ai_render.py`` (static check of ``app.py``), and every wrapper draws the label first;
@@ -218,6 +218,11 @@ def test_real_streamlit_console_shows_the_label_on_every_tab():
     from streamlit.testing.v1 import AppTest
     port = 8765
     env = {**os.environ, "CORTEXHR_ENV": "test", "PYTHONPATH": str(ROOT / "src")}
+    auth_keys = ("CORTEXHR_AUTH_SECRET", "CORTEXHR_AUTH_USERS", "CORTEXHR_API_KEY")
+    old_auth_env = {key: os.environ.get(key) for key in auth_keys}
+    for key in auth_keys:
+        os.environ[key] = ""
+    env.update({key: "" for key in auth_keys})
     srv = subprocess.Popen([sys.executable, "-m", "uvicorn", "cortexhr_phase4.api.app:app", "--port", str(port)], cwd=ROOT, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:
         import urllib.request

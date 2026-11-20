@@ -106,8 +106,8 @@ def _sun() -> str:
 
 
 def _ai_btn(flow: bool, href: str) -> str:
-    """In the standalone preview the button opens the features dialog; inside Streamlit it is a real link to the Insights page."""
-    return (f'<a class="cx-btn" href="{html.escape(href.format(key="insights"))}" target="_self">Explore AI &rarr;</a>' if flow
+    """The standalone preview opens its feature dialog; Streamlit uses a native session-aware launcher."""
+    return ('<span class="cx-ai-hint">Open Mind / AI Empower from the sidebar</span>' if flow
             else '<button class="cx-btn" id="btn-ai">Explore AI &rarr;</button>')
 
 

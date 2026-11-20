@@ -98,6 +98,39 @@ def test_chatbot_answers_policy_question_and_rejects_blank():
     assert _err(h.chat, r, "   ", "t1").status == 422
 
 
+def test_hr_assistant_routes_analytics_questions_to_real_phase_data():
+    r = registry()
+    cases = [
+        ("How many employees are at high attrition risk?", "attrition_high_risk_count", "43"),
+        ("Which department has the highest attrition risk?", "attrition_department_risk", "Department"),
+        ("What is the attendance rate?", "attendance_rate", "%"),
+        ("How many absences were recorded?", "attendance_absences", "unpaid absence days"),
+        ("How many candidates were screened?", "recruitment_screening_summary", "unique resumes"),
+        ("What is the workforce forecast?", "workforce_forecast", "prediction interval"),
+    ]
+    for question, intent, expected in cases:
+        out = h.chat(r, question, "analytics-test-session")
+        assert out["intent"] == intent, (question, out)
+        assert expected.casefold() in out["reply"].casefold(), (question, out["reply"])
+        assert "human review" in out["notice"].casefold()
+        assert "employee_id" not in out and "candidate_name" not in out
+
+
+def test_hr_assistant_attendance_and_payroll_anomaly_counts_use_saved_evidence():
+    r = registry()
+    att = h.chat(r, "Show attendance anomalies", "analytics-anomaly-session")
+    assert att["intent"] == "attendance_anomalies" and "flagged attendance records" in att["reply"]
+    pay = h.chat(r, "Are there any payroll anomalies?", "analytics-anomaly-session")
+    assert pay["intent"] == "payroll_anomalies" and "flagged payroll records" in pay["reply"]
+
+
+def test_hr_assistant_payroll_analytics_is_data_backed_when_source_exists():
+    r = registry()
+    out = h.chat(r, "What is the total payroll?", "analytics-payroll-session")
+    assert out["intent"] == "payroll_total"
+    assert "INR" in out["reply"] and "latest supplied payroll month" in out["reply"]
+
+
 def test_resume_ranking_sorted_and_protected_fields_refused():
     r = registry()
     out = h.resume_rank(r, {"job_id": "J01", "top_k": 5})

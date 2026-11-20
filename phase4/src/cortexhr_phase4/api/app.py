@@ -85,6 +85,18 @@ def build_router() -> tuple[APIRouter, APIRouter]:
         return {"access_token": signed_value, "token_type": "bearer", "expires_in": 28800,
                 "user": {"username": record["username"], "display_name": record["display_name"], "role": record["role"]}}
 
+    @r.get("/auth/me", tags=["authentication"])
+    def auth_me(request: Request):
+        """Return the authenticated principal so the console can detect expired/revoked sessions."""
+        principal = request.state.principal
+        users = request.app.state.auth_users
+        record = users.get(str(principal.get("sub", "")).lower(), {})
+        return {"user": {
+            "username": str(principal.get("sub", "")),
+            "display_name": record.get("display_name") or str(principal.get("sub", "")),
+            "role": str(principal.get("role", "")),
+        }}
+
     @r.post("/auth/logout", tags=["authentication"])
     def logout(request: Request, authorization: Optional[str] = Header(default=None)):
         scheme, _, bearer_value = (authorization or "").partition(" ")

@@ -10,7 +10,7 @@ def _client(api_key=None):
 
     from cortexhr_phase4.api.app import create_app
     from cortexhr_phase4.core.settings import load_settings
-    return TestClient(create_app(replace(load_settings(), api_key=api_key), registry()))
+    return TestClient(create_app(replace(load_settings(), api_key=api_key, auth_secret=None, auth_users=""), registry()))
 
 
 def test_openapi_lists_every_v1_route():
@@ -71,3 +71,19 @@ def test_pydantic_schemas_reject_impossible_values():
         raise AssertionError("present_days > scheduled_days accepted")
     except ValidationError:
         pass
+
+
+def test_hr_assistant_analytics_intents_through_real_api_route():
+    c = _client()
+    questions = {
+        "How many employees are at high attrition risk?": "attrition_high_risk_count",
+        "What is the attendance rate?": "attendance_rate",
+        "What is the workforce forecast?": "workforce_forecast",
+        "How many candidates were screened?": "recruitment_screening_summary",
+    }
+    for question, intent in questions.items():
+        response = c.post("/v1/chat", json={"message": question, "session_id": "api-mind-test"})
+        assert response.status_code == 200, response.text
+        body = response.json()
+        assert body["intent"] == intent
+        assert body["reply"] and "human review" in body["notice"].lower()

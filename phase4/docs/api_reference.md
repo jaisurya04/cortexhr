@@ -34,6 +34,7 @@ curl -X POST $API/v1/forecast/scenario -H "Content-Type: application/json" \
 |---|---|---|
 | `GET /v1/health` | - | `status` ok / degraded / unavailable, `version`, `uptime_s`, `models{name: state}` |
 | `POST /v1/auth/login` | `{username, password}` | 8-hour signed bearer token and account role |
+| `GET /v1/auth/me` | Bearer token | Validates the session and returns the authenticated identity |
 | `POST /v1/auth/logout` | Bearer token | Revokes the token for the lifetime of the current API process |
 | `GET /v1/models` | - | per model `status`, `version`, `source`, `detail` |
 | `POST /v1/attrition/predict` | `{employee_id}` | `risk_score_12m`, `risk_band`, `top_reasons[3]`, `model_version`, `source` (`live_model` or `saved_phase3_scores`) |

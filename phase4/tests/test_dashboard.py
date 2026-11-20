@@ -185,3 +185,35 @@ def test_streamlit_embed_mode_initialises_without_errors_and_shows_the_hiring_ma
         assert pg.inner_text("#v-emp") == "441"
     finally:
         b.close(); pw.stop()
+
+
+def test_mind_assistant_launcher_is_a_real_session_aware_chat_dialog():
+    """The persistent sidebar launcher opens the actual authenticated Phase 4 /v1/chat workflow."""
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    app = (root / "src/cortexhr_phase4/console/app.py").read_text(encoding="utf-8")
+    dashboard = (root / "src/cortexhr_phase4/console/dashboard.py").read_text(encoding="utf-8")
+    assert '@st.dialog("CortexHR AI Assistant"' in app
+    assert 'st.button("✦  Mind · AI Empower"' in app
+    assert 'st.session_state["mind_assistant_open"] = True' in app
+    assert 'if st.session_state.get("mind_assistant_open")' in app
+    assert 'client().post("/v1/chat"' in app
+    assert 'st.session_state["chat_session"]' in app and 'st.session_state["chat_log"]' in app
+    assert 'st.spinner("CortexHR is checking the available HR data…")' in app
+    assert 'result.message(SETTINGS.api_url)' in app
+    assert 'st.session_state["mind_assistant_open"] = False' in app
+    assert 'Open Mind / AI Empower from the sidebar' in dashboard
+    assert 'href.format(key="insights")' not in dashboard
+
+
+def test_console_revalidates_auth_session_and_clears_all_state_on_logout():
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    app = (root / "src/cortexhr_phase4/console/app.py").read_text(encoding="utf-8")
+    assert 'client().get("/v1/auth/me")' in app
+    assert 'if result.status == 401:' in app
+    assert '_clear_auth_state(revoke=False)' in app
+    assert '"mind_assistant_open"' in app and '"chat_session"' in app
+    assert '_clear_auth_state(revoke=True)' in app
+    assert 'if not _validate_auth_session():' in app
+    assert 'page="dashboard"' in app

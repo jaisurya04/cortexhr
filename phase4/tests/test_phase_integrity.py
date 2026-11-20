@@ -42,12 +42,19 @@ def test_phase4_has_no_files_outside_its_folder_and_repo_phases_match_baseline()
 
 def test_secrets_are_not_in_the_repository():
     hits = []
-    for f in list(ROOT.rglob("*.py")) + list(ROOT.rglob("*.md")) + list(ROOT.rglob("*.toml")) + list(ROOT.rglob("*.yml")) + list(ROOT.rglob("*.yaml")) + list(ROOT.rglob("*.txt")):
-        if "outputs" in f.parts or ".git" in f.parts:
+    excluded = {"outputs", ".git", ".venv", "venv", "__pycache__", ".pytest_cache", "node_modules"}
+
+    patterns = ("*.py", "*.md", "*.toml", "*.yml", "*.yaml", "*.txt")
+    files = set()
+    for pattern in patterns:
+        files.update(ROOT.rglob(pattern))
+
+    for f in sorted(files):
+        if any(part in excluded for part in f.relative_to(ROOT).parts):
             continue
         for i, line in enumerate(f.read_text(encoding="utf-8", errors="ignore").splitlines(), 1):
             low = line.lower().replace(" ", "")
-            if any(k in low for k in ('api_key=\"', "api_key='", 'secret=\"', "secret='", 'password=\"', "password='", 'token=\"', "token='")) and "os.environ" not in low and "environ" not in low and "example" not in f.name and "s3cret" not in low and "$" not in low:
+            if any(k in low for k in ('api_key="', "api_key='", 'secret="', "secret='", 'password="', "password='", 'token="', "token='")) and "os.environ" not in low and "environ" not in low and "example" not in f.name and "s3cret" not in low and "$" not in low:
                 hits.append(f"{f.relative_to(ROOT)}:{i}")
     assert not hits, hits
 

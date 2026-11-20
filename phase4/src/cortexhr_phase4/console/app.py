@@ -45,6 +45,49 @@ def fail(res: ApiResult) -> None:
     st.error(res.message(SETTINGS.api_url))
 
 
+def _clear_auth_state(*, revoke: bool = True) -> None:
+    """Clear every authenticated UI state; best-effort revoke the current server token."""
+    token = st.session_state.get("access_token")
+    if revoke and token:
+        try:
+            auth_client = ApiClient(SETTINGS.api_url, SETTINGS.api_key, SETTINGS.request_timeout_s)
+            auth_client.bearer_token = token
+            auth_client.post("/v1/auth/logout", {})
+        except Exception:
+            pass
+    for key in ("access_token", "user_name", "user_role", "username", "page",
+                "chat_log", "chat_session", "mind_assistant_open", "insights_tab"):
+        st.session_state.pop(key, None)
+    try:
+        st.query_params.clear()
+    except Exception:
+        pass
+
+
+def _validate_auth_session() -> bool:
+    """Check a real login on every Streamlit rerun, including token expiry/revocation."""
+    if not SETTINGS.auth_secret:
+        return bool(st.session_state.get("user_name"))
+    token = st.session_state.get("access_token")
+    if not token:
+        return False
+    result = client().get("/v1/auth/me")
+    if result.ok:
+        user = result.data.get("user", {})
+        if user:
+            role_labels = {"admin": "Admin", "hr_manager": "HR Manager", "recruiter": "Recruiter", "analyst": "Analyst"}
+            st.session_state["username"] = user.get("username", st.session_state.get("username", ""))
+            st.session_state["user_name"] = user.get("display_name", st.session_state.get("user_name", ""))
+            st.session_state["user_role"] = role_labels.get(user.get("role"), st.session_state.get("user_role", "User"))
+        return True
+    if result.status == 401:
+        _clear_auth_state(revoke=False)
+        st.warning("Your session has expired or was signed out. Please sign in again.")
+        return False
+    st.error(result.message(SETTINGS.api_url))
+    return False
+
+
 def pill(status: str) -> str:
     return f'<span class="cx-pill {status}">{status}</span>'
 
@@ -486,7 +529,7 @@ def page_api() -> None:
     ai.system_dataframe(pd.DataFrame(ENDPOINTS, columns=["method", "path", "purpose"]), hide_index=True)
 
 
-ENDPOINTS = [("GET", "/v1/health", "service and model status"), ("POST", "/v1/auth/login", "password sign-in; returns a short-lived bearer token"), ("POST", "/v1/auth/logout", "revoke the current bearer token"),
+ENDPOINTS = [("GET", "/v1/health", "service and model status"), ("POST", "/v1/auth/login", "password sign-in; returns a short-lived bearer token"), ("GET", "/v1/auth/me", "validate current session and return signed-in identity"), ("POST", "/v1/auth/logout", "revoke the current bearer token"),
              ("GET", "/v1/models", "every model: status, version, source"), ("GET", "/v1/overview", "dashboard numbers"),
              ("POST", "/v1/attrition/predict", "12-month risk + reasons for one employee"), ("GET", "/v1/attrition/employees", "risk list with filters"),
              ("POST", "/v1/anomaly/payroll[/batch]", "payslip anomaly flags"), ("POST", "/v1/anomaly/attendance[/batch]", "attendance anomaly flags"), ("POST", "/v1/chat", "HR assistant"),
@@ -502,10 +545,7 @@ def page_settings() -> None:
     st.session_state["show_welcome"] = st.toggle("Show the welcome greeting on the dashboard", value=st.session_state.get("show_welcome", SETTINGS.show_welcome))
     st.markdown(f"Signed in as **{st.session_state.get('user_name', '')}** Â· **{st.session_state.get('user_role', 'Admin')}**")
     if st.button("Sign out", key="switch_user"):
-        if st.session_state.get("access_token"):
-            client().post("/v1/auth/logout", {})
-        for key in ("access_token", "user_name", "user_role", "username", "page", "chat_log"):
-            st.session_state.pop(key, None)
+        _clear_auth_state(revoke=True)
         st.rerun()
 
 
@@ -513,6 +553,45 @@ TAB_FUNCS = {"Risks": tab_attrition, "Anomalies": tab_anomalies, "Assistant": ta
 ROUTE_TAB = {"forecast": "Forecast", "resume": "Resume Screener"}        # menu entries that open a tab of the Insights console
 ROUTES = {"dashboard": page_dashboard, "data": page_data_foundation, "insights": page_insights, "forecast": page_insights, "fairness": page_fairness, "models": page_models, "resume": page_insights,
           "api": page_api, "settings": page_settings}
+
+
+@st.dialog("CortexHR AI Assistant", width="small")
+def _mind_assistant_dialog() -> None:
+    """Session-aware floating assistant. Uses the same authenticated /v1/chat service as the Assistant page."""
+    st.caption("Your workforce intelligence companion · AI-generated decision support for human review")
+    st.session_state.setdefault("chat_session", uuid.uuid4().hex[:12])
+    st.session_state.setdefault("chat_log", [])
+    if not st.session_state["chat_log"]:
+        st.info("Hello! I’m CortexHR AI. Ask about employee headcount, attrition, attendance, payroll, recruitment or workforce forecasts.")
+    for who, message in st.session_state["chat_log"][-30:]:
+        if who == "error":
+            st.error(message)
+        else:
+            ai.chat_message(who, message)
+    with st.form("mind_assistant_form", clear_on_submit=True):
+        message = st.text_input("Message", placeholder="Ask CortexHR about your workforce…", max_chars=2000)
+        send = st.form_submit_button("Send", type="primary", use_container_width=True)
+    if send:
+        clean = message.strip()
+        if not clean:
+            st.warning("Type a question before sending.")
+        else:
+            st.session_state["chat_log"].append(("user", clean))
+            with st.spinner("CortexHR is checking the available HR data…"):
+                result = client().post("/v1/chat", {"message": clean, "session_id": st.session_state["chat_session"]})
+            if result.ok:
+                reply = result.data.get("reply") or "I could not find a supported answer. Please rephrase or contact HR."
+                confidence = result.data.get("confidence")
+                if confidence is not None:
+                    reply += f"\n\n_Intent: {result.data.get('intent', 'unknown')} · confidence: {float(confidence):.2f}_"
+                reply += "\n\n*AI-generated decision support. Please verify with an authorized HR reviewer.*"
+                st.session_state["chat_log"].append(("assistant", reply))
+            else:
+                st.session_state["chat_log"].append(("error", result.message(SETTINGS.api_url)))
+            st.rerun()
+    if st.button("Close assistant", key="mind_assistant_close", use_container_width=True):
+        st.session_state["mind_assistant_open"] = False
+        st.rerun()
 
 
 def _sidebar(active: str) -> str | None:
@@ -532,6 +611,8 @@ def _sidebar(active: str) -> str | None:
             if st.button(label, key=f"nav_{key}", use_container_width=True, type="primary" if key == active else "secondary"):
                 chosen = key
         st.markdown(dashboard.sidebar_html(active, flow=True, part="bottom"), unsafe_allow_html=True)
+        if st.button("✦  Mind · AI Empower", key="mind_assistant_launcher", use_container_width=True, type="primary"):
+            st.session_state["mind_assistant_open"] = True
     return chosen
 
 
@@ -550,7 +631,8 @@ def _sign_in() -> None:
                 if len(clean) < 2:
                     st.warning("Please type at least 2 characters.")
                 else:
-                    st.session_state.update(user_name=clean, user_role="Admin", username="local-demo")
+                    st.session_state.update(user_name=clean, user_role="Admin", username="local-demo", page="dashboard")
+                    st.session_state.pop("mind_assistant_open", None)
                     st.rerun()
         return
     with st.form("sign_in", clear_on_submit=True):
@@ -566,14 +648,19 @@ def _sign_in() -> None:
                 else:
                     user = result.data["user"]
                     role_labels = {"admin": "Admin", "hr_manager": "HR Manager", "recruiter": "Recruiter", "analyst": "Analyst"}
-                    st.session_state.update(access_token=result.data["access_token"], username=user["username"], user_name=user["display_name"], user_role=role_labels.get(user["role"], "User"))
+                    st.session_state.update(access_token=result.data["access_token"], username=user["username"], user_name=user["display_name"], user_role=role_labels.get(user["role"], "User"), page="dashboard")
+                    for key in ("chat_log", "chat_session", "mind_assistant_open", "insights_tab"):
+                        st.session_state.pop(key, None)
                     st.rerun()
 
 
 def main() -> None:
     st.set_page_config(page_title="CortexHR Insights Console", page_icon=str(dashboard.ASSETS / "cortexhr_logo_mark.png"), layout="wide", initial_sidebar_state="expanded")
     st.markdown(f"<style>{(Path(__file__).parent / 'static' / 'theme.css').read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
-    if not st.session_state.get("user_name") or (SETTINGS.auth_secret and not st.session_state.get("access_token")):
+    if not _validate_auth_session():
+        _sign_in()
+        return
+    if not st.session_state.get("user_name"):
         _sign_in()
         return
     if "page" not in st.session_state:                                  # first visit: honour a ?page= deep link
@@ -599,6 +686,8 @@ def main() -> None:
     except Exception as exc:               # last line of defence: a friendly message, never a stack trace
         st.error(f"Something went wrong while building this page ({type(exc).__name__}). Please refresh; if it keeps happening, tell the maintainer.")
         st.exception(exc) if SETTINGS.env == "development" else None
+    if st.session_state.get("mind_assistant_open"):
+        _mind_assistant_dialog()
 
 
 main()

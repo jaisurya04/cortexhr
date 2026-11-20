@@ -105,10 +105,123 @@ def attendance(reg: Registry, rows: list[dict]) -> dict:
 
 
 # ------------------------------------------------------------------------------------------------ chat / resume / pay band
+def _chat_analytics_answer(reg: Registry, bot: object, text: str, session_id: str) -> dict | None:
+    """Answer supported workforce analytics intents from the supplied Phase 3 data and Phase 4 model outputs.
+
+    Aggregate-only responses are intentional: the assistant never returns employee-level records.
+    None means the question should be routed to the original Phase 2 HR policy chatbot.
+    """
+    data_dir = reg.settings.data_dir
+
+    def read_csv(name: str) -> pd.DataFrame | None:
+        path = data_dir / name
+        try:
+            return pd.read_csv(path) if path.is_file() else None
+        except Exception:
+            return None
+
+    intent, answer = None, None
+    # Attrition risk is the saved, explainable Phase 3 model output.
+    if any(k in text for k in ("attrition", "turnover", "leave risk", "leaving risk")):
+        saved = reg.obj.get("attrition_saved")
+        if saved is not None and len(saved):
+            if any(k in text for k in ("department", "highest", "which team")):
+                grouped = saved.groupby("department_id").risk_score_12m.agg(["mean", "count"]).sort_values("mean", ascending=False)
+                top = grouped.iloc[0]
+                intent = "attrition_department_risk"
+                answer = (f"Department {grouped.index[0]} has the highest mean predicted 12-month attrition risk "
+                          f"({top['mean'] * 100:.1f}%) across {int(top['count'])} scored employees. This is a review signal, not a prediction about any one person.")
+            elif any(k in text for k in ("factor", "reason", "why")):
+                reasons = pd.concat([saved[c].dropna().astype(str) for c in ("top_reason_1", "top_reason_2", "top_reason_3")]).value_counts().head(3)
+                intent = "attrition_risk_factors"
+                answer = "The most frequently recorded contributing factors in the saved Phase 3 explanations are: " + "; ".join(reasons.index.tolist()) + ". These are associations used by the model, not causes or certainties."
+            elif any(k in text for k in ("trend", "over time", "monthly")):
+                hist = read_csv("monthly_headcount_history.csv")
+                if hist is not None and {"month", "voluntary_exits", "headcount_end"}.issubset(hist.columns):
+                    company = hist[hist.department_id == "ALL"].sort_values("month").tail(6)
+                    answer = "Recent monthly attrition trend (voluntary exits / ending headcount): " + ", ".join(f"{r.month[:7]}: {int(r.voluntary_exits)}/{int(r.headcount_end)}" for r in company.itertuples()) + "."
+                    intent = "attrition_trend"
+            else:
+                high = int((saved.risk_band.astype(str).str.casefold() == "high").sum())
+                intent, answer = "attrition_high_risk_count", f"{high} of {len(saved)} employees in the saved Phase 3 scoring population are in the High risk band. HR review is required; this must not be used as an automatic employment decision."
+
+    # Attendance analytics use the Phase 3 monthly feature table and saved anomaly evidence.
+    if answer is None and any(k in text for k in ("attendance", "absence", "absent", "late arrival")):
+        att = read_csv("attendance_monthly_features.csv")
+        anomalies = read_csv("sample_anomaly_results.csv")
+        if att is not None and len(att):
+            if any(k in text for k in ("anomal", "irregular")):
+                if anomalies is not None and {"source_dataset", "flagged"}.issubset(anomalies.columns):
+                    subset = anomalies[(anomalies.source_dataset == "attendance_monthly_features") & (anomalies.flagged.astype(str).str.upper() == "Y")]
+                    intent, answer = "attendance_anomalies", f"The saved anomaly evaluation contains {len(subset)} flagged attendance records. These are review candidates, not proof of misconduct."
+                else:
+                    intent, answer = "attendance_anomalies_unavailable", "Saved attendance anomaly results are not available in this data package, so I cannot report an anomaly count."
+            elif any(k in text for k in ("absence", "absent")):
+                total = int(pd.to_numeric(att.get("unpaid_absence_days", 0), errors="coerce").fillna(0).sum())
+                intent, answer = "attendance_absences", f"The supplied monthly attendance dataset records {total:,} unpaid absence days across {len(att):,} employee-month records."
+            elif any(k in text for k in ("department", "team", "issue")):
+                grp = att.groupby("department_id").attendance_rate.mean().sort_values()
+                intent, answer = "attendance_department", f"Department {grp.index[0]} has the lowest mean attendance rate in the supplied monthly records ({grp.iloc[0] * 100:.1f}%). Compare coverage and period before drawing conclusions."
+            else:
+                rate = pd.to_numeric(att.attendance_rate, errors="coerce").dropna().mean()
+                intent, answer = "attendance_rate", f"The mean attendance rate across {len(att):,} supplied employee-month records is {rate * 100:.1f}%. This is a dataset-wide average, not a live today metric."
+
+    # Payroll figures are aggregate-only and based on the latest supplied payroll month.
+    if answer is None and any(k in text for k in ("payroll", "salary", "salaries", "compensation", "pay anomaly")):
+        pay = read_csv("payroll_monthly_features.csv")
+        anomalies = read_csv("sample_anomaly_results.csv")
+        if any(k in text for k in ("anomal", "irregular")):
+            if anomalies is not None and {"source_dataset", "flagged"}.issubset(anomalies.columns):
+                subset = anomalies[(anomalies.source_dataset == "payroll_monthly_features") & (anomalies.flagged.astype(str).str.upper() == "Y")]
+                intent, answer = "payroll_anomalies", f"The saved anomaly evaluation contains {len(subset)} flagged payroll records. Flags require authorized payroll review; they are not proof of error or fraud."
+            else:
+                intent, answer = "payroll_anomalies_unavailable", "Saved payroll anomaly results are not available, so I cannot report an anomaly count."
+        elif pay is not None and len(pay):
+            latest = str(pay.month.astype(str).max())
+            period = pay[pay.month.astype(str) == latest]
+            if any(k in text for k in ("department", "average by", "by team")):
+                means = period.groupby("department_id").gross_pay.mean().sort_values(ascending=False)
+                intent, answer = "payroll_department_average", "Average gross monthly pay by department for " + latest[:7] + ": " + "; ".join(f"{k}: INR {v:,.0f}" for k, v in means.items()) + "."
+            else:
+                total = float(pd.to_numeric(period.gross_pay, errors="coerce").fillna(0).sum())
+                intent, answer = "payroll_total", f"Total gross payroll in the latest supplied payroll month ({latest[:7]}) is INR {total:,.0f} across {len(period):,} payslip records."
+
+    # Recruitment counts are aggregate and do not reveal candidate identities.
+    if answer is None and any(k in text for k in ("candidate", "recruitment", "resume", "resumes", "screened")):
+        resumes, labels = read_csv("resumes.csv"), read_csv("resume_job_labels.csv")
+        if resumes is not None and labels is not None:
+            screened = int(resumes.resume_id.nunique())
+            shortlisted = int(labels.loc[labels.shortlist.astype(str).str.upper() == "Y", "resume_id"].nunique())
+            intent, answer = "recruitment_screening_summary", f"The supplied recruitment dataset contains {screened} unique resumes and {shortlisted} candidates with at least one saved shortlist label. These are historical dataset counts, not live applicant totals."
+
+    # Forecasts are read from the already-loaded Phase 4 forecast artifact.
+    if answer is None and any(k in text for k in ("forecast", "predicted workforce", "workforce change", "future headcount")):
+        forecast = reg.obj.get("forecast", {}).get("forecast")
+        if forecast is not None and len(forecast):
+            rows = forecast[(forecast.metric == "headcount_end") & (forecast.department_id == "ALL")].sort_values("forecast_month")
+            if len(rows):
+                first, last = rows.iloc[0], rows.iloc[-1]
+                intent, answer = "workforce_forecast", (f"The saved forecast estimates company headcount moving from {first.forecast_value:.0f} in "
+                    f"{str(first.forecast_month)[:7]} to {last.forecast_value:.0f} in {str(last.forecast_month)[:7]}. "
+                    f"The final 80% prediction interval is {last.lower_80:.0f}–{last.upper_80:.0f}. These are forecasts, not actual results.")
+
+    if answer is None:
+        return None
+    state = bot._session(session_id)
+    result = jsonable(bot._out(intent, answer, state, 0.99, False))
+    result["model_version"] = reg.info["chatbot"].version
+    result["notice"] = HUMAN_REVIEW
+    return result
+
+
 def chat(reg: Registry, message: str, session_id: str, demo_user: str = "EMP-0002") -> dict:
     bot = _need(reg, "chatbot")
     if not message.strip():
         raise ApiError(422, "validation", "message must not be blank")
+
+    analytics_reply = _chat_analytics_answer(reg, bot, message.casefold(), session_id)
+    if analytics_reply is not None:
+        return analytics_reply
 
     # Phase 4 aggregate headcount handling. No individual employee data is exposed.
     text = message.casefold()
@@ -369,7 +482,19 @@ def overview(reg: Registry) -> dict:
     depts = [{"id": r.department_id, "name": r.department_name, "headcount": int(r.headcount_end), "as_of": last_m.strftime("%Y-%m")}
              for r in hist[(hist.month == last_m) & (hist.department_id != "ALL")].itertuples()]
     series = [{"month": m.strftime("%Y-%m"), "label": m.strftime("%b"), "employees": float(hc[m]), "exits": float(ex[m]) if m in ex.index else 0.0} for m in hc.tail(13).index]
-    hires6, hires_prev = int(hires.tail(6).sum()), int(hires.iloc[-12:-6].sum())
+    hire_periods = {}
+    for months in (3, 6, 12):
+        current_hires = int(hires.tail(months).sum())
+        previous_hires = int(hires.iloc[-2 * months:-months].sum())
+        hire_periods[str(months)] = {
+            "hires": current_hires,
+            "previous": previous_hires,
+            "change_pct": float((current_hires / previous_hires - 1) * 100)
+            if previous_hires else None,
+        }
+
+    hires6 = hire_periods["6"]["hires"]
+    hires_prev = hire_periods["6"]["previous"]
     where = scoring.work_location.value_counts()
     # Approximate city-centre coordinates for the categorical work_location values in the supplied synthetic workforce data.
     city_centres = {"Bengaluru": (12.9716, 77.5946), "Chennai": (13.0827, 80.2707), "Hyderabad": (17.3850, 78.4867),
@@ -377,7 +502,7 @@ def overview(reg: Registry) -> dict:
                     "Coimbatore": (11.0168, 76.9558), "Erode": (11.3410, 77.7172), "Kochi": (9.9312, 76.2673)}
     location_counts = [{"name": str(k), "employees": int(v), "lat": city_centres[str(k)][0], "lon": city_centres[str(k)][1], "coordinate_type": "approximate city centre"}
                        for k, v in where.items() if str(k) in city_centres]
-    hiring = {"hires_last_6m": hires6, "hires_previous_6m": hires_prev, "change_pct": float((hires6 / hires_prev - 1) * 100) if hires_prev else None,
+    hiring = {"hires_last_6m": hires6, "periods": hire_periods, "hires_previous_6m": hires_prev, "change_pct": float((hires6 / hires_prev - 1) * 100) if hires_prev else None,
               "as_of": hc.index[-1].strftime("%Y-%m"), "locations": int(where.size), "active_employees": int(where.sum()),
               "top_locations": location_counts[:3], "location_counts": location_counts,
               "source": "hires: monthly_headcount_history (company total); map: work_location of active employees (attrition_scoring_2026); city-centre coordinates are approximate"}

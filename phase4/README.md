@@ -10,7 +10,7 @@ Forecast the future, put every model behind one live API, watch for drift and un
 | Part | Current verification |
 |---|---|
 | Phase 1–3 suites | 32 + 69 + 72 tests passed; 736 Phase 1–3 files remained unchanged in the integrated audit |
-| Phase 4 integrated suite | 92 passed, 0 failed, 8 skipped, 8 blocked; see root `TEST_RESULTS.md` |
+| Phase 4 integrated suite | 116 passed, 0 failed, 1 skipped, 0 blocked|
 | FastAPI + Pydantic | Focused API tests passed; local live HTTP smoke test passed 7/10 checks (payroll model unavailable in unpinned pandas runtime) |
 | Model registry | Six model components loaded; original payroll artifact requires pinned pandas 3.0.2 and is unavailable under sandbox pandas 2.2.3 |
 | Monitoring | PSI, twin-resume and pay-gap checks are covered by passing service tests; restricted-vault checks remain not checked without the vault |
@@ -60,6 +60,7 @@ Or run `.\phase4\run_local.ps1` (Windows) / `sh phase4/run_local.sh`. Tests: `py
 |---|---|---|
 | GET | `/v1/health` | service + per-model status (open, no key needed) |
 | POST | `/v1/auth/login`, `/v1/auth/logout` | password sign-in and token sign-out |
+| GET | `/v1/auth/me` | validate the current session and return the authenticated identity |
 | GET | `/v1/models` | every model: status (`loaded` / `fallback` / `unavailable`), version, source, detail |
 | POST | `/v1/attrition/predict` | 12-month leave risk, band and three reasons for one employee |
 | GET | `/v1/attrition/employees` | risk list with band / department filters |
@@ -78,7 +79,7 @@ Errors are always `{"error": "<code>", "details": ["..."]}` with a meaningful HT
 
 ## Authentication and roles
 
-The console supports password sign-in through `POST /v1/auth/login`. Passwords are stored as PBKDF2-SHA256 hashes (never plaintext); the signing secret must contain at least 32 bytes; successful login returns an 8-hour HMAC-signed bearer token. Sign-out revokes the token for the lifetime of the current API process; restarting the API clears its in-memory revocation list. The API validates the token and enforces role permissions on every protected `/v1/*` route. Roles: `admin`, `hr_manager`, `recruiter`, `analyst`. Admin and HR Manager can use the core HR modules; Recruiter is restricted to overview, assistant, resume and pay-band workflows; Analyst can use workforce analytics, anomalies, forecasts, models and monitoring but not resume ranking. The exact matrix is enforced by the API route policy.
+The console supports password sign-in through `POST /v1/auth/login`. Passwords are stored as PBKDF2-SHA256 hashes (never plaintext); the signing secret must contain at least 32 bytes; successful login returns an 8-hour HMAC-signed bearer token. On each Streamlit rerun, the console calls `GET /v1/auth/me` to validate the token and refresh the signed-in identity; expired or revoked sessions are cleared and returned to sign-in. Sign-out calls `POST /v1/auth/logout` and clears the local identity, chat history, and open assistant state. The API revokes the token for the lifetime of the current API process; restarting the API clears its in-memory revocation list. The API validates the token and enforces role permissions on every protected `/v1/*` route. Roles: `admin`, `hr_manager`, `recruiter`, `analyst`. Admin and HR Manager can use the core HR modules; Recruiter is restricted to overview, assistant, resume and pay-band workflows; Analyst can use workforce analytics, anomalies, forecasts, models and monitoring but not resume ranking. The exact matrix is enforced by the API route policy.
 
 1. Generate a user record: `python phase4/scripts/create_user.py`.
 2. Add the generated JSON record to `CORTEXHR_AUTH_USERS` and the generated signing secret to `CORTEXHR_AUTH_SECRET` in your private environment configuration.
@@ -94,6 +95,7 @@ Copy `.env.example` to the repository-root `.env`; `python-dotenv` loads it with
 ## Authentication endpoints
 
 - `POST /v1/auth/login` — username/password exchange for a signed bearer session.
+- `GET /v1/auth/me` — validates the current bearer token and returns the signed-in identity.
 - `POST /v1/auth/logout` — revokes the current token for the lifetime of the API process.
 
 ## Resume document ingestion
@@ -119,3 +121,26 @@ No logo file exists in the repository, so `assets/cortexhr_logo_sidebar.png`, `c
 * 401 from the API: check the shared `CORTEXHR_API_KEY` and sign in again if the bearer session expired or was revoked.
 * Render free instance out of memory: switch to the $7 Starter instance (see `docs/hosting_comparison.md`).
 * More: `docs/deployment.md`, `docs/known_limitations.md`.
+
+## Mind / AI Empower assistant (Phase 4 integration)
+
+The persistent **Mind · AI Empower** launcher is rendered as a native Streamlit sidebar control so it can use the signed-in session without relying on JavaScript inside the dashboard iframe. It opens the **CortexHR AI Assistant** dialog over the current page, reuses the existing `chat_session` / `chat_log` session state, and sends messages to the existing authenticated `POST /v1/chat` endpoint. Assistant responses retain the project's AI decision-support label; API errors are displayed as errors rather than being presented as answers.
+
+The Phase 4 chat handler now routes supported aggregate analytics questions to existing Phase 3/Phase 4 data before falling back to the original Phase 2 HR policy chatbot. Supported topics include:
+
+- Headcount and high attrition-risk counts; department-level risk, trend and saved model explanation factors.
+- Attendance rate, recorded unpaid absence days, department comparisons and saved attendance anomaly evidence.
+- Latest supplied payroll-month gross totals, department-level average gross pay and saved payroll anomaly evidence.
+- Aggregate resume screening / shortlist counts.
+- Existing workforce forecast outputs, including the saved 80% prediction interval.
+
+These are historical/supplied dataset answers, not live HRIS integrations. The assistant does not expose employee or candidate rows in these aggregate answers. Individual employment decisions remain subject to authorized human review.
+
+## Phase 4 repair verification (2026-11-20)
+
+- Python compilation: passed (`python -m compileall -q phase4/src phase4/tests`).
+- Automated suite: **116 PASS, 0 FAIL, 1 SKIP, 0 BLOCKED**. The test runner also reports 8 environment/model BLOCKED checks; see `docs/DEMO_HANDOFF_2026-11-20.md`.
+- Phase preservation: 741 Phase 1–3 files checked during the integrated test run; zero files changed during that run. Tracked Phase 1–3 files also match `origin/main`. Three untracked `.bak` backup files remain preserved. Independent pristine-copy comparison is skipped because `CORTEXHR_PRISTINE_REPO` is not configured.
+- The live Streamlit popup interaction could not be browser-verified in this execution environment because Streamlit and Chromium are unavailable. Its UI wiring and `/v1/chat` API route are covered by source-level and API integration tests; do not describe the browser interaction as end-to-end verified until run in the pinned environment.
+
+For exact handoff status, known blockers, launch commands and the demo narration, see [`docs/DEMO_HANDOFF_2026-11-20.md`](docs/DEMO_HANDOFF_2026-11-20.md).
