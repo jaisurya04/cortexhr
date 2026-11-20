@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "cortexhr"
 version = "1.0.0"
-description = "CortexHR AI/ML Phase 1: data foundations and baseline models"
+description = "CortexHR AI/ML Phase 2: payroll anomaly detection, validated APIs, and HR chatbot"
 requires-python = ">=3.11"
 dependencies = ["pandas", "numpy", "scikit-learn", "scipy", "matplotlib", "joblib", "openpyxl"]
 
