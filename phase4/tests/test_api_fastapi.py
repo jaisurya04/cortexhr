@@ -1,4 +1,4 @@
-"""Day 17: the real FastAPI + Pydantic layer. Needs: pip install -r requirements-dev.txt (skipped, and reported as skipped, otherwise)."""
+﻿"""Day 17: the real FastAPI + Pydantic layer. Needs: pip install -r requirements-dev.txt (skipped, and reported as skipped, otherwise)."""
 from _common import need, registry, skip
 
 
@@ -10,7 +10,7 @@ def _client(api_key=None):
 
     from cortexhr_phase4.api.app import create_app
     from cortexhr_phase4.core.settings import load_settings
-    return TestClient(create_app(replace(load_settings(), api_key=api_key, auth_secret=None, auth_users=""), registry()))
+    return TestClient(create_app(replace(load_settings(), env="development", api_key=api_key, auth_secret=None, auth_users=""), registry()))
 
 
 def test_openapi_lists_every_v1_route():
@@ -87,3 +87,4 @@ def test_hr_assistant_analytics_intents_through_real_api_route():
         body = response.json()
         assert body["intent"] == intent
         assert body["reply"] and "human review" in body["notice"].lower()
+

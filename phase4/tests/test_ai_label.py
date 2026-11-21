@@ -219,10 +219,13 @@ def test_real_streamlit_console_shows_the_label_on_every_tab():
     port = 8765
     env = {**os.environ, "CORTEXHR_ENV": "test", "PYTHONPATH": str(ROOT / "src")}
     auth_keys = ("CORTEXHR_AUTH_SECRET", "CORTEXHR_AUTH_USERS", "CORTEXHR_API_KEY")
-    old_auth_env = {key: os.environ.get(key) for key in auth_keys}
+    test_keys = (*auth_keys, "CORTEXHR_ENV")
+    old_auth_env = {key: os.environ.get(key) for key in test_keys}
     for key in auth_keys:
         os.environ[key] = ""
+    os.environ["CORTEXHR_ENV"] = "test"
     env.update({key: "" for key in auth_keys})
+    env["CORTEXHR_ENV"] = "test"
     srv = subprocess.Popen([sys.executable, "-m", "uvicorn", "cortexhr_phase4.api.app:app", "--port", str(port)], cwd=ROOT, env=env, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     try:
         import urllib.request
@@ -253,3 +256,12 @@ def test_real_streamlit_console_shows_the_label_on_every_tab():
             assert LABEL in shown, f"tab {tab} shows no review label"
     finally:
         srv.terminate()
+        try:
+            srv.wait(timeout=5)
+        except Exception:
+            srv.kill()
+        for key, value in old_auth_env.items():
+            if value is None:
+                os.environ.pop(key, None)
+            else:
+                os.environ[key] = value

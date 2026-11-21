@@ -544,6 +544,35 @@ def page_settings() -> None:
                 'Secrets are read from environment variables and are never written to project files.</div>', unsafe_allow_html=True)
     st.session_state["show_welcome"] = st.toggle("Show the welcome greeting on the dashboard", value=st.session_state.get("show_welcome", SETTINGS.show_welcome))
     st.markdown(f"Signed in as **{st.session_state.get('user_name', '')}** Â· **{st.session_state.get('user_role', 'Admin')}**")
+    if st.session_state.get("user_role", "").lower() == "admin":
+        st.divider()
+        st.subheader("Pending account approvals")
+        pending_result = client().get("/v1/auth/pending")
+        if pending_result.ok:
+            requests = pending_result.data.get("accounts", [])
+            if not requests:
+                st.info("There are no pending account requests.")
+            for account in requests:
+                username = account["username"]
+                with st.container(border=True):
+                    st.markdown(f"**{account['display_name']}**")
+                    st.caption(f"Username: {username} · Requested: {account.get('created_at', 'Unknown')}")
+                    role = st.selectbox(
+                        "Assign role",
+                        ["hr_manager", "recruiter", "analyst"],
+                        format_func=lambda value: {"hr_manager": "HR Manager", "recruiter": "Recruiter", "analyst": "Analyst"}[value],
+                        key=f"approve_role_{username}",
+                    )
+                    if st.button("Approve account", key=f"approve_account_{username}", type="primary"):
+                        approval = client().post("/v1/auth/approve", {"username": username, "role": role})
+                        if approval.ok:
+                            st.success(f"{username} approved as {role}.")
+                            st.rerun()
+                        else:
+                            st.error(approval.message(SETTINGS.api_url))
+        else:
+            st.error(pending_result.message(SETTINGS.api_url))
+
     if st.button("Sign out", key="switch_user"):
         _clear_auth_state(revoke=True)
         st.rerun()
@@ -654,7 +683,35 @@ def _sign_in() -> None:
                     st.rerun()
 
 
+
+    with st.expander("Create an organization account"):
+        st.caption("New accounts require administrator approval before they can sign in.")
+        with st.form("create_org_account", clear_on_submit=True):
+            new_name = st.text_input("Full name", max_chars=80)
+            new_username = st.text_input("Username", max_chars=120)
+            new_password = st.text_input("Create password (minimum 12 characters)", type="password", max_chars=256)
+            confirm_password = st.text_input("Confirm password", type="password", max_chars=256)
+            if st.form_submit_button("Submit registration", type="primary"):
+                if not new_name.strip() or not new_username.strip() or not new_password:
+                    st.warning("Complete all fields.")
+                elif new_password != confirm_password:
+                    st.error("Passwords do not match.")
+                elif len(new_password) < 12:
+                    st.error("Password must contain at least 12 characters.")
+                else:
+                    signup = ApiClient(SETTINGS.api_url, SETTINGS.api_key, SETTINGS.request_timeout_s).post(
+                        "/v1/auth/register",
+                        {"username": new_username.strip(), "display_name": new_name.strip(), "password": new_password},
+                    )
+                    if signup.ok:
+                        st.success("Registration submitted. Please wait for an administrator to approve your account.")
+                    else:
+                        st.error(signup.message(SETTINGS.api_url))
+
+
 def main() -> None:
+    global SETTINGS
+    SETTINGS = load_settings()
     st.set_page_config(page_title="CortexHR Insights Console", page_icon=str(dashboard.ASSETS / "cortexhr_logo_mark.png"), layout="wide", initial_sidebar_state="expanded")
     st.markdown(f"<style>{(Path(__file__).parent / 'static' / 'theme.css').read_text(encoding='utf-8')}</style>", unsafe_allow_html=True)
     if not _validate_auth_session():

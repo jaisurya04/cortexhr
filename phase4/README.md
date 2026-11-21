@@ -60,6 +60,9 @@ Or run `.\phase4\run_local.ps1` (Windows) / `sh phase4/run_local.sh`. Tests: `py
 |---|---|---|
 | GET | `/v1/health` | service + per-model status (open, no key needed) |
 | POST | `/v1/auth/login`, `/v1/auth/logout` | password sign-in and token sign-out |
+| POST | `/v1/auth/register` | submit an organization account request (pending admin approval) |
+| GET | `/v1/auth/pending` | admin-only list of pending account requests |
+| POST | `/v1/auth/approve` | admin-only approval and role assignment |
 | GET | `/v1/auth/me` | validate the current session and return the authenticated identity |
 | GET | `/v1/models` | every model: status (`loaded` / `fallback` / `unavailable`), version, source, detail |
 | POST | `/v1/attrition/predict` | 12-month leave risk, band and three reasons for one employee |
@@ -95,8 +98,13 @@ Copy `.env.example` to the repository-root `.env`; `python-dotenv` loads it with
 ## Authentication endpoints
 
 - `POST /v1/auth/login` — username/password exchange for a signed bearer session.
+- `POST /v1/auth/register` — submits a new organization account with a PBKDF2 password hash; new registrations remain pending.
+- `GET /v1/auth/pending` — admin-only list of pending account requests.
+- `POST /v1/auth/approve` — admin-only approval and assignment of `hr_manager`, `recruiter`, or `analyst`; public registration cannot create an admin.
 - `GET /v1/auth/me` — validates the current bearer token and returns the signed-in identity.
 - `POST /v1/auth/logout` — revokes the current token for the lifetime of the API process.
+
+Organization registration and approvals require `DATABASE_URL` pointing to the configured PostgreSQL database. Existing environment-configured admin credentials remain available for initial administration. New accounts cannot sign in until an administrator approves them.
 
 ## Resume document ingestion
 

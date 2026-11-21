@@ -9,6 +9,7 @@ All settings come from environment variables (see phase4/.env.example). Models a
 from __future__ import annotations
 
 import hmac
+import os
 import time
 import uuid
 from contextlib import asynccontextmanager
@@ -21,6 +22,7 @@ from fastapi.responses import JSONResponse
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from ..core.logging import get_logger
+from ..core import accounts
 from ..core.security import load_users, verify_password, issue_token, verify_token, revoke_token, role_allows, secret_is_strong
 from ..core.settings import API_VERSION, Settings, load_settings
 from ..services import handlers as h
@@ -57,6 +59,15 @@ def _principal(request: Request, authorization: Optional[str] = Header(default=N
         principal = verify_token(bearer_value, cfg.auth_secret) if scheme.lower() == "bearer" and bearer_value else None
         if not principal:
             raise ApiError(401, "unauthorized", "A valid Bearer token is required. Please sign in again.")
+    if request.app.state.accounts_enabled:
+        try:
+            stored = accounts.get_user(str(principal.get("sub", "")).lower())
+        except Exception:
+            raise ApiError(503, "account_store_unavailable", "Account storage is temporarily unavailable.")
+        if stored:
+            if stored["status"] != "active" or not stored["role"]:
+                raise ApiError(401, "account_not_active", "This account is not active. Please contact an administrator.")
+            principal["role"] = stored["role"]
     if not role_allows(principal["role"], request.url.path):
         raise ApiError(403, "forbidden", f"Role '{principal['role']}' cannot access this resource.")
     request.state.principal = principal
@@ -70,6 +81,24 @@ def build_router() -> tuple[APIRouter, APIRouter]:
     def health(reg: Registry = Depends(_reg)):
         return h.health(reg)
 
+    @open_r.post("/auth/register", tags=["authentication"])
+    def register(body: s.AuthRegisterIn, request: Request):
+        if not request.app.state.accounts_enabled:
+            raise ApiError(503, "registration_unavailable", "Organization account registration is not configured.")
+        username = body.username.strip().lower()
+        display_name = " ".join(body.display_name.split())
+        if username in request.app.state.auth_users:
+            raise ApiError(409, "account_exists", "An account with this username already exists.")
+        try:
+            accounts.register(username, display_name, __import__(
+                "cortexhr_phase4.core.security", fromlist=["hash_password"]
+            ).hash_password(body.password))
+        except accounts.AccountExistsError:
+            raise ApiError(409, "account_exists", "An account with this username already exists.")
+        except Exception:
+            raise ApiError(503, "account_store_unavailable", "Account storage is temporarily unavailable.")
+        return {"status": "pending", "notice": "Registration submitted. An administrator must approve your account before you can sign in."}
+
     @open_r.post("/auth/login", tags=["authentication"])
     def login(body: s.AuthLoginIn, request: Request):
         cfg = request.app.state.settings
@@ -77,7 +106,20 @@ def build_router() -> tuple[APIRouter, APIRouter]:
             raise ApiError(503, "auth_not_configured", "Authentication is not configured. Set CORTEXHR_AUTH_SECRET and CORTEXHR_AUTH_USERS.")
         if not secret_is_strong(cfg.auth_secret) or not request.app.state.auth_users:
             raise ApiError(503, "auth_misconfigured", request.app.state.auth_config_error or "Use a signing secret of at least 32 bytes and configure at least one valid PBKDF2 user.")
-        record = request.app.state.auth_users.get(body.username.strip().lower())
+        username = body.username.strip().lower()
+        record = None
+        if request.app.state.accounts_enabled:
+            try:
+                stored = accounts.get_user(username)
+            except Exception:
+                raise ApiError(503, "account_store_unavailable", "Account storage is temporarily unavailable.")
+            if stored:
+                if stored["status"] == "active" and stored["role"]:
+                    record = stored
+            else:
+                record = request.app.state.auth_users.get(username)
+        else:
+            record = request.app.state.auth_users.get(username)
         if not record or not verify_password(body.password, record["password_hash"]):
             # Same response for unknown user and wrong password; do not reveal account existence.
             raise ApiError(401, "invalid_credentials", "Username or password is incorrect.")
@@ -85,12 +127,45 @@ def build_router() -> tuple[APIRouter, APIRouter]:
         return {"access_token": signed_value, "token_type": "bearer", "expires_in": 28800,
                 "user": {"username": record["username"], "display_name": record["display_name"], "role": record["role"]}}
 
+    @r.get("/auth/pending", tags=["authentication"])
+    def pending_accounts(request: Request):
+        if request.state.principal.get("role") != "admin":
+            raise ApiError(403, "forbidden", "Only an administrator can review account requests.")
+        if not request.app.state.accounts_enabled:
+            raise ApiError(503, "registration_unavailable", "Organization account registration is not configured.")
+        try:
+            return {"accounts": accounts.pending()}
+        except Exception:
+            raise ApiError(503, "account_store_unavailable", "Account storage is temporarily unavailable.")
+
+    @r.post("/auth/approve", tags=["authentication"])
+    def approve_account(body: s.AuthApproveIn, request: Request):
+        if request.state.principal.get("role") != "admin":
+            raise ApiError(403, "forbidden", "Only an administrator can approve accounts.")
+        if not request.app.state.accounts_enabled:
+            raise ApiError(503, "registration_unavailable", "Organization account registration is not configured.")
+        try:
+            approved = accounts.approve(body.username.strip().lower(), body.role)
+        except Exception:
+            raise ApiError(503, "account_store_unavailable", "Account storage is temporarily unavailable.")
+        if not approved:
+            raise ApiError(404, "account_not_pending", "No pending account was found.")
+        return {"status": "approved", "username": body.username.strip().lower(), "role": body.role}
+
     @r.get("/auth/me", tags=["authentication"])
     def auth_me(request: Request):
         """Return the authenticated principal so the console can detect expired/revoked sessions."""
         principal = request.state.principal
         users = request.app.state.auth_users
-        record = users.get(str(principal.get("sub", "")).lower(), {})
+        username = str(principal.get("sub", "")).lower()
+        record = users.get(username, {})
+        if request.app.state.accounts_enabled:
+            try:
+                stored = accounts.get_user(username)
+                if stored and stored["status"] == "active":
+                    record = stored
+            except Exception:
+                raise ApiError(503, "account_store_unavailable", "Account storage is temporarily unavailable.")
         return {"user": {
             "username": str(principal.get("sub", "")),
             "display_name": record.get("display_name") or str(principal.get("sub", "")),
@@ -192,12 +267,15 @@ def create_app(settings: Settings | None = None, registry: Registry | None = Non
 
     @asynccontextmanager
     async def lifespan(app: FastAPI):
+        if app.state.accounts_enabled:
+            accounts.initialize()
         app.state.registry = registry or Registry(cfg).load_all()           # models are loaded ONCE, here
         log.info("startup version=%s ready=%s models=%s", API_VERSION, app.state.registry.ready(), {k: v.status for k, v in app.state.registry.info.items()})
         yield
 
     app = FastAPI(title="CortexHR API", version=API_VERSION, description=DESCRIPTION, lifespan=lifespan)
     app.state.settings = cfg
+    app.state.accounts_enabled = accounts.enabled()
     try:
         app.state.auth_users = load_users(cfg.auth_users)
         app.state.auth_config_error = None

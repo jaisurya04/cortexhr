@@ -205,3 +205,16 @@ class AuthLoginIn(BaseModel):
     model_config = _IN
     username: str = Field(min_length=1, max_length=120)
     password: str = Field(min_length=1, max_length=256)
+
+
+class AuthRegisterIn(BaseModel):
+    model_config = _IN
+    username: str = Field(min_length=3, max_length=120)
+    display_name: str = Field(min_length=2, max_length=80)
+    password: str = Field(min_length=12, max_length=256)
+
+
+class AuthApproveIn(BaseModel):
+    model_config = _IN
+    username: str = Field(min_length=3, max_length=120)
+    role: Literal["hr_manager", "recruiter", "analyst"]
