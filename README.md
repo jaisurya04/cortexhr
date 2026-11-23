@@ -214,7 +214,7 @@ The repository contains the project source code, implementation files, project s
 https://cortexhr-1-zewl.onrender.com
 
 **Live API Base URL:**  
-http://127.0.0.1:8000
+https://cortexhr-1-zewl.onrender.com/
 
 **API Documentation URL:**  
 https://cortexhr-1-zewl.onrender.com/docs
