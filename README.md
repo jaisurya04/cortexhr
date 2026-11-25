@@ -1,6 +1,6 @@
 # CortexHR
 
-AI/ML project by **Jaisurya Marisamy** (Growmar, AI/ML track), built one phase per week.  
+AI/ML project by **Jaisurya Marisamy** (Growmar& Fobes AI/ML track), built one phase per week.  
 All companies, people and datasets in this programme (Aura Workforce, Growmar, Zenith Nova) are fictional.
 
 ## Repository layout
